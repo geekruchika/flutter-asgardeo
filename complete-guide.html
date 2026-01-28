@@ -12,12 +12,6 @@
       <div class="nav-left">
         <span class="logo">ASGARDEO<sup>®</sup> Docs</span>
       </div>
-      <div class="nav-right">
-        <button class="nav-icon-btn">☀️</button>
-        <button class="nav-icon-btn">🔍</button>
-        <button class="nav-btn">💬 Get Help</button>
-        <button class="nav-btn primary">✨ Try Asgardeo</button>
-      </div>
     </nav>
 
     <!-- Main Container -->
@@ -47,27 +41,6 @@
                 <span class="time-badge">37 mins</span>
               </a>
             </div>
-          </div>
-
-          <div class="sidebar-section">
-            <a href="index.html#components" class="sidebar-link disabled">
-              <span class="framework-icon">⚛️</span>
-              React
-            </a>
-          </div>
-
-          <div class="sidebar-section">
-            <a href="index.html#api" class="sidebar-link disabled">
-              <span class="framework-icon">🅰️</span>
-              Angular
-            </a>
-          </div>
-
-          <div class="sidebar-section">
-            <a href="index.html#examples" class="sidebar-link disabled">
-              <span class="framework-icon">💚</span>
-              Vue.js
-            </a>
           </div>
         </nav>
       </aside>
@@ -1032,9 +1005,7 @@ class _EditableProfilePageState extends State&lt;EditableProfilePage&gt; {
                   Use <code>UserButton</code> widget for quick access to user
                   actions
                 </li>
-                <li>
-                  Validate user input before updating profile information
-                </li>
+                <li>Validate user input before updating profile information</li>
               </ul>
             </div>
 
@@ -1043,9 +1014,9 @@ class _EditableProfilePageState extends State&lt;EditableProfilePage&gt; {
               <p>
                 In this step, you've learned multiple ways to display user
                 information in your Flutter app using the Asgardeo SDK. You can
-                now use the <code>User</code> widget for simple username display,
-                <code>UserButton</code> for dropdown menus, or fetch the full
-                profile programmatically for custom layouts.
+                now use the <code>User</code> widget for simple username
+                display, <code>UserButton</code> for dropdown menus, or fetch
+                the full profile programmatically for custom layouts.
               </p>
               <p>
                 As the next step, we will learn how to secure routes within the
@@ -1073,8 +1044,8 @@ class _EditableProfilePageState extends State&lt;EditableProfilePage&gt; {
 
             <h3>Conditional Rendering with SignedIn/SignedOut</h3>
             <p>
-              The Asgardeo Flutter SDK provides built-in widgets for
-              conditional rendering based on authentication state. These widgets
+              The Asgardeo Flutter SDK provides built-in widgets for conditional
+              rendering based on authentication state. These widgets
               automatically show or hide content depending on whether a user is
               signed in.
             </p>
@@ -1464,9 +1435,7 @@ class DeepLinkHandler {
             </div>
 
             <h3>State-Based Navigation</h3>
-            <p>
-              Navigate based on authentication state changes automatically:
-            </p>
+            <p>Navigate based on authentication state changes automatically:</p>
             <div class="code-block">
               <pre><code>import 'package:flutter/material.dart';
 import 'package:asgardeo_flutter/asgardeo_flutter.dart';
@@ -1527,9 +1496,7 @@ class _AuthStateNavigatorState extends State&lt;AuthStateNavigator&gt; {
             </div>
 
             <h3>Role-Based Access Control (RBAC)</h3>
-            <p>
-              Implement role-based routing for fine-grained access control:
-            </p>
+            <p>Implement role-based routing for fine-grained access control:</p>
             <div class="code-block">
               <pre><code>import 'package:flutter/material.dart';
 import 'package:asgardeo_flutter/asgardeo_flutter.dart';
@@ -1657,9 +1624,7 @@ class AdminPage extends StatelessWidget {
             </div>
 
             <h3>Complete Navigation Example</h3>
-            <p>
-              Here's a complete example combining all concepts:
-            </p>
+            <p>Here's a complete example combining all concepts:</p>
             <div class="code-block">
               <pre><code>import 'package:flutter/material.dart';
 import 'package:asgardeo_flutter/asgardeo_flutter.dart';
@@ -2165,9 +2130,7 @@ class LogoutButton extends StatelessWidget {
                   <strong>✅ DO:</strong> Enable biometric authentication for
                   sensitive operations
                 </li>
-                <li>
-                  <strong>✅ DO:</strong> Clear all tokens on logout
-                </li>
+                <li><strong>✅ DO:</strong> Clear all tokens on logout</li>
                 <li>
                   <strong>❌ DON'T:</strong> Store tokens in SharedPreferences
                   or plain text
@@ -2176,12 +2139,8 @@ class LogoutButton extends StatelessWidget {
                   <strong>❌ DON'T:</strong> Cache tokens in memory longer than
                   necessary
                 </li>
-                <li>
-                  <strong>❌ DON'T:</strong> Log tokens in debug output
-                </li>
-                <li>
-                  <strong>❌ DON'T:</strong> Share tokens between apps
-                </li>
+                <li><strong>❌ DON'T:</strong> Log tokens in debug output</li>
+                <li><strong>❌ DON'T:</strong> Share tokens between apps</li>
                 <li>
                   <strong>❌ DON'T:</strong> Transmit tokens over insecure
                   connections
