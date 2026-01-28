@@ -50,7 +50,7 @@
             <div class="sidebar-submenu active">
               <a href="#quickstart" class="sidebar-sublink">Quickstart</a>
               <a href="#complete-guide" class="sidebar-sublink"
-                >Complete Guide</a
+                >Complete Guide <span class="time-badge">30 mins</span></a
               >
             </div>
           </div>
@@ -371,14 +371,21 @@ void main() {
           <section id="add-authentication">
             <h2>Step 5: Add Authentication UI</h2>
             <div class="code-block">
-              <pre><code>class HomePage extends StatelessWidget {
+              <pre><code>import 'package:flutter/material.dart';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('My App'),
         actions: [
-          SignedIn(child: UserButton()),
+          SignedIn(
+            child: UserButton(),
+          ),
         ],
       ),
       body: Center(
@@ -389,6 +396,7 @@ void main() {
               child: Column(
                 children: [
                   const Text('Welcome! You are signed in.'),
+                  const SizedBox(height: 16),
                   SignOutButton(),
                 ],
               ),
@@ -407,11 +415,19 @@ void main() {
 
           <section id="handle-redirects">
             <h2>Step 6: Handle Authentication Redirects</h2>
+            <p>
+              Set up a listener to handle incoming deep links after
+              authentication:
+            </p>
             <div class="code-block">
               <pre><code>import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:uni_links/uni_links.dart';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   State&lt;HomePage&gt; createState() => _HomePageState();
 }
@@ -422,10 +438,16 @@ class _HomePageState extends State&lt;HomePage&gt; {
   @override
   void initState() {
     super.initState();
+    _initDeepLinks();
+  }
+
+  Future&lt;void&gt; _initDeepLinks() async {
     _sub = uriLinkStream.listen((Uri? uri) async {
       if (uri != null && mounted) {
         await AsgardeoProvider.of(context).handleRedirect(uri);
       }
+    }, onError: (err) {
+      debugPrint('Deep link error: $err');
     });
   }
 
@@ -437,7 +459,33 @@ class _HomePageState extends State&lt;HomePage&gt; {
 
   @override
   Widget build(BuildContext context) {
-    // Your UI here
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('My App'),
+        actions: [
+          SignedIn(child: UserButton()),
+        ],
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SignedIn(
+              child: Column(
+                children: [
+                  const Text('Welcome! You are signed in.'),
+                  const SizedBox(height: 16),
+                  SignOutButton(),
+                ],
+              ),
+            ),
+            SignedOut(
+              child: SignInButton(),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }</code></pre>
             </div>
@@ -461,91 +509,402 @@ class _HomePageState extends State&lt;HomePage&gt; {
             <h1>Complete Guide</h1>
             <p class="subtitle">
               A comprehensive guide to implementing authentication in your
-              Flutter app
+              Flutter app with Asgardeo
             </p>
+            <div class="time-estimate">⏱️ Estimated time: 30 minutes</div>
           </div>
 
-          <section>
-            <h2>Architecture & Approach</h2>
+          <!-- Step 1: Introduction -->
+          <section id="guide-introduction" class="guide-step">
+            <div class="step-header">
+              <span class="step-number">1</span>
+              <div>
+                <h2>Introduction</h2>
+                <span class="step-time">2 mins</span>
+              </div>
+            </div>
+
             <p>
-              The Asgardeo Flutter SDK uses OpenID Connect (OIDC) Authorization
-              Code flow with PKCE:
+              Flutter is a popular cross-platform framework developed by Google
+              for creating mobile, web, and desktop applications from a single
+              codebase. It enables developers to build responsive interfaces
+              using a rich set of pre-designed widgets and a reactive
+              programming model.
             </p>
+
+            <p>
+              Implementing login functionality in your Flutter app is essential
+              for managing user access, personalizing user experiences, and
+              securing the app. It enhances user experience, protects user data,
+              boosts engagement, and helps ensure regulatory compliance.
+            </p>
+
+            <h3>Learning objectives</h3>
+            <p>
+              This guide will walk you through everything you need to know about
+              securing Flutter apps, including implementing user login in your
+              Flutter app, integrating it with an Identity Provider (IdP) to
+              make the login process simple and secure, and general guidelines
+              to protect your end users.
+            </p>
+
+            <p><strong>In this guide, you will:</strong></p>
+            <ul class="checkmark-list">
+              <li>Register an application in Asgardeo</li>
+              <li>Create a Flutter app</li>
+              <li>Install Asgardeo Flutter SDK</li>
+              <li>Add login and logout to your app</li>
+              <li>Display logged in user details</li>
+              <li>Secure routes in your app</li>
+              <li>Access protected APIs</li>
+              <li>Manage tokens in Flutter</li>
+            </ul>
+          </section>
+
+          <!-- Step 2: Prerequisites -->
+          <section id="guide-prerequisites" class="guide-step">
+            <div class="step-header">
+              <span class="step-number">2</span>
+              <div>
+                <h2>Prerequisites</h2>
+                <span class="step-time">30 seconds</span>
+              </div>
+            </div>
+
+            <ul class="checkmark-list">
+              <li>
+                An
+                <a href="https://asgardeo.io" target="_blank"
+                  >Asgardeo account</a
+                >
+              </li>
+              <li>Flutter 3.22 or higher installed</li>
+              <li>Dart 3.0 or higher</li>
+              <li>Basic knowledge of Flutter and Dart</li>
+              <li>A code editor (VS Code, Android Studio, or IntelliJ IDEA)</li>
+            </ul>
+          </section>
+
+          <!-- Step 3: Configure Application -->
+          <section id="guide-configure-app" class="guide-step">
+            <div class="step-header">
+              <span class="step-number">3</span>
+              <div>
+                <h2>Configure an Application in Asgardeo</h2>
+                <span class="step-time">2 mins</span>
+              </div>
+            </div>
+
+            <p>Register your Flutter application in the Asgardeo console.</p>
+
+            <h3>Step 3.1: Register the Application</h3>
+            <ol>
+              <li>
+                Sign in to the
+                <a href="https://console.asgardeo.io" target="_blank"
+                  >Asgardeo Console</a
+                >
+              </li>
+              <li>
+                Go to <strong>Applications</strong> →
+                <strong>New Application</strong>
+              </li>
+              <li>Select <strong>Mobile Application</strong></li>
+              <li>Enter a name (e.g., "My Flutter App")</li>
+              <li>Click <strong>Register</strong></li>
+            </ol>
+
+            <h3>Step 3.2: Configure OAuth Settings</h3>
+            <ol>
+              <li>Go to the <strong>Protocol</strong> tab</li>
+              <li>
+                Under <strong>Allowed grant types</strong>, select
+                <strong>Authorization Code</strong>
+              </li>
+              <li>
+                Under <strong>Authorized redirect URLs</strong>, add:
+                <code>myapp://callback</code>
+              </li>
+              <li>Enable <strong>Public client</strong></li>
+              <li>Click <strong>Update</strong></li>
+            </ol>
+
             <div class="info-box">
-              <strong>Authentication Flow:</strong>
-              <ol>
-                <li>User initiates sign-in from your Flutter app</li>
-                <li>
-                  SDK opens system browser with Asgardeo authorization URL
-                </li>
-                <li>User authenticates with Asgardeo</li>
-                <li>Asgardeo redirects back to your app via deep link</li>
-                <li>SDK exchanges authorization code for access token</li>
-                <li>User is now authenticated</li>
-              </ol>
+              <strong>Note:</strong> Replace <code>myapp</code> with a unique
+              URL scheme for your application.
             </div>
           </section>
 
-          <section>
-            <h2>Provider Pattern</h2>
-            <p>The SDK uses Flutter's Provider pattern:</p>
+          <!-- Step 4: Create Flutter App -->
+          <section id="guide-create-app" class="guide-step">
+            <div class="step-header">
+              <span class="step-number">4</span>
+              <div>
+                <h2>Create a Flutter App</h2>
+                <span class="step-time">2 mins</span>
+              </div>
+            </div>
+
+            <p>Create a new Flutter application:</p>
             <div class="code-block">
-              <pre><code>AsgardeoProvider
-  └─ AsgardeoAuth (ChangeNotifier)
-      ├─ isSignedIn
-      ├─ isLoading
-      └─ methods (signIn, signOut, etc.)</code></pre>
+              <pre><code>flutter create my_flutter_app
+cd my_flutter_app</code></pre>
+            </div>
+
+            <p>Test that it runs:</p>
+            <div class="code-block">
+              <pre><code>flutter run</code></pre>
             </div>
           </section>
 
-          <section>
-            <h2>Making Authenticated API Calls</h2>
+          <!-- Step 5: Configure SDK -->
+          <section id="guide-configure-sdk" class="guide-step">
+            <div class="step-header">
+              <span class="step-number">5</span>
+              <div>
+                <h2>Install and Configure Asgardeo SDK</h2>
+                <span class="step-time">3 mins</span>
+              </div>
+            </div>
+
+            <h3>Step 5.1: Add Dependencies</h3>
+            <p>Add to <code>pubspec.yaml</code>:</p>
             <div class="code-block">
-              <pre><code>import 'package:http/http.dart' as http;
+              <pre><code>dependencies:
+  flutter:
+    sdk: flutter
+  asgardeo_flutter: ^0.1.0
+  uni_links: ^0.5.1
+  flutter_web_auth_2: ^4.0.3
+  http: ^1.2.2</code></pre>
+            </div>
 
-Future&lt;void&gt; fetchData() async {
-  final auth = AsgardeoProvider.of(context);
-  final token = await auth.getAccessToken();
+            <p>Install:</p>
+            <div class="code-block">
+              <pre><code>flutter pub get</code></pre>
+            </div>
 
-  final response = await http.get(
-    Uri.parse('https://api.example.com/data'),
-    headers: {
-      'Authorization': 'Bearer $token',
-      'Content-Type': 'application/json',
-    },
+            <h3>Step 5.2: Configure Deep Links (Android)</h3>
+            <p>Edit <code>android/app/src/main/AndroidManifest.xml</code>:</p>
+            <div class="code-block">
+              <pre><code>&lt;intent-filter android:autoVerify="true"&gt;
+    &lt;action android:name="android.intent.action.VIEW" /&gt;
+    &lt;category android:name="android.intent.category.DEFAULT" /&gt;
+    &lt;category android:name="android.intent.category.BROWSABLE" /&gt;
+    &lt;data android:scheme="myapp" android:host="callback" /&gt;
+&lt;/intent-filter&gt;</code></pre>
+            </div>
+
+            <h3>Step 5.3: Configure Deep Links (iOS)</h3>
+            <p>Edit <code>ios/Runner/Info.plist</code>:</p>
+            <div class="code-block">
+              <pre><code>&lt;key&gt;CFBundleURLTypes&lt;/key&gt;
+&lt;array&gt;
+    &lt;dict&gt;
+        &lt;key&gt;CFBundleURLSchemes&lt;/key&gt;
+        &lt;array&gt;
+            &lt;string&gt;myapp&lt;/string&gt;
+        &lt;/array&gt;
+    &lt;/dict&gt;
+&lt;/array&gt;</code></pre>
+            </div>
+          </section>
+
+          <!-- Step 6: Add Login/Logout -->
+          <section id="guide-login-logout" class="guide-step">
+            <div class="step-header">
+              <span class="step-number">6</span>
+              <div>
+                <h2>Add Login and Logout</h2>
+                <span class="step-time">3 mins</span>
+              </div>
+            </div>
+
+            <p>Initialize the SDK in <code>lib/main.dart</code>:</p>
+            <div class="code-block">
+              <pre><code>import 'package:flutter/material.dart';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
+
+void main() {
+  runApp(
+    AsgardeoProvider(
+      config: AsgardeoConfig(
+        baseUrl: 'https://api.asgardeo.io/t/&lt;your-org&gt;',
+        clientId: '&lt;your-client-id&gt;',
+        afterSignInUrl: 'myapp://callback',
+        afterSignOutUrl: 'myapp://callback',
+        scopes: ['openid', 'profile', 'email'],
+      ),
+      child: const MyApp(),
+    ),
   );
+}</code></pre>
+            </div>
 
-  if (response.statusCode == 200) {
-    // Process response
+            <p>Add authentication UI:</p>
+            <div class="code-block">
+              <pre><code>SignedIn(
+  child: Column(
+    children: [
+      const Text('You are signed in!'),
+      SignOutButton(),
+    ],
+  ),
+),
+SignedOut(
+  child: SignInButton(),
+),</code></pre>
+            </div>
+          </section>
+
+          <!-- Step 7: Display User Details -->
+          <section id="guide-user-details" class="guide-step">
+            <div class="step-header">
+              <span class="step-number">7</span>
+              <div>
+                <h2>Display User Details</h2>
+                <span class="step-time">2 mins</span>
+              </div>
+            </div>
+
+            <p>Get user profile information:</p>
+            <div class="code-block">
+              <pre><code>final auth = AsgardeoProvider.of(context);
+final user = await auth.getUserProfile();
+
+print('Username: ${user.username}');
+print('Email: ${user.email}');</code></pre>
+            </div>
+          </section>
+
+          <!-- Step 8: Secure Routes -->
+          <section id="guide-secure-routes" class="guide-step">
+            <div class="step-header">
+              <span class="step-number">8</span>
+              <div>
+                <h2>Securing Routes</h2>
+                <span class="step-time">2 mins</span>
+              </div>
+            </div>
+
+            <p>Protect routes with authentication:</p>
+            <div class="code-block">
+              <pre><code>class ProtectedRoute extends StatelessWidget {
+  final Widget child;
+  
+  const ProtectedRoute({required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return SignedIn(
+      fallback: const LoginPage(),
+      child: child,
+    );
   }
 }</code></pre>
             </div>
           </section>
 
-          <section>
-            <h2>Best Practices</h2>
+          <!-- Step 9: API Calls -->
+          <section id="guide-api-calls" class="guide-step">
+            <div class="step-header">
+              <span class="step-number">9</span>
+              <div>
+                <h2>Accessing Protected APIs</h2>
+                <span class="step-time">3 mins</span>
+              </div>
+            </div>
+
+            <p>Make authenticated API calls:</p>
+            <div class="code-block">
+              <pre><code>import 'package:http/http.dart' as http;
+
+final auth = AsgardeoProvider.of(context);
+final token = await auth.getAccessToken();
+
+final response = await http.get(
+  Uri.parse('https://api.example.com/data'),
+  headers: {
+    'Authorization': 'Bearer $token',
+    'Content-Type': 'application/json',
+  },
+);
+
+if (response.statusCode == 200) {
+  // Process response
+} else if (response.statusCode == 401) {
+  // Token expired
+  await auth.signOut();
+}</code></pre>
+            </div>
+          </section>
+
+          <!-- Step 10: Manage Tokens -->
+          <section id="guide-manage-tokens" class="guide-step">
+            <div class="step-header">
+              <span class="step-number">10</span>
+              <div>
+                <h2>Manage Tokens</h2>
+                <span class="step-time">2 mins</span>
+              </div>
+            </div>
+
+            <h3>Token Lifecycle</h3>
             <ul>
               <li>
-                <strong>Secure Storage:</strong> Use
-                <code>flutter_secure_storage</code> for tokens in production
+                <strong>Access Token:</strong> Short-lived (1 hour), used for
+                API calls
               </li>
               <li>
-                <strong>Deep Links:</strong> Always set up deep link listeners
-                properly
+                <strong>Refresh Token:</strong> Long-lived, gets new access
+                tokens
               </li>
-              <li>
-                <strong>Protected Routes:</strong> Wrap sensitive screens with
-                <code>SignedIn</code> component
-              </li>
-              <li>
-                <strong>Loading States:</strong> Show loading indicators during
-                auth operations
-              </li>
-              <li>
-                <strong>Testing:</strong> Test on real devices, not just
-                simulators
-              </li>
+              <li><strong>ID Token:</strong> Contains user information</li>
             </ul>
+
+            <h3>Best Practices</h3>
+            <div class="info-box">
+              <ul>
+                <li>
+                  Always call <code>getAccessToken()</code> before API requests
+                </li>
+                <li>Don't cache tokens manually</li>
+                <li>Use <code>flutter_secure_storage</code> in production</li>
+                <li>Handle 401 responses by signing out</li>
+              </ul>
+            </div>
+          </section>
+
+          <!-- Step 11: Next Steps -->
+          <section id="guide-next-steps" class="guide-step">
+            <div class="step-header">
+              <span class="step-number">11</span>
+              <div>
+                <h2>Next Steps</h2>
+                <span class="step-time">1 min</span>
+              </div>
+            </div>
+
+            <div class="success-box">
+              <strong>🎉 Congratulations!</strong> You've successfully
+              integrated Asgardeo authentication into your Flutter app.
+            </div>
+
+            <h3>Continue Learning</h3>
+            <div class="steps-grid">
+              <a href="#components" class="step-card">
+                <h3>📦 Components</h3>
+                <p>Explore all available widgets</p>
+              </a>
+              <a href="#api" class="step-card">
+                <h3>📖 API Reference</h3>
+                <p>Complete SDK documentation</p>
+              </a>
+              <a href="#examples" class="step-card">
+                <h3>💡 Examples</h3>
+                <p>More code samples</p>
+              </a>
+            </div>
           </section>
         </div>
 
@@ -932,10 +1291,13 @@ class AuthPage extends StatelessWidget {
           <section>
             <h2>Protected Routes</h2>
             <div class="code-block">
-              <pre><code>class ProtectedRoute extends StatelessWidget {
+              <pre><code>import 'package:flutter/material.dart';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
+
+class ProtectedRoute extends StatelessWidget {
   final Widget child;
   
-  const ProtectedRoute({required this.child});
+  const ProtectedRoute({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -967,7 +1329,12 @@ class AuthPage extends StatelessWidget {
           <section>
             <h2>Display User Profile</h2>
             <div class="code-block">
-              <pre><code>class ProfilePage extends StatelessWidget {
+              <pre><code>import 'package:flutter/material.dart';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
+
+class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final auth = AsgardeoProvider.of(context);
@@ -1017,8 +1384,10 @@ class AuthPage extends StatelessWidget {
           <section>
             <h2>Making API Calls</h2>
             <div class="code-block">
-              <pre><code>import 'package:http/http.dart' as http;
+              <pre><code>import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
 
 class ApiService {
   final BuildContext context;
@@ -1053,8 +1422,10 @@ class ApiService {
           <section>
             <h2>Error Handling</h2>
             <div class="code-block">
-              <pre><code>import 'dart:async';
+              <pre><code>import 'package:flutter/material.dart';
+import 'dart:async';
 import 'dart:io';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
 
 Future&lt;void&gt; handleSignIn(BuildContext context) async {
   try {
@@ -1083,7 +1454,12 @@ void _showError(BuildContext context, String message) {
           <section>
             <h2>Organization Switching</h2>
             <div class="code-block">
-              <pre><code>class OrgSwitcherPage extends StatefulWidget {
+              <pre><code>import 'package:flutter/material.dart';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
+
+class OrgSwitcherPage extends StatefulWidget {
+  const OrgSwitcherPage({super.key});
+
   @override
   State&lt;OrgSwitcherPage&gt; createState() => _OrgSwitcherPageState();
 }
