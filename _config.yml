@@ -1,0 +1,26 @@
+# GitHub Pages configuration for Asgardeo Flutter SDK documentation
+
+# Theme (optional, we're using custom HTML/CSS)
+theme: null
+
+# Exclude files from being copied to the site
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+
+# Enable GitHub Pages features
+plugins:
+  - jekyll-relative-links
+
+# Markdown settings
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+
+# Site metadata
+title: Asgardeo Flutter SDK
+description: Official documentation for the Asgardeo Flutter SDK - Secure authentication for Flutter applications
+url: ""
+baseurl: ""

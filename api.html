@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Reference - Asgardeo Flutter SDK</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <img src="https://wso2.cachefly.net/wso2/sites/images/brand/downloads/wso2-logo.png" alt="WSO2" class="logo">
+                <span class="sdk-title">Asgardeo Flutter SDK</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="quickstart.html">Quick Start</a></li>
+                <li><a href="components.html">Components</a></li>
+                <li><a href="api.html" class="active">API Reference</a></li>
+                <li><a href="examples.html">Examples</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="doc-layout">
+            <aside class="sidebar">
+                <nav>
+                    <ul>
+                        <li><a href="#asgardeoauth">AsgardeoAuth</a></li>
+                        <li><a href="#properties">Properties</a></li>
+                        <li><a href="#methods">Methods</a></li>
+                        <li><a href="#signin">signIn()</a></li>
+                        <li><a href="#signout">signOut()</a></li>
+                        <li><a href="#getaccesstoken">getAccessToken()</a></li>
+                        <li><a href="#getidtoken">getDecodedIdToken()</a></li>
+                        <li><a href="#getuserprofile">getUserProfile()</a></li>
+                        <li><a href="#getorgs">getMyOrganizations()</a></li>
+                        <li><a href="#switchorg">switchOrganization()</a></li>
+                        <li><a href="#handleredirect">handleRedirect()</a></li>
+                        <li><a href="#models">Models</a></li>
+                        <li><a href="#config">AsgardeoConfig</a></li>
+                        <li><a href="#user">User</a></li>
+                        <li><a href="#organization">Organization</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <div class="doc-content">
+                <h1>API Reference</h1>
+                <p class="subtitle">Complete reference for all SDK classes and methods</p>
+
+                <section id="asgardeoauth">
+                    <h2>AsgardeoAuth</h2>
+                    <p>The main authentication client that manages user sessions, tokens, and authentication state. Access it via <code>AsgardeoProvider.of(context)</code>.</p>
+
+                    <h3>Getting the Instance</h3>
+                    <div class="code-block">
+                        <pre><code>final auth = AsgardeoProvider.of(context);</code></pre>
+                    </div>
+                </section>
+
+                <section id="properties">
+                    <h2>Properties</h2>
+                    
+                    <h3>isInitialized</h3>
+                    <p>Returns whether the SDK has been initialized.</p>
+                    <div class="code-block">
+                        <pre><code>bool get isInitialized</code></pre>
+                    </div>
+
+                    <h3>isLoading</h3>
+                    <p>Returns whether an authentication operation is in progress.</p>
+                    <div class="code-block">
+                        <pre><code>bool get isLoading</code></pre>
+                    </div>
+                    <p><strong>Example:</strong></p>
+                    <div class="code-block">
+                        <pre><code>final auth = AsgardeoProvider.of(context);
+if (auth.isLoading) {
+  return const CircularProgressIndicator();
+}</code></pre>
+                    </div>
+
+                    <h3>isSignedIn</h3>
+                    <p>Returns whether the user is currently authenticated.</p>
+                    <div class="code-block">
+                        <pre><code>bool get isSignedIn</code></pre>
+                    </div>
+                    <p><strong>Example:</strong></p>
+                    <div class="code-block">
+                        <pre><code>final auth = AsgardeoProvider.of(context);
+if (auth.isSignedIn) {
+  return const DashboardPage();
+} else {
+  return const LoginPage();
+}</code></pre>
+                    </div>
+
+                    <h3>currentOrganization</h3>
+                    <p>Returns the currently active organization (if any).</p>
+                    <div class="code-block">
+                        <pre><code>Organization? get currentOrganization</code></pre>
+                    </div>
+                </section>
+
+                <section id="methods">
+                    <h2>Methods</h2>
+                </section>
+
+                <section id="signin">
+                    <h3>signIn()</h3>
+                    <p>Initiates the sign-in flow using the system browser (ASWebAuthenticationSession on iOS, Custom Tabs on Android).</p>
+
+                    <h4>Signature</h4>
+                    <div class="code-block">
+                        <pre><code>Future&lt;User?&gt; signIn([Map&lt;String, dynamic&gt;? options])</code></pre>
+                    </div>
+
+                    <h4>Parameters</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>options</code></td>
+                                <td>Map&lt;String, dynamic&gt;?</td>
+                                <td>Optional configuration for the sign-in request (e.g., custom scopes)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Returns</h4>
+                    <p><code>Future&lt;User?&gt;</code> - The authenticated user or null</p>
+
+                    <h4>Example</h4>
+                    <div class="code-block">
+                        <pre><code>final auth = AsgardeoProvider.of(context);
+try {
+  final user = await auth.signIn();
+  if (user != null) {
+    print('Signed in as: ${user.username}');
+  }
+} catch (e) {
+  print('Sign in failed: $e');
+}</code></pre>
+                    </div>
+
+                    <h4>With Custom Scopes</h4>
+                    <div class="code-block">
+                        <pre><code>final user = await auth.signIn({
+  'scopes': ['openid', 'profile', 'email', 'phone'],
+});</code></pre>
+                    </div>
+                </section>
+
+                <section id="signout">
+                    <h3>signOut()</h3>
+                    <p>Signs the user out and clears the session.</p>
+
+                    <h4>Signature</h4>
+                    <div class="code-block">
+                        <pre><code>Future&lt;void&gt; signOut()</code></pre>
+                    </div>
+
+                    <h4>Returns</h4>
+                    <p><code>Future&lt;void&gt;</code></p>
+
+                    <h4>Example</h4>
+                    <div class="code-block">
+                        <pre><code>final auth = AsgardeoProvider.of(context);
+try {
+  await auth.signOut();
+  Navigator.pushReplacementNamed(context, '/');
+} catch (e) {
+  print('Sign out failed: $e');
+}</code></pre>
+                    </div>
+                </section>
+
+                <section id="getaccesstoken">
+                    <h3>getAccessToken()</h3>
+                    <p>Retrieves the current access token. Automatically refreshes the token if it's expired.</p>
+
+                    <h4>Signature</h4>
+                    <div class="code-block">
+                        <pre><code>Future&lt;String&gt; getAccessToken()</code></pre>
+                    </div>
+
+                    <h4>Returns</h4>
+                    <p><code>Future&lt;String&gt;</code> - The access token</p>
+
+                    <h4>Example</h4>
+                    <div class="code-block">
+                        <pre><code>final auth = AsgardeoProvider.of(context);
+final token = await auth.getAccessToken();
+
+// Use token for API calls
+final response = await http.get(
+  Uri.parse('https://api.example.com/data'),
+  headers: {
+    'Authorization': 'Bearer $token',
+  },
+);</code></pre>
+                    </div>
+
+                    <div class="info-box">
+                        <strong>Best Practice:</strong> Always call <code>getAccessToken()</code> before making API requests to ensure you have a valid, non-expired token.
+                    </div>
+                </section>
+
+                <section id="getidtoken">
+                    <h3>getDecodedIdToken()</h3>
+                    <p>Returns the decoded ID token containing user claims.</p>
+
+                    <h4>Signature</h4>
+                    <div class="code-block">
+                        <pre><code>Future&lt;Map&lt;String, dynamic&gt;&gt; getDecodedIdToken()</code></pre>
+                    </div>
+
+                    <h4>Returns</h4>
+                    <p><code>Future&lt;Map&lt;String, dynamic&gt;&gt;</code> - The decoded ID token payload</p>
+
+                    <h4>Example</h4>
+                    <div class="code-block">
+                        <pre><code>final auth = AsgardeoProvider.of(context);
+final idToken = await auth.getDecodedIdToken();
+
+print('User ID: ${idToken['sub']}');
+print('Email: ${idToken['email']}');
+print('Name: ${idToken['name']}');</code></pre>
+                    </div>
+
+                    <h4>Common Claims</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Claim</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>sub</code></td>
+                                <td>Subject identifier (user ID)</td>
+                            </tr>
+                            <tr>
+                                <td><code>email</code></td>
+                                <td>User's email address</td>
+                            </tr>
+                            <tr>
+                                <td><code>name</code></td>
+                                <td>User's full name</td>
+                            </tr>
+                            <tr>
+                                <td><code>preferred_username</code></td>
+                                <td>User's username</td>
+                            </tr>
+                            <tr>
+                                <td><code>given_name</code></td>
+                                <td>User's first name</td>
+                            </tr>
+                            <tr>
+                                <td><code>family_name</code></td>
+                                <td>User's last name</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section id="getuserprofile">
+                    <h3>getUserProfile()</h3>
+                    <p>Fetches the complete user profile from the SCIM2 endpoint.</p>
+
+                    <h4>Signature</h4>
+                    <div class="code-block">
+                        <pre><code>Future&lt;User&gt; getUserProfile()</code></pre>
+                    </div>
+
+                    <h4>Returns</h4>
+                    <p><code>Future&lt;User&gt;</code> - The user profile</p>
+
+                    <h4>Example</h4>
+                    <div class="code-block">
+                        <pre><code>final auth = AsgardeoProvider.of(context);
+final user = await auth.getUserProfile();
+
+print('Username: ${user.username}');
+print('Email: ${user.email}');
+print('ID: ${user.id}');</code></pre>
+                    </div>
+                </section>
+
+                <section id="getorgs">
+                    <h3>getMyOrganizations()</h3>
+                    <p>Retrieves the list of organizations the user belongs to.</p>
+
+                    <h4>Signature</h4>
+                    <div class="code-block">
+                        <pre><code>Future&lt;List&lt;Organization&gt;&gt; getMyOrganizations()</code></pre>
+                    </div>
+
+                    <h4>Returns</h4>
+                    <p><code>Future&lt;List&lt;Organization&gt;&gt;</code> - List of organizations</p>
+
+                    <h4>Example</h4>
+                    <div class="code-block">
+                        <pre><code>final auth = AsgardeoProvider.of(context);
+final orgs = await auth.getMyOrganizations();
+
+for (final org in orgs) {
+  print('Organization: ${org.name} (${org.id})');
+}</code></pre>
+                    </div>
+                </section>
+
+                <section id="switchorg">
+                    <h3>switchOrganization()</h3>
+                    <p>Switches the current organization context using token exchange.</p>
+
+                    <h4>Signature</h4>
+                    <div class="code-block">
+                        <pre><code>Future&lt;void&gt; switchOrganization(Organization org)</code></pre>
+                    </div>
+
+                    <h4>Parameters</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>org</code></td>
+                                <td>Organization</td>
+                                <td>The organization to switch to</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Returns</h4>
+                    <p><code>Future&lt;void&gt;</code></p>
+
+                    <h4>Example</h4>
+                    <div class="code-block">
+                        <pre><code>final auth = AsgardeoProvider.of(context);
+final orgs = await auth.getMyOrganizations();
+
+if (orgs.isNotEmpty) {
+  await auth.switchOrganization(orgs.first);
+  print('Switched to: ${auth.currentOrganization?.name}');
+}</code></pre>
+                    </div>
+
+                    <div class="info-box">
+                        <strong>How it works:</strong> Organization switching uses the <code>organization_switch</code> grant type to exchange the current access token for a new one with the selected organization's context. This doesn't require re-authentication.
+                    </div>
+                </section>
+
+                <section id="handleredirect">
+                    <h3>handleRedirect()</h3>
+                    <p>Processes the redirect URI after authentication. Call this in your deep link handler.</p>
+
+                    <h4>Signature</h4>
+                    <div class="code-block">
+                        <pre><code>Future&lt;void&gt; handleRedirect(Uri redirectUri)</code></pre>
+                    </div>
+
+                    <h4>Parameters</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>redirectUri</code></td>
+                                <td>Uri</td>
+                                <td>The redirect URI received from the deep link</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Example</h4>
+                    <div class="code-block">
+                        <pre><code>StreamSubscription? _sub;
+
+@override
+void initState() {
+  super.initState();
+  _sub = uriLinkStream.listen((Uri? uri) async {
+    if (uri != null && mounted) {
+      await AsgardeoProvider.of(context).handleRedirect(uri);
+    }
+  });
+}</code></pre>
+                    </div>
+                </section>
+
+                <section id="models">
+                    <h2>Models</h2>
+                </section>
+
+                <section id="config">
+                    <h3>AsgardeoConfig</h3>
+                    <p>Configuration object for initializing the SDK.</p>
+
+                    <h4>Properties</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Type</th>
+                                <th>Required</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>baseUrl</code></td>
+                                <td>String</td>
+                                <td>Yes</td>
+                                <td>Asgardeo organization base URL</td>
+                            </tr>
+                            <tr>
+                                <td><code>clientId</code></td>
+                                <td>String</td>
+                                <td>Yes</td>
+                                <td>Application client ID from Asgardeo</td>
+                            </tr>
+                            <tr>
+                                <td><code>afterSignInUrl</code></td>
+                                <td>String</td>
+                                <td>Yes</td>
+                                <td>Redirect URL after sign-in</td>
+                            </tr>
+                            <tr>
+                                <td><code>afterSignOutUrl</code></td>
+                                <td>String</td>
+                                <td>Yes</td>
+                                <td>Redirect URL after sign-out</td>
+                            </tr>
+                            <tr>
+                                <td><code>scopes</code></td>
+                                <td>List&lt;String&gt;</td>
+                                <td>No</td>
+                                <td>OAuth scopes (defaults to ['openid', 'profile', 'email'])</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Example</h4>
+                    <div class="code-block">
+                        <pre><code>const config = AsgardeoConfig(
+  baseUrl: 'https://api.asgardeo.io/t/myorg',
+  clientId: 'abc123def456',
+  afterSignInUrl: 'myapp://callback',
+  afterSignOutUrl: 'myapp://callback',
+  scopes: ['openid', 'profile', 'email', 'phone'],
+);</code></pre>
+                    </div>
+                </section>
+
+                <section id="user">
+                    <h3>User</h3>
+                    <p>Represents an authenticated user.</p>
+
+                    <h4>Properties</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>id</code></td>
+                                <td>String?</td>
+                                <td>Unique user identifier</td>
+                            </tr>
+                            <tr>
+                                <td><code>username</code></td>
+                                <td>String?</td>
+                                <td>User's username</td>
+                            </tr>
+                            <tr>
+                                <td><code>email</code></td>
+                                <td>String?</td>
+                                <td>User's email address</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section id="organization">
+                    <h3>Organization</h3>
+                    <p>Represents an organization in a multi-tenant application.</p>
+
+                    <h4>Properties</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>id</code></td>
+                                <td>String</td>
+                                <td>Unique organization identifier</td>
+                            </tr>
+                            <tr>
+                                <td><code>name</code></td>
+                                <td>String?</td>
+                                <td>Organization display name</td>
+                            </tr>
+                            <tr>
+                                <td><code>orgHandle</code></td>
+                                <td>String?</td>
+                                <td>Organization handle/slug</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section>
+                    <h2>Error Handling</h2>
+                    <p>All async methods may throw exceptions. Always wrap them in try-catch blocks:</p>
+                    <div class="code-block">
+                        <pre><code>try {
+  await auth.signIn();
+} catch (e) {
+  if (e is TimeoutException) {
+    // Handle timeout
+  } else if (e is HttpException) {
+    // Handle network error
+  } else {
+    // Handle other errors
+  }
+}</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Type Definitions</h2>
+                    <div class="code-block">
+                        <pre><code>// Callback types
+typedef UserCallback = void Function(User user);
+typedef ErrorCallback = void Function(Object error);
+typedef OrgSwitchCallback = Future&lt;void&gt; Function(Organization org);</code></pre>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 WSO2 LLC. All rights reserved. | <a href="https://wso2.com/asgardeo/">Asgardeo</a></p>
+        </div>
+    </footer>
+</body>
+</html>

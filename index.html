@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asgardeo Flutter SDK - Documentation</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <img src="https://wso2.cachefly.net/wso2/sites/images/brand/downloads/wso2-logo.png" alt="WSO2" class="logo">
+                <span class="sdk-title">Asgardeo Flutter SDK</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="quickstart.html">Quick Start</a></li>
+                <li><a href="components.html">Components</a></li>
+                <li><a href="api.html">API Reference</a></li>
+                <li><a href="examples.html">Examples</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="hero">
+            <h1>Asgardeo Flutter SDK</h1>
+            <p class="subtitle">Integrate secure authentication into your Flutter applications with ease</p>
+            <div class="hero-actions">
+                <a href="quickstart.html" class="btn btn-primary">Get Started</a>
+                <a href="https://github.com/yourusername/asgardeo-flutter" class="btn btn-secondary">View on GitHub</a>
+            </div>
+        </section>
+
+        <section class="features">
+            <h2>Features</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔐</div>
+                    <h3>Secure Authentication</h3>
+                    <p>Implement OpenID Connect (OIDC) authentication with Authorization Code + PKCE flow for maximum security.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Pre-built Widgets</h3>
+                    <p>Use ready-to-go components like SignInButton, SignedIn, SignedOut, and UserButton to speed up development.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏢</div>
+                    <h3>Organization Switching</h3>
+                    <p>Seamlessly switch between organizations with built-in support for multi-tenancy.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Cross-Platform</h3>
+                    <p>Works on iOS, Android, and Web with platform-specific optimizations.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>SSO Support</h3>
+                    <p>Single Sign-On using ASWebAuthenticationSession (iOS) and Custom Tabs (Android).</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Developer Friendly</h3>
+                    <p>Simple API with Flutter's reactive programming model using Provider pattern.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="getting-started">
+            <h2>Quick Example</h2>
+            <div class="code-example">
+                <pre><code>import 'package:flutter/material.dart';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
+
+void main() {
+  runApp(
+    AsgardeoProvider(
+      config: AsgardeoConfig(
+        baseUrl: 'https://api.asgardeo.io/t/&lt;your-org&gt;',
+        clientId: '&lt;your-client-id&gt;',
+        afterSignInUrl: 'myapp://callback',
+        afterSignOutUrl: 'myapp://callback',
+        scopes: ['openid', 'profile', 'email'],
+      ),
+      child: const MyApp(),
+    ),
+  );
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+  
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SignedIn(
+                child: Column(
+                  children: [
+                    Text('Welcome! You are signed in.'),
+                    SignOutButton(),
+                  ],
+                ),
+              ),
+              SignedOut(
+                child: SignInButton(),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}</code></pre>
+            </div>
+        </section>
+
+        <section class="prerequisites">
+            <h2>Prerequisites</h2>
+            <ul class="checklist">
+                <li>
+                    <span class="check">✓</span>
+                    <div>
+                        <strong>Asgardeo Account</strong>
+                        <p>Create a free account at <a href="https://asgardeo.io" target="_blank">asgardeo.io</a></p>
+                    </div>
+                </li>
+                <li>
+                    <span class="check">✓</span>
+                    <div>
+                        <strong>Flutter 3.22+</strong>
+                        <p>Install the latest Flutter SDK with Dart 3+</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="check">✓</span>
+                    <div>
+                        <strong>Asgardeo Application</strong>
+                        <p>Register your application in the Asgardeo console (Mobile/SPA type)</p>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <section class="installation">
+            <h2>Installation</h2>
+            <p>Add the SDK to your <code>pubspec.yaml</code>:</p>
+            <div class="code-block">
+                <pre><code>dependencies:
+  asgardeo_flutter: ^0.1.0
+  uni_links: ^0.5.1
+  flutter_web_auth_2: ^4.0.3</code></pre>
+            </div>
+            <p>Then run:</p>
+            <div class="code-block">
+                <pre><code>flutter pub get</code></pre>
+            </div>
+        </section>
+
+        <section class="next-steps">
+            <h2>Next Steps</h2>
+            <div class="steps-grid">
+                <a href="quickstart.html" class="step-card">
+                    <h3>📚 Quick Start Guide</h3>
+                    <p>Follow our step-by-step guide to integrate authentication in minutes</p>
+                </a>
+                <a href="components.html" class="step-card">
+                    <h3>🧩 Explore Components</h3>
+                    <p>Learn about all available widgets and how to use them</p>
+                </a>
+                <a href="api.html" class="step-card">
+                    <h3>📖 API Reference</h3>
+                    <p>Dive deep into the SDK's API documentation</p>
+                </a>
+                <a href="examples.html" class="step-card">
+                    <h3>💡 View Examples</h3>
+                    <p>Check out complete example applications and use cases</p>
+                </a>
+            </div>
+        </section>
+
+        <section class="why-oidc">
+            <h2>Why Browser-Based Auth?</h2>
+            <div class="info-box">
+                <p><strong>Security & Standards:</strong> The Asgardeo Flutter SDK uses the industry-standard OpenID Connect (OIDC) Authorization Code flow with PKCE, which is the recommended approach for mobile applications.</p>
+                <ul>
+                    <li><strong>Enhanced Security:</strong> Your app never handles user passwords directly</li>
+                    <li><strong>MFA Support:</strong> Multi-factor authentication works out of the box</li>
+                    <li><strong>SSO Enabled:</strong> Seamless single sign-on experience across apps</li>
+                    <li><strong>Federation Support:</strong> Social logins and enterprise identity providers</li>
+                    <li><strong>WebAuthn Ready:</strong> Support for passkeys and biometric authentication</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 WSO2 LLC. All rights reserved. | <a href="https://wso2.com/asgardeo/">Asgardeo</a></p>
+        </div>
+    </footer>
+</body>
+</html>

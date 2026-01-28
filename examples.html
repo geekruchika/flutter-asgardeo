@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examples - Asgardeo Flutter SDK</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <img src="https://wso2.cachefly.net/wso2/sites/images/brand/downloads/wso2-logo.png" alt="WSO2" class="logo">
+                <span class="sdk-title">Asgardeo Flutter SDK</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="quickstart.html">Quick Start</a></li>
+                <li><a href="components.html">Components</a></li>
+                <li><a href="api.html">API Reference</a></li>
+                <li><a href="examples.html" class="active">Examples</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="doc-layout">
+            <aside class="sidebar">
+                <nav>
+                    <ul>
+                        <li><a href="#basic-auth">Basic Authentication</a></li>
+                        <li><a href="#protected-routes">Protected Routes</a></li>
+                        <li><a href="#user-profile">User Profile Display</a></li>
+                        <li><a href="#api-calls">Making API Calls</a></li>
+                        <li><a href="#org-switching">Organization Switching</a></li>
+                        <li><a href="#custom-ui">Custom Sign-In UI</a></li>
+                        <li><a href="#modal-auth">Modal Authentication</a></li>
+                        <li><a href="#error-handling">Error Handling</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <div class="doc-content">
+                <h1>Examples</h1>
+                <p class="subtitle">Real-world examples and common use cases</p>
+
+                <section id="basic-auth">
+                    <h2>Basic Authentication Flow</h2>
+                    <p>A complete example showing user sign-in and sign-out.</p>
+                    <div class="code-block">
+                        <pre><code>import 'package:flutter/material.dart';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
+
+void main() {
+  runApp(
+    AsgardeoProvider(
+      config: AsgardeoConfig(
+        baseUrl: 'https://api.asgardeo.io/t/myorg',
+        clientId: 'your-client-id',
+        afterSignInUrl: 'myapp://callback',
+        afterSignOutUrl: 'myapp://callback',
+        scopes: ['openid', 'profile', 'email'],
+      ),
+      child: const MyApp(),
+    ),
+  );
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Asgardeo Auth Example',
+      theme: ThemeData(useMaterial3: true),
+      home: const AuthPage(),
+    );
+  }
+}
+
+class AuthPage extends StatelessWidget {
+  const AuthPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Authentication Demo'),
+        actions: [
+          SignedIn(
+            child: Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: UserButton(),
+            ),
+          ),
+        ],
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SignedOut(
+              child: Column(
+                children: [
+                  const Icon(Icons.lock_outline, size: 64),
+                  const SizedBox(height: 24),
+                  const Text(
+                    'Welcome to Our App',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  const Text('Sign in to continue'),
+                  const SizedBox(height: 32),
+                  SignInButton(
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                      child: Text('Sign In'),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SignedIn(
+              child: Column(
+                children: [
+                  const Icon(Icons.check_circle, size: 64, color: Colors.green),
+                  const SizedBox(height: 24),
+                  const Text(
+                    'You are signed in!',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 32),
+                  SignOutButton(),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}</code></pre>
+                    </div>
+                </section>
+
+                <section id="protected-routes">
+                    <h2>Protected Routes</h2>
+                    <p>Protect specific routes by checking authentication status.</p>
+                    <div class="code-block">
+                        <pre><code>import 'package:flutter/material.dart';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
+
+class AppRouter {
+  static Route&lt;dynamic&gt; generateRoute(RouteSettings settings) {
+    switch (settings.name) {
+      case '/':
+        return MaterialPageRoute(builder: (_) =&gt; const HomePage());
+      case '/dashboard':
+        return MaterialPageRoute(
+          builder: (context) =&gt; const ProtectedRoute(
+            child: DashboardPage(),
+          ),
+        );
+      case '/profile':
+        return MaterialPageRoute(
+          builder: (context) =&gt; const ProtectedRoute(
+            child: ProfilePage(),
+          ),
+        );
+      default:
+        return MaterialPageRoute(builder: (_) =&gt; const NotFoundPage());
+    }
+  }
+}
+
+class ProtectedRoute extends StatelessWidget {
+  final Widget child;
+  
+  const ProtectedRoute({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return SignedIn(
+      fallback: Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.lock, size: 48),
+              const SizedBox(height: 16),
+              const Text('Please sign in to access this page'),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                onPressed: () =&gt; Navigator.pushReplacementNamed(context, '/'),
+                child: const Text('Go to Home'),
+              ),
+            ],
+          ),
+        ),
+      ),
+      child: child,
+    );
+  }
+}
+
+class DashboardPage extends StatelessWidget {
+  const DashboardPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Dashboard')),
+      body: const Center(
+        child: Text('Protected Dashboard Content'),
+      ),
+    );
+  }
+}</code></pre>
+                    </div>
+                </section>
+
+                <section id="user-profile">
+                    <h2>Display User Profile</h2>
+                    <p>Show authenticated user information.</p>
+                    <div class="code-block">
+                        <pre><code>import 'package:flutter/material.dart';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
+
+class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final auth = AsgardeoProvider.of(context);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('My Profile'),
+      ),
+      body: SignedIn(
+        child: FutureBuilder&lt;User&gt;(
+          future: auth.getUserProfile(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            if (snapshot.hasError) {
+              return Center(
+                child: Text('Error: ${snapshot.error}'),
+              );
+            }
+
+            final user = snapshot.data;
+            if (user == null) {
+              return const Center(child: Text('No user data'));
+            }
+
+            return ListView(
+              padding: const EdgeInsets.all(16),
+              children: [
+                Center(
+                  child: CircleAvatar(
+                    radius: 50,
+                    child: Text(
+                      user.username?.substring(0, 1).toUpperCase() ?? '?',
+                      style: const TextStyle(fontSize: 40),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 24),
+                _buildInfoCard('Username', user.username ?? 'N/A'),
+                _buildInfoCard('Email', user.email ?? 'N/A'),
+                _buildInfoCard('User ID', user.id ?? 'N/A'),
+                const SizedBox(height: 24),
+                Center(
+                  child: ElevatedButton.icon(
+                    icon: const Icon(Icons.logout),
+                    label: const Text('Sign Out'),
+                    onPressed: () async {
+                      await auth.signOut();
+                      if (context.mounted) {
+                        Navigator.pushReplacementNamed(context, '/');
+                      }
+                    },
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInfoCard(String label, String value) {
+    return Card(
+      margin: const EdgeInsets.only(bottom: 12),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              label,
+              style: const TextStyle(
+                fontSize: 12,
+                color: Colors.grey,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              value,
+              style: const TextStyle(fontSize: 16),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}</code></pre>
+                    </div>
+                </section>
+
+                <section id="api-calls">
+                    <h2>Making Authenticated API Calls</h2>
+                    <p>Use access tokens to make secure API requests.</p>
+                    <div class="code-block">
+                        <pre><code>import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
+
+class ApiService {
+  final BuildContext context;
+
+  ApiService(this.context);
+
+  Future&lt;Map&lt;String, dynamic&gt;&gt; fetchUserData() async {
+    final auth = AsgardeoProvider.of(context);
+    final token = await auth.getAccessToken();
+
+    final response = await http.get(
+      Uri.parse('https://api.example.com/user/me'),
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else if (response.statusCode == 401) {
+      // Token expired, try to refresh
+      await auth.signOut();
+      throw Exception('Authentication expired');
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
+  Future&lt;void&gt; updateUserProfile(Map&lt;String, dynamic&gt; data) async {
+    final auth = AsgardeoProvider.of(context);
+    final token = await auth.getAccessToken();
+
+    final response = await http.put(
+      Uri.parse('https://api.example.com/user/profile'),
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+      body: json.encode(data),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to update profile');
+    }
+  }
+}
+
+class DataPage extends StatefulWidget {
+  const DataPage({super.key});
+
+  @override
+  State&lt;DataPage&gt; createState() =&gt; _DataPageState();
+}
+
+class _DataPageState extends State&lt;DataPage&gt; {
+  late ApiService _apiService;
+  Map&lt;String, dynamic&gt;? _userData;
+  bool _loading = true;
+  String? _error;
+
+  @override
+  void initState() {
+    super.initState();
+    _apiService = ApiService(context);
+    _loadData();
+  }
+
+  Future&lt;void&gt; _loadData() async {
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
+
+    try {
+      final data = await _apiService.fetchUserData();
+      setState(() {
+        _userData = data;
+        _loading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _error = e.toString();
+        _loading = false;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('My Data')),
+      body: SignedIn(
+        child: _loading
+            ? const Center(child: CircularProgressIndicator())
+            : _error != null
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Error: $_error'),
+                        ElevatedButton(
+                          onPressed: _loadData,
+                          child: const Text('Retry'),
+                        ),
+                      ],
+                    ),
+                  )
+                : ListView(
+                    padding: const EdgeInsets.all(16),
+                    children: [
+                      Text('Data: ${_userData.toString()}'),
+                    ],
+                  ),
+      ),
+    );
+  }
+}</code></pre>
+                    </div>
+                </section>
+
+                <section id="org-switching">
+                    <h2>Organization Switching</h2>
+                    <p>Complete implementation of organization switching in a multi-tenant app.</p>
+                    <div class="code-block">
+                        <pre><code>import 'package:flutter/material.dart';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
+
+class OrganizationPage extends StatefulWidget {
+  const OrganizationPage({super.key});
+
+  @override
+  State&lt;OrganizationPage&gt; createState() =&gt; _OrganizationPageState();
+}
+
+class _OrganizationPageState extends State&lt;OrganizationPage&gt; {
+  List&lt;Organization&gt; _organizations = [];
+  bool _loading = true;
+  String? _error;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadOrganizations();
+  }
+
+  Future&lt;void&gt; _loadOrganizations() async {
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
+
+    try {
+      final auth = AsgardeoProvider.of(context);
+      final orgs = await auth.getMyOrganizations();
+      setState(() {
+        _organizations = orgs;
+        _loading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _error = e.toString();
+        _loading = false;
+      });
+    }
+  }
+
+  Future&lt;void&gt; _switchOrganization(Organization org) async {
+    final auth = AsgardeoProvider.of(context);
+    
+    // Show loading indicator
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) =&gt; const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+
+    try {
+      await auth.switchOrganization(org);
+      
+      if (mounted) {
+        Navigator.pop(context); // Close loading dialog
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Switched to ${org.name ?? org.id}'),
+            backgroundColor: Colors.green,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        Navigator.pop(context); // Close loading dialog
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to switch: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final auth = AsgardeoProvider.of(context);
+    final currentOrg = auth.currentOrganization;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Organizations'),
+      ),
+      body: SignedIn(
+        child: _loading
+            ? const Center(child: CircularProgressIndicator())
+            : _error != null
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.error, size: 48, color: Colors.red),
+                        const SizedBox(height: 16),
+                        Text('Error: $_error'),
+                        const SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: _loadOrganizations,
+                          child: const Text('Retry'),
+                        ),
+                      ],
+                    ),
+                  )
+                : _organizations.isEmpty
+                    ? const Center(
+                        child: Text('No organizations found'),
+                      )
+                    : ListView.builder(
+                        itemCount: _organizations.length,
+                        itemBuilder: (context, index) {
+                          final org = _organizations[index];
+                          final isCurrent = currentOrg?.id == org.id;
+
+                          return Card(
+                            margin: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 8,
+                            ),
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                child: Text(
+                                  org.name?.substring(0, 1).toUpperCase() ?? '?',
+                                ),
+                              ),
+                              title: Text(org.name ?? org.orgHandle ?? org.id),
+                              subtitle: Text('ID: ${org.id}'),
+                              trailing: isCurrent
+                                  ? const Chip(
+                                      label: Text('Current'),
+                                      backgroundColor: Colors.green,
+                                    )
+                                  : TextButton(
+                                      onPressed: () =&gt; _switchOrganization(org),
+                                      child: const Text('Switch'),
+                                    ),
+                            ),
+                          );
+                        },
+                      ),
+      ),
+    );
+  }
+}</code></pre>
+                    </div>
+                </section>
+
+                <section id="custom-ui">
+                    <h2>Custom Sign-In UI</h2>
+                    <p>Create a fully custom sign-in experience.</p>
+                    <div class="code-block">
+                        <pre><code>import 'package:flutter/material.dart';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
+
+class CustomSignInPage extends StatefulWidget {
+  const CustomSignInPage({super.key});
+
+  @override
+  State&lt;CustomSignInPage&gt; createState() =&gt; _CustomSignInPageState();
+}
+
+class _CustomSignInPageState extends State&lt;CustomSignInPage&gt; {
+  bool _loading = false;
+
+  Future&lt;void&gt; _handleSignIn() async {
+    setState(() =&gt; _loading = true);
+
+    try {
+      final auth = AsgardeoProvider.of(context);
+      final user = await auth.signIn();
+      
+      if (mounted && user != null) {
+        Navigator.pushReplacementNamed(context, '/dashboard');
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Sign in failed: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() =&gt; _loading = false);
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xFF667eea), Color(0xFF764ba2)],
+          ),
+        ),
+        child: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Logo
+                  Container(
+                    width: 100,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 20,
+                          offset: const Offset(0, 10),
+                        ),
+                      ],
+                    ),
+                    child: const Icon(
+                      Icons.security,
+                      size: 50,
+                      color: Color(0xFF667eea),
+                    ),
+                  ),
+                  const SizedBox(height: 48),
+                  
+                  // Welcome text
+                  const Text(
+                    'Welcome Back',
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    'Sign in to continue',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white70,
+                    ),
+                  ),
+                  const SizedBox(height: 48),
+                  
+                  // Sign in button
+                  SizedBox(
+                    width: double.infinity,
+                    height: 56,
+                    child: ElevatedButton(
+                      onPressed: _loading ? null : _handleSignIn,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: const Color(0xFF667eea),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(28),
+                        ),
+                        elevation: 8,
+                      ),
+                      child: _loading
+                          ? const SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.login),
+                                SizedBox(width: 8),
+                                Text(
+                                  'Sign In with Asgardeo',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  
+                  // Additional info
+                  const Text(
+                    'Secure authentication powered by Asgardeo',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.white60,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}</code></pre>
+                    </div>
+                </section>
+
+                <section id="modal-auth">
+                    <h2>Modal Authentication</h2>
+                    <p>Present authentication in a bottom sheet or dialog.</p>
+                    <div class="code-block">
+                        <pre><code>import 'package:flutter/material.dart';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
+
+void showAuthModal(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    ),
+    builder: (context) =&gt; Padding(
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
+      child: AuthView(
+        title: 'Sign in to continue',
+        onSuccess: (user) {
+          Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Welcome ${user.username}!')),
+          );
+        },
+        onError: (error) {
+          Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Authentication failed'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        },
+      ),
+    ),
+  );
+}
+
+// Usage in a page
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Home')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SignedOut(
+              child: ElevatedButton(
+                onPressed: () =&gt; showAuthModal(context),
+                child: const Text('Sign In'),
+              ),
+            ),
+            SignedIn(
+              child: const Text('You are signed in!'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}</code></pre>
+                    </div>
+                </section>
+
+                <section id="error-handling">
+                    <h2>Comprehensive Error Handling</h2>
+                    <p>Handle different error scenarios gracefully.</p>
+                    <div class="code-block">
+                        <pre><code>import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:io';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
+
+class RobustAuthPage extends StatefulWidget {
+  const RobustAuthPage({super.key});
+
+  @override
+  State&lt;RobustAuthPage&gt; createState() =&gt; _RobustAuthPageState();
+}
+
+class _RobustAuthPageState extends State&lt;RobustAuthPage&gt; {
+  String? _errorMessage;
+  bool _loading = false;
+
+  Future&lt;void&gt; _handleSignIn() async {
+    setState(() {
+      _loading = true;
+      _errorMessage = null;
+    });
+
+    try {
+      final auth = AsgardeoProvider.of(context);
+      await auth.signIn();
+      
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, '/dashboard');
+      }
+    } on TimeoutException {
+      setState(() {
+        _errorMessage = 'Request timed out. Please check your connection.';
+      });
+    } on SocketException {
+      setState(() {
+        _errorMessage = 'No internet connection. Please try again.';
+      });
+    } on HttpException catch (e) {
+      setState(() {
+        _errorMessage = 'Network error: ${e.message}';
+      });
+    } catch (e) {
+      setState(() {
+        _errorMessage = 'An unexpected error occurred: $e';
+      });
+    } finally {
+      if (mounted) {
+        setState(() =&gt; _loading = false);
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Sign In')),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (_errorMessage != null) ...[
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.red.shade50,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.red),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.error, color: Colors.red),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          _errorMessage!,
+                          style: const TextStyle(color: Colors.red),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 24),
+              ],
+              ElevatedButton(
+                onPressed: _loading ? null : _handleSignIn,
+                child: _loading
+                    ? const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : const Text('Sign In'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Complete Sample App</h2>
+                    <p>Find a complete working example in our GitHub repository:</p>
+                    <div class="info-box">
+                        <p><strong>Sample Application:</strong> Check out the <code>example/</code> directory in the repository for a full-featured demo app with:</p>
+                        <ul>
+                            <li>Complete authentication flow</li>
+                            <li>Protected routes</li>
+                            <li>User profile management</li>
+                            <li>Organization switching</li>
+                            <li>API integration examples</li>
+                            <li>Error handling</li>
+                        </ul>
+                        <p><a href="https://github.com/yourusername/asgardeo-flutter/tree/main/example" target="_blank">View on GitHub →</a></p>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Tips & Best Practices</h2>
+                    
+                    <h3>1. Always Handle Deep Links</h3>
+                    <p>Make sure to set up deep link handling in your app's StatefulWidget to complete the auth flow.</p>
+
+                    <h3>2. Use Try-Catch Blocks</h3>
+                    <p>Wrap all authentication operations in try-catch blocks to handle errors gracefully.</p>
+
+                    <h3>3. Secure Token Storage</h3>
+                    <p>In production, use secure storage solutions like <code>flutter_secure_storage</code> for tokens.</p>
+
+                    <h3>4. Test on Real Devices</h3>
+                    <p>Deep linking and browser authentication work differently on simulators vs real devices. Always test on physical devices.</p>
+
+                    <h3>5. Handle Token Refresh</h3>
+                    <p>The SDK automatically refreshes expired tokens when you call <code>getAccessToken()</code>.</p>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 WSO2 LLC. All rights reserved. | <a href="https://wso2.com/asgardeo/">Asgardeo</a></p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Components - Asgardeo Flutter SDK</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <img src="https://wso2.cachefly.net/wso2/sites/images/brand/downloads/wso2-logo.png" alt="WSO2" class="logo">
+                <span class="sdk-title">Asgardeo Flutter SDK</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="quickstart.html">Quick Start</a></li>
+                <li><a href="components.html" class="active">Components</a></li>
+                <li><a href="api.html">API Reference</a></li>
+                <li><a href="examples.html">Examples</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="doc-layout">
+            <aside class="sidebar">
+                <nav>
+                    <ul>
+                        <li><a href="#provider">AsgardeoProvider</a></li>
+                        <li><a href="#control-components">Control Components</a></li>
+                        <li><a href="#signedin">SignedIn</a></li>
+                        <li><a href="#signedout">SignedOut</a></li>
+                        <li><a href="#action-components">Action Components</a></li>
+                        <li><a href="#signinbutton">SignInButton</a></li>
+                        <li><a href="#signoutbutton">SignOutButton</a></li>
+                        <li><a href="#userbutton">UserButton</a></li>
+                        <li><a href="#authview">AuthView</a></li>
+                        <li><a href="#organization">Organization Components</a></li>
+                        <li><a href="#orgswitcher">OrganizationSwitcher</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <div class="doc-content">
+                <h1>Components Reference</h1>
+                <p class="subtitle">Pre-built widgets to accelerate your authentication implementation</p>
+
+                <section id="provider">
+                    <h2>AsgardeoProvider</h2>
+                    <p>The root component that provides authentication state and methods to your entire widget tree.</p>
+
+                    <h3>Usage</h3>
+                    <div class="code-block">
+                        <pre><code>AsgardeoProvider(
+  config: AsgardeoConfig(
+    baseUrl: 'https://api.asgardeo.io/t/yourorg',
+    clientId: 'your-client-id',
+    afterSignInUrl: 'myapp://callback',
+    afterSignOutUrl: 'myapp://callback',
+    scopes: ['openid', 'profile', 'email'],
+  ),
+  child: const MyApp(),
+)</code></pre>
+                    </div>
+
+                    <h3>Props</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Type</th>
+                                <th>Required</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>config</code></td>
+                                <td>AsgardeoConfig</td>
+                                <td>Yes</td>
+                                <td>Configuration object containing Asgardeo settings</td>
+                            </tr>
+                            <tr>
+                                <td><code>child</code></td>
+                                <td>Widget</td>
+                                <td>Yes</td>
+                                <td>Your application's root widget</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="info-box">
+                        <strong>Best Practice:</strong> Place <code>AsgardeoProvider</code> at the root of your app, wrapping the MaterialApp or CupertinoApp widget. This ensures authentication state is available throughout your entire widget tree.
+                    </div>
+                </section>
+
+                <section id="control-components">
+                    <h2>Control Components</h2>
+                    <p>Components that conditionally render content based on authentication state.</p>
+                </section>
+
+                <section id="signedin">
+                    <h3>SignedIn</h3>
+                    <p>Renders its child only when the user is authenticated.</p>
+
+                    <h4>Usage</h4>
+                    <div class="code-block">
+                        <pre><code>SignedIn(
+  fallback: const Text('Please sign in'),
+  child: Column(
+    children: [
+      const Text('Welcome back!'),
+      const UserButton(),
+    ],
+  ),
+)</code></pre>
+                    </div>
+
+                    <h4>Props</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Type</th>
+                                <th>Required</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>child</code></td>
+                                <td>Widget</td>
+                                <td>Yes</td>
+                                <td>Content to show when user is signed in</td>
+                            </tr>
+                            <tr>
+                                <td><code>fallback</code></td>
+                                <td>Widget?</td>
+                                <td>No</td>
+                                <td>Content to show when user is not signed in (defaults to empty)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Example with Fallback</h4>
+                    <div class="code-block">
+                        <pre><code>SignedIn(
+  fallback: Center(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Icon(Icons.lock_outline, size: 48),
+        const SizedBox(height: 16),
+        const Text('Sign in to view your dashboard'),
+        const SizedBox(height: 16),
+        SignInButton(),
+      ],
+    ),
+  ),
+  child: const DashboardContent(),
+)</code></pre>
+                    </div>
+                </section>
+
+                <section id="signedout">
+                    <h3>SignedOut</h3>
+                    <p>Renders its child only when the user is not authenticated.</p>
+
+                    <h4>Usage</h4>
+                    <div class="code-block">
+                        <pre><code>SignedOut(
+  child: Column(
+    children: [
+      const Text('Welcome to our app'),
+      SignInButton(),
+    ],
+  ),
+)</code></pre>
+                    </div>
+
+                    <h4>Props</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Type</th>
+                                <th>Required</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>child</code></td>
+                                <td>Widget</td>
+                                <td>Yes</td>
+                                <td>Content to show when user is signed out</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Common Pattern</h4>
+                    <div class="code-block">
+                        <pre><code>Scaffold(
+  body: Center(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SignedIn(
+          child: const Text('You are signed in!'),
+        ),
+        SignedOut(
+          child: SignInButton(),
+        ),
+      ],
+    ),
+  ),
+)</code></pre>
+                    </div>
+                </section>
+
+                <section id="action-components">
+                    <h2>Action Components</h2>
+                    <p>Interactive widgets that trigger authentication actions.</p>
+                </section>
+
+                <section id="signinbutton">
+                    <h3>SignInButton</h3>
+                    <p>A button that initiates the sign-in flow when pressed.</p>
+
+                    <h4>Usage</h4>
+                    <div class="code-block">
+                        <pre><code>SignInButton(
+  child: const Text('Sign in with Asgardeo'),
+  onSuccess: (user) {
+    print('User signed in: ${user.username}');
+  },
+  onError: (error) {
+    print('Sign in error: $error');
+  },
+)</code></pre>
+                    </div>
+
+                    <h4>Props</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Type</th>
+                                <th>Required</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>child</code></td>
+                                <td>Widget?</td>
+                                <td>No</td>
+                                <td>Custom button content (defaults to "Sign In")</td>
+                            </tr>
+                            <tr>
+                                <td><code>onSuccess</code></td>
+                                <td>Function(User)?</td>
+                                <td>No</td>
+                                <td>Callback when sign-in succeeds</td>
+                            </tr>
+                            <tr>
+                                <td><code>onError</code></td>
+                                <td>Function(Object)?</td>
+                                <td>No</td>
+                                <td>Callback when sign-in fails</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Custom Styling</h4>
+                    <div class="code-block">
+                        <pre><code>SignInButton(
+  child: Container(
+    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+    decoration: BoxDecoration(
+      gradient: const LinearGradient(
+        colors: [Colors.blue, Colors.purple],
+      ),
+      borderRadius: BorderRadius.circular(8),
+    ),
+    child: const Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(Icons.login, color: Colors.white),
+        SizedBox(width: 8),
+        Text('Sign In', style: TextStyle(color: Colors.white)),
+      ],
+    ),
+  ),
+)</code></pre>
+                    </div>
+                </section>
+
+                <section id="signoutbutton">
+                    <h3>SignOutButton</h3>
+                    <p>A button that signs the user out when pressed.</p>
+
+                    <h4>Usage</h4>
+                    <div class="code-block">
+                        <pre><code>SignOutButton(
+  child: const Text('Sign Out'),
+  onSuccess: () {
+    print('User signed out');
+  },
+  onError: (error) {
+    print('Sign out error: $error');
+  },
+)</code></pre>
+                    </div>
+
+                    <h4>Props</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Type</th>
+                                <th>Required</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>child</code></td>
+                                <td>Widget?</td>
+                                <td>No</td>
+                                <td>Custom button content (defaults to "Sign Out")</td>
+                            </tr>
+                            <tr>
+                                <td><code>onSuccess</code></td>
+                                <td>VoidCallback?</td>
+                                <td>No</td>
+                                <td>Callback when sign-out succeeds</td>
+                            </tr>
+                            <tr>
+                                <td><code>onError</code></td>
+                                <td>Function(Object)?</td>
+                                <td>No</td>
+                                <td>Callback when sign-out fails</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section id="userbutton">
+                    <h3>UserButton</h3>
+                    <p>A compact user avatar button with a dropdown menu for account actions.</p>
+
+                    <h4>Usage</h4>
+                    <div class="code-block">
+                        <pre><code>AppBar(
+  title: const Text('My App'),
+  actions: [
+    SignedIn(
+      child: Padding(
+        padding: const EdgeInsets.only(right: 8),
+        child: UserButton(
+          size: 36,
+          onSignOut: () {
+            Navigator.pushReplacementNamed(context, '/');
+          },
+        ),
+      ),
+    ),
+  ],
+)</code></pre>
+                    </div>
+
+                    <h4>Props</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Type</th>
+                                <th>Default</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>size</code></td>
+                                <td>double</td>
+                                <td>36</td>
+                                <td>Size of the avatar button</td>
+                            </tr>
+                            <tr>
+                                <td><code>onSignOut</code></td>
+                                <td>VoidCallback?</td>
+                                <td>null</td>
+                                <td>Callback after user signs out</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section id="authview">
+                    <h3>AuthView</h3>
+                    <p>A prebuilt authentication view with sign-in UI, useful for presenting auth in a modal or bottom sheet.</p>
+
+                    <h4>Usage</h4>
+                    <div class="code-block">
+                        <pre><code>showModalBottomSheet(
+  context: context,
+  builder: (context) => AuthView(
+    title: 'Welcome Back',
+    onSuccess: (user) {
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Welcome ${user.username}!')),
+      );
+    },
+    onError: (error) {
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Sign in failed')),
+      );
+    },
+  ),
+);</code></pre>
+                    </div>
+
+                    <h4>Props</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Type</th>
+                                <th>Default</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>title</code></td>
+                                <td>String</td>
+                                <td>'Sign in'</td>
+                                <td>Title text displayed above the sign-in button</td>
+                            </tr>
+                            <tr>
+                                <td><code>onSuccess</code></td>
+                                <td>Function(User)?</td>
+                                <td>null</td>
+                                <td>Callback when sign-in succeeds</td>
+                            </tr>
+                            <tr>
+                                <td><code>onError</code></td>
+                                <td>Function(Object)?</td>
+                                <td>null</td>
+                                <td>Callback when sign-in fails</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section id="organization">
+                    <h2>Organization Components</h2>
+                    <p>Components for managing multi-tenant applications with organization switching.</p>
+                </section>
+
+                <section id="orgswitcher">
+                    <h3>OrganizationSwitcher</h3>
+                    <p>A dropdown that allows users to switch between organizations they have access to.</p>
+
+                    <h4>Usage</h4>
+                    <div class="code-block">
+                        <pre><code>class OrgSwitcherWidget extends StatelessWidget {
+  const OrgSwitcherWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final auth = AsgardeoProvider.of(context);
+
+    return SignedIn(
+      child: FutureBuilder&lt;List&lt;Organization&gt;&gt;(
+        future: auth.getMyOrganizations(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator();
+          }
+          
+          if (snapshot.hasError) {
+            return const Text('Failed to load organizations');
+          }
+
+          final orgs = snapshot.data ?? [];
+          if (orgs.isEmpty) {
+            return const SizedBox.shrink();
+          }
+
+          return OrganizationSwitcher(
+            organizations: orgs,
+            current: auth.currentOrganization,
+            onSwitch: (org) async {
+              await auth.switchOrganization(org);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Switched to ${org.name}')),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+}</code></pre>
+                    </div>
+
+                    <h4>Props</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Type</th>
+                                <th>Required</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>organizations</code></td>
+                                <td>List&lt;Organization&gt;</td>
+                                <td>Yes</td>
+                                <td>List of available organizations</td>
+                            </tr>
+                            <tr>
+                                <td><code>current</code></td>
+                                <td>Organization?</td>
+                                <td>No</td>
+                                <td>Currently selected organization</td>
+                            </tr>
+                            <tr>
+                                <td><code>onSwitch</code></td>
+                                <td>Function(Organization)?</td>
+                                <td>No</td>
+                                <td>Callback when organization is switched</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="info-box">
+                        <strong>How Organization Switching Works:</strong> When a user switches organizations, the SDK performs a token exchange using the <code>organization_switch</code> grant type. This updates the access token to include the new organization context without requiring re-authentication.
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Component Best Practices</h2>
+                    
+                    <h3>1. Use Control Components for Conditional Rendering</h3>
+                    <p>Instead of manually checking auth state, use <code>SignedIn</code> and <code>SignedOut</code> components:</p>
+                    <div class="code-block">
+                        <pre><code>// ✅ Good
+SignedIn(
+  child: const DashboardContent(),
+  fallback: const LoginPrompt(),
+)
+
+// ❌ Avoid
+final auth = AsgardeoProvider.of(context);
+auth.isSignedIn ? const DashboardContent() : const LoginPrompt()</code></pre>
+                    </div>
+
+                    <h3>2. Handle Callbacks Appropriately</h3>
+                    <p>Use callbacks for navigation, analytics, or showing notifications:</p>
+                    <div class="code-block">
+                        <pre><code>SignInButton(
+  onSuccess: (user) {
+    // Track sign-in event
+    analytics.logEvent('user_signed_in');
+    
+    // Navigate to dashboard
+    Navigator.pushReplacementNamed(context, '/dashboard');
+  },
+  onError: (error) {
+    // Show error message
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Sign in failed: $error')),
+    );
+  },
+)</code></pre>
+                    </div>
+
+                    <h3>3. Customize Components to Match Your Brand</h3>
+                    <p>All action components accept custom child widgets for full styling control.</p>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 WSO2 LLC. All rights reserved. | <a href="https://wso2.com/asgardeo/">Asgardeo</a></p>
+        </div>
+    </footer>
+</body>
+</html>

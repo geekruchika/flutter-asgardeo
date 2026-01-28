@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Start - Asgardeo Flutter SDK</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <img src="https://wso2.cachefly.net/wso2/sites/images/brand/downloads/wso2-logo.png" alt="WSO2" class="logo">
+                <span class="sdk-title">Asgardeo Flutter SDK</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="quickstart.html" class="active">Quick Start</a></li>
+                <li><a href="components.html">Components</a></li>
+                <li><a href="api.html">API Reference</a></li>
+                <li><a href="examples.html">Examples</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="doc-layout">
+            <aside class="sidebar">
+                <nav>
+                    <ul>
+                        <li><a href="#prerequisites">Prerequisites</a></li>
+                        <li><a href="#installation">Installation</a></li>
+                        <li><a href="#configure-asgardeo">Configure Asgardeo</a></li>
+                        <li><a href="#configure-deep-links">Configure Deep Links</a></li>
+                        <li><a href="#initialize-sdk">Initialize SDK</a></li>
+                        <li><a href="#add-authentication">Add Authentication</a></li>
+                        <li><a href="#handle-redirects">Handle Redirects</a></li>
+                        <li><a href="#run-app">Run Your App</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <div class="doc-content">
+                <h1>Quick Start Guide</h1>
+                <p class="subtitle">Get up and running with Asgardeo authentication in your Flutter app in under 10 minutes.</p>
+
+                <section id="prerequisites">
+                    <h2>Prerequisites</h2>
+                    <ul class="checklist">
+                        <li>
+                            <span class="check">✓</span>
+                            <div>
+                                <strong>Flutter 3.22 or higher</strong>
+                                <p>Ensure you have Flutter installed. Run <code>flutter --version</code> to check.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="check">✓</span>
+                            <div>
+                                <strong>An Asgardeo account</strong>
+                                <p>Sign up for free at <a href="https://asgardeo.io" target="_blank">asgardeo.io</a></p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="check">✓</span>
+                            <div>
+                                <strong>Basic Flutter knowledge</strong>
+                                <p>Familiarity with Flutter widgets and state management</p>
+                            </div>
+                        </li>
+                    </ul>
+                </section>
+
+                <section id="installation">
+                    <h2>Step 1: Installation</h2>
+                    <p>Add the Asgardeo Flutter SDK and required dependencies to your <code>pubspec.yaml</code>:</p>
+                    <div class="code-block">
+                        <pre><code>dependencies:
+  flutter:
+    sdk: flutter
+  asgardeo_flutter: ^0.1.0
+  uni_links: ^0.5.1
+  flutter_web_auth_2: ^4.0.3</code></pre>
+                    </div>
+                    <p>Then install the dependencies:</p>
+                    <div class="code-block">
+                        <pre><code>flutter pub get</code></pre>
+                    </div>
+                </section>
+
+                <section id="configure-asgardeo">
+                    <h2>Step 2: Configure Asgardeo Application</h2>
+                    
+                    <h3>2.1 Create an Application</h3>
+                    <ol>
+                        <li>Log in to your <a href="https://console.asgardeo.io" target="_blank">Asgardeo Console</a></li>
+                        <li>Navigate to <strong>Applications</strong> → <strong>New Application</strong></li>
+                        <li>Select <strong>Mobile Application</strong> (or SPA for web)</li>
+                        <li>Enter a name (e.g., "My Flutter App")</li>
+                    </ol>
+
+                    <h3>2.2 Configure OAuth Settings</h3>
+                    <p>In your application settings, configure the following:</p>
+                    <ul>
+                        <li><strong>Authorized redirect URLs:</strong> <code>myapp://callback</code></li>
+                        <li><strong>Allowed grant types:</strong> Authorization Code</li>
+                        <li><strong>Public client:</strong> Enable (mobile apps don't use client secrets)</li>
+                    </ul>
+
+                    <div class="info-box">
+                        <strong>Note:</strong> Replace <code>myapp</code> with your app's custom URL scheme. Make sure it's unique and matches your bundle identifier pattern.
+                    </div>
+
+                    <h3>2.3 Save Your Credentials</h3>
+                    <p>Copy the following values from your Asgardeo application:</p>
+                    <ul>
+                        <li><strong>Client ID:</strong> Your application's unique identifier</li>
+                        <li><strong>Base URL:</strong> Your organization's API URL (e.g., <code>https://api.asgardeo.io/t/yourorg</code>)</li>
+                    </ul>
+                </section>
+
+                <section id="configure-deep-links">
+                    <h2>Step 3: Configure Deep Links</h2>
+                    <p>Deep links allow your app to receive the authentication callback from Asgardeo.</p>
+
+                    <h3>3.1 Android Configuration</h3>
+                    <p>Edit <code>android/app/src/main/AndroidManifest.xml</code> and add an intent filter inside your <code>&lt;activity&gt;</code> tag:</p>
+                    <div class="code-block">
+                        <pre><code>&lt;activity
+    android:name=".MainActivity"
+    android:launchMode="singleTop"&gt;
+    
+    &lt;!-- Existing intent filters... --&gt;
+    
+    &lt;!-- Add this intent filter for deep linking --&gt;
+    &lt;intent-filter android:autoVerify="true"&gt;
+        &lt;action android:name="android.intent.action.VIEW" /&gt;
+        &lt;category android:name="android.intent.category.DEFAULT" /&gt;
+        &lt;category android:name="android.intent.category.BROWSABLE" /&gt;
+        &lt;data
+            android:scheme="myapp"
+            android:host="callback" /&gt;
+    &lt;/intent-filter&gt;
+&lt;/activity&gt;</code></pre>
+                    </div>
+
+                    <h3>3.2 iOS Configuration</h3>
+                    <p>Edit <code>ios/Runner/Info.plist</code> and add URL scheme configuration:</p>
+                    <div class="code-block">
+                        <pre><code>&lt;key&gt;CFBundleURLTypes&lt;/key&gt;
+&lt;array&gt;
+    &lt;dict&gt;
+        &lt;key&gt;CFBundleTypeRole&lt;/key&gt;
+        &lt;string&gt;Editor&lt;/string&gt;
+        &lt;key&gt;CFBundleURLSchemes&lt;/key&gt;
+        &lt;array&gt;
+            &lt;string&gt;myapp&lt;/string&gt;
+        &lt;/array&gt;
+    &lt;/dict&gt;
+&lt;/array&gt;</code></pre>
+                    </div>
+
+                    <div class="warning-box">
+                        <strong>Important:</strong> Make sure the <code>scheme</code> value (myapp) matches what you configured in Asgardeo and is unique to your application.
+                    </div>
+                </section>
+
+                <section id="initialize-sdk">
+                    <h2>Step 4: Initialize the SDK</h2>
+                    <p>Wrap your app with <code>AsgardeoProvider</code> in your <code>main.dart</code>:</p>
+                    <div class="code-block">
+                        <pre><code>import 'package:flutter/material.dart';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
+
+void main() {
+  runApp(
+    AsgardeoProvider(
+      config: AsgardeoConfig(
+        baseUrl: 'https://api.asgardeo.io/t/&lt;your-org&gt;',
+        clientId: '&lt;your-client-id&gt;',
+        afterSignInUrl: 'myapp://callback',
+        afterSignOutUrl: 'myapp://callback',
+        scopes: ['openid', 'profile', 'email'],
+      ),
+      child: const MyApp(),
+    ),
+  );
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+  
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Asgardeo Flutter Demo',
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      ),
+      home: const HomePage(),
+    );
+  }
+}</code></pre>
+                    </div>
+
+                    <div class="info-box">
+                        <strong>Configuration Options:</strong>
+                        <ul>
+                            <li><code>baseUrl</code>: Your Asgardeo organization's API base URL</li>
+                            <li><code>clientId</code>: Your application's client ID from Asgardeo console</li>
+                            <li><code>afterSignInUrl</code>: Redirect URL after successful sign-in</li>
+                            <li><code>afterSignOutUrl</code>: Redirect URL after sign-out</li>
+                            <li><code>scopes</code>: OAuth scopes to request (default: openid, profile, email)</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section id="add-authentication">
+                    <h2>Step 5: Add Authentication UI</h2>
+                    <p>Use the pre-built widgets to add sign-in and sign-out functionality:</p>
+                    <div class="code-block">
+                        <pre><code>import 'package:flutter/material.dart';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Asgardeo Demo'),
+        actions: [
+          SignedIn(
+            child: Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: UserButton(),
+            ),
+          ),
+        ],
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SignedIn(
+              fallback: const Text('Please sign in to continue'),
+              child: Column(
+                children: [
+                  const Text(
+                    'Welcome! You are signed in.',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  const SizedBox(height: 20),
+                  SignOutButton(),
+                ],
+              ),
+            ),
+            SignedOut(
+              child: SignInButton(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}</code></pre>
+                    </div>
+                </section>
+
+                <section id="handle-redirects">
+                    <h2>Step 6: Handle Authentication Redirects</h2>
+                    <p>Set up a listener to handle incoming deep links after authentication:</p>
+                    <div class="code-block">
+                        <pre><code>import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:uni_links/uni_links.dart';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+  
+  @override
+  State&lt;HomePage&gt; createState() => _HomePageState();
+}
+
+class _HomePageState extends State&lt;HomePage&gt; {
+  StreamSubscription? _sub;
+
+  @override
+  void initState() {
+    super.initState();
+    _initDeepLinks();
+  }
+
+  Future&lt;void&gt; _initDeepLinks() async {
+    _sub = uriLinkStream.listen((Uri? uri) async {
+      if (!mounted || uri == null) return;
+      
+      // Pass the callback URI to the SDK
+      await AsgardeoProvider.of(context).handleRedirect(uri);
+    }, onError: (err) {
+      debugPrint('Deep link error: $err');
+    });
+  }
+
+  @override
+  void dispose() {
+    _sub?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Your UI code here
+    return Scaffold(
+      // ... rest of your UI
+    );
+  }
+}</code></pre>
+                    </div>
+
+                    <div class="info-box">
+                        <strong>How it works:</strong> When users complete authentication in the browser, Asgardeo redirects back to your app using the custom URL scheme. The SDK intercepts this redirect, exchanges the authorization code for tokens, and updates the authentication state.
+                    </div>
+                </section>
+
+                <section id="run-app">
+                    <h2>Step 7: Run Your App</h2>
+                    <p>You're all set! Run your app:</p>
+                    <div class="code-block">
+                        <pre><code># For iOS
+flutter run -d ios
+
+# For Android
+flutter run -d android
+
+# For Web
+flutter run -d chrome</code></pre>
+                    </div>
+
+                    <div class="success-box">
+                        <strong>🎉 Congratulations!</strong> You've successfully integrated Asgardeo authentication into your Flutter app. Users can now sign in securely using industry-standard OIDC.
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Next Steps</h2>
+                    <div class="steps-grid">
+                        <a href="components.html" class="step-card">
+                            <h3>🧩 Explore Components</h3>
+                            <p>Learn about all available widgets</p>
+                        </a>
+                        <a href="api.html" class="step-card">
+                            <h3>📖 API Reference</h3>
+                            <p>Dive into the full API documentation</p>
+                        </a>
+                        <a href="examples.html" class="step-card">
+                            <h3>💡 View Examples</h3>
+                            <p>Check out complete example apps</p>
+                        </a>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Troubleshooting</h2>
+                    
+                    <h3>Deep links not working?</h3>
+                    <ul>
+                        <li>Verify the URL scheme matches between your app config, Asgardeo console, and platform configurations</li>
+                        <li>On iOS, make sure you've added the URL scheme to Info.plist</li>
+                        <li>On Android, verify the intent filter is inside the correct activity</li>
+                    </ul>
+
+                    <h3>Authentication flow not completing?</h3>
+                    <ul>
+                        <li>Check that your redirect URL in Asgardeo matches exactly (including the scheme)</li>
+                        <li>Ensure you're calling <code>handleRedirect()</code> in the deep link listener</li>
+                        <li>Check the console logs for any error messages</li>
+                    </ul>
+
+                    <h3>Need more help?</h3>
+                    <p>Visit the <a href="https://wso2.com/asgardeo/docs/" target="_blank">Asgardeo documentation</a> or reach out to the community.</p>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 WSO2 LLC. All rights reserved. | <a href="https://wso2.com/asgardeo/">Asgardeo</a></p>
+        </div>
+    </footer>
+</body>
+</html>
