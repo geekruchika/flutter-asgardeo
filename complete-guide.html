@@ -44,7 +44,7 @@
               </a>
               <a href="complete-guide.html" class="sidebar-sublink active">
                 Complete Guide
-                <span class="time-badge">30 mins</span>
+                <span class="time-badge">37 mins</span>
               </a>
             </div>
           </div>
@@ -84,7 +84,7 @@
               A comprehensive guide to implementing authentication in your
               Flutter app with Asgardeo
             </p>
-            <div class="time-estimate">⏱️ Estimated time: 30 minutes</div>
+            <div class="time-estimate">⏱️ Estimated time: 37 minutes</div>
           </div>
 
           <!-- Step 1: Introduction -->
@@ -263,6 +263,19 @@ cd my_flutter_app</code></pre>
               <pre><code>flutter pub get</code></pre>
             </div>
 
+            <div class="info-box">
+              <strong>Optional - For Enhanced Security:</strong>
+              <p>
+                For production apps, add these packages for secure token storage
+                and biometric authentication (covered in Step 10):
+              </p>
+              <div class="code-block">
+                <pre><code>dependencies:
+  flutter_secure_storage: ^9.0.0  # Native secure storage
+  local_auth: ^2.1.8               # Biometric authentication</code></pre>
+              </div>
+            </div>
+
             <h3>Step 5.2: Configure Deep Links (Android)</h3>
             <p>Edit <code>android/app/src/main/AndroidManifest.xml</code>:</p>
             <div class="code-block">
@@ -394,12 +407,147 @@ class HomePage extends StatelessWidget {
             <div class="step-header">
               <span class="step-number">7</span>
               <div>
-                <h2>Display User Details</h2>
-                <span class="step-time">2 mins</span>
+                <h2>Display Logged-In User Details</h2>
+                <span class="step-time">4 mins</span>
               </div>
             </div>
 
-            <p>Get and display user profile information:</p>
+            <p>
+              At this point, we've successfully implemented login and logout
+              capabilities using the Asgardeo Flutter SDK. The next step is to
+              explore how to access and display logged-in user details within
+              the app.
+            </p>
+
+            <p>
+              The Flutter SDK provides widgets and methods to display user
+              information in a declarative way:
+            </p>
+
+            <ul>
+              <li>
+                <strong><code>User</code> Widget:</strong> Provides a
+                declarative way to display user profile information
+              </li>
+              <li>
+                <strong><code>UserButton</code> Widget:</strong> A dropdown menu
+                with built-in user information and sign-out functionality
+              </li>
+              <li>
+                <strong><code>AsgardeoProvider.of(context)</code>:</strong>
+                Programmatic access to user profile data via
+                <code>getUserProfile()</code>
+              </li>
+            </ul>
+
+            <h3>Method 1: Using the User Widget</h3>
+            <p>
+              The <code>User</code> widget from the SDK provides a simple way to
+              display user information declaratively:
+            </p>
+            <div class="code-block">
+              <pre><code>import 'package:flutter/material.dart';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('My App'),
+        actions: [
+          SignedIn(
+            child: UserButton(),
+          ),
+        ],
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SignedIn(
+              child: Column(
+                children: [
+                  const Text(
+                    'Welcome back,',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  const SizedBox(height: 8),
+                  // User widget displays username automatically
+                  User(
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  SignOutButton(),
+                ],
+              ),
+            ),
+            SignedOut(
+              child: Column(
+                children: [
+                  const Text('Please sign in'),
+                  const SizedBox(height: 16),
+                  SignInButton(),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}</code></pre>
+            </div>
+
+            <h3>Method 2: Using the UserButton Widget</h3>
+            <p>
+              The <code>UserButton</code> widget provides a dropdown menu with
+              user information and sign-out functionality. It's typically placed
+              in the app bar:
+            </p>
+            <div class="code-block">
+              <pre><code>import 'package:flutter/material.dart';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('My App'),
+        actions: [
+          // UserButton shows user avatar and dropdown menu
+          SignedIn(
+            child: UserButton(),
+          ),
+        ],
+      ),
+      body: const Center(
+        child: Text('Welcome to My App'),
+      ),
+    );
+  }
+}
+
+// UserButton automatically displays:
+// - User avatar (or initials)
+// - Username
+// - Email
+// - Sign out option</code></pre>
+            </div>
+
+            <h3>Method 3: Accessing User Profile Programmatically</h3>
+            <p>
+              Use <code>AsgardeoProvider.of(context).getUserProfile()</code> to
+              fetch and display detailed user information:
+            </p>
             <div class="code-block">
               <pre><code>import 'package:flutter/material.dart';
 import 'package:asgardeo_flutter/asgardeo_flutter.dart';
@@ -412,29 +560,99 @@ class ProfilePage extends StatelessWidget {
     final auth = AsgardeoProvider.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Profile')),
+      appBar: AppBar(
+        title: const Text('My Profile'),
+        actions: [
+          SignedIn(child: UserButton()),
+        ],
+      ),
       body: FutureBuilder&lt;UserProfile&gt;(
         future: auth.getUserProfile(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
+          // Show loading indicator
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           }
 
+          // Handle errors
+          if (snapshot.hasError) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.error_outline, size: 48, color: Colors.red),
+                  const SizedBox(height: 16),
+                  Text('Error: ${snapshot.error}'),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('Go Back'),
+                  ),
+                ],
+              ),
+            );
+          }
+
+          // Display user profile
           final user = snapshot.data!;
           return ListView(
             padding: const EdgeInsets.all(16),
             children: [
-              ListTile(
-                title: const Text('Username'),
-                subtitle: Text(user.username ?? 'N/A'),
+              // User Avatar
+              Center(
+                child: CircleAvatar(
+                  radius: 50,
+                  backgroundColor: Colors.blue,
+                  child: Text(
+                    user.name?.substring(0, 1).toUpperCase() ?? 
+                    user.username?.substring(0, 1).toUpperCase() ?? 
+                    'U',
+                    style: const TextStyle(
+                      fontSize: 36,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
               ),
-              ListTile(
-                title: const Text('Email'),
-                subtitle: Text(user.email ?? 'N/A'),
-              ),
-              ListTile(
-                title: const Text('Name'),
-                subtitle: Text(user.name ?? 'N/A'),
+              const SizedBox(height: 24),
+
+              // Profile Information Card
+              Card(
+                child: Column(
+                  children: [
+                    ListTile(
+                      leading: const Icon(Icons.person),
+                      title: const Text('Username'),
+                      subtitle: Text(user.username ?? 'N/A'),
+                    ),
+                    const Divider(),
+                    ListTile(
+                      leading: const Icon(Icons.badge),
+                      title: const Text('Full Name'),
+                      subtitle: Text(user.name ?? 'N/A'),
+                    ),
+                    const Divider(),
+                    ListTile(
+                      leading: const Icon(Icons.email),
+                      title: const Text('Email'),
+                      subtitle: Text(user.email ?? 'N/A'),
+                    ),
+                    const Divider(),
+                    ListTile(
+                      leading: const Icon(Icons.phone),
+                      title: const Text('Phone'),
+                      subtitle: Text(user.phoneNumber ?? 'N/A'),
+                    ),
+                    const Divider(),
+                    ListTile(
+                      leading: const Icon(Icons.location_on),
+                      title: const Text('Country'),
+                      subtitle: Text(user.country ?? 'N/A'),
+                    ),
+                  ],
+                ),
               ),
             ],
           );
@@ -444,6 +662,396 @@ class ProfilePage extends StatelessWidget {
   }
 }</code></pre>
             </div>
+
+            <h3>Displaying User Info in Multiple Locations</h3>
+            <p>
+              You can display user information throughout your app using the
+              widgets and methods above:
+            </p>
+            <div class="code-block">
+              <pre><code>import 'package:flutter/material.dart';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
+
+class DashboardPage extends StatelessWidget {
+  const DashboardPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final auth = AsgardeoProvider.of(context);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Dashboard'),
+        actions: [
+          SignedIn(child: UserButton()),
+        ],
+      ),
+      drawer: Drawer(
+        child: Column(
+          children: [
+            // User info in drawer header
+            SignedIn(
+              child: FutureBuilder&lt;UserProfile&gt;(
+                future: auth.getUserProfile(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const DrawerHeader(
+                      child: Center(child: CircularProgressIndicator()),
+                    );
+                  }
+
+                  final user = snapshot.data!;
+                  return UserAccountsDrawerHeader(
+                    accountName: Text(user.name ?? 'User'),
+                    accountEmail: Text(user.email ?? ''),
+                    currentAccountPicture: CircleAvatar(
+                      backgroundColor: Colors.white,
+                      child: Text(
+                        user.name?.substring(0, 1).toUpperCase() ?? 'U',
+                        style: const TextStyle(fontSize: 24),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('Home'),
+              onTap: () => Navigator.pushNamed(context, '/'),
+            ),
+            ListTile(
+              leading: const Icon(Icons.person),
+              title: const Text('Profile'),
+              onTap: () => Navigator.pushNamed(context, '/profile'),
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text('Settings'),
+              onTap: () => Navigator.pushNamed(context, '/settings'),
+            ),
+            const Spacer(),
+            SignedIn(
+              child: ListTile(
+                leading: const Icon(Icons.logout),
+                title: const Text('Sign Out'),
+                onTap: () async {
+                  await auth.signOut();
+                  if (context.mounted) {
+                    Navigator.pushReplacementNamed(context, '/');
+                  }
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+      body: FutureBuilder&lt;UserProfile&gt;(
+        future: auth.getUserProfile(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          final user = snapshot.data!;
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Welcome back, ${user.name ?? user.username}!',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Last login: ${DateTime.now().toString().substring(0, 16)}',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                const SizedBox(height: 24),
+                // Dashboard content here
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}</code></pre>
+            </div>
+
+            <h3>Creating an Editable Profile Page</h3>
+            <p>
+              Build a profile page where users can view and update their
+              information:
+            </p>
+            <div class="code-block">
+              <pre><code>import 'package:flutter/material.dart';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
+
+class EditableProfilePage extends StatefulWidget {
+  const EditableProfilePage({super.key});
+
+  @override
+  State&lt;EditableProfilePage&gt; createState() => _EditableProfilePageState();
+}
+
+class _EditableProfilePageState extends State&lt;EditableProfilePage&gt; {
+  final _formKey = GlobalKey&lt;FormState&gt;();
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
+  
+  bool _isEditing = false;
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserProfile();
+  }
+
+  Future&lt;void&gt; _loadUserProfile() async {
+    final auth = AsgardeoProvider.of(context);
+    try {
+      final user = await auth.getUserProfile();
+      setState(() {
+        _nameController.text = user.name ?? '';
+        _emailController.text = user.email ?? '';
+        _phoneController.text = user.phoneNumber ?? '';
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() => _isLoading = false);
+    }
+  }
+
+  Future&lt;void&gt; _saveProfile() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() => _isLoading = true);
+
+    try {
+      // Call your API to update user profile
+      // final auth = AsgardeoProvider.of(context);
+      // await auth.updateUserProfile({
+      //   'name': _nameController.text,
+      //   'email': _emailController.text,
+      //   'phone': _phoneController.text,
+      // });
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Profile updated successfully'),
+            backgroundColor: Colors.green,
+          ),
+        );
+        setState(() {
+          _isEditing = false;
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to update profile: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('My Profile'),
+        actions: [
+          if (!_isEditing)
+            IconButton(
+              icon: const Icon(Icons.edit),
+              onPressed: () => setState(() => _isEditing = true),
+              tooltip: 'Edit Profile',
+            )
+          else
+            IconButton(
+              icon: const Icon(Icons.close),
+              onPressed: () {
+                setState(() => _isEditing = false);
+                _loadUserProfile();
+              },
+              tooltip: 'Cancel',
+            ),
+        ],
+      ),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    // Avatar
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Colors.blue,
+                      child: Text(
+                        _nameController.text.isNotEmpty
+                            ? _nameController.text[0].toUpperCase()
+                            : 'U',
+                        style: const TextStyle(
+                          fontSize: 36,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+
+                    // Name field
+                    TextFormField(
+                      controller: _nameController,
+                      decoration: InputDecoration(
+                        labelText: 'Full Name',
+                        prefixIcon: const Icon(Icons.person),
+                        border: const OutlineInputBorder(),
+                        enabled: _isEditing,
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your name';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16),
+
+                    // Email field
+                    TextFormField(
+                      controller: _emailController,
+                      decoration: InputDecoration(
+                        labelText: 'Email',
+                        prefixIcon: const Icon(Icons.email),
+                        border: const OutlineInputBorder(),
+                        enabled: _isEditing,
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your email';
+                        }
+                        if (!value.contains('@')) {
+                          return 'Please enter a valid email';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16),
+
+                    // Phone field
+                    TextFormField(
+                      controller: _phoneController,
+                      decoration: InputDecoration(
+                        labelText: 'Phone Number',
+                        prefixIcon: const Icon(Icons.phone),
+                        border: const OutlineInputBorder(),
+                        enabled: _isEditing,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+
+                    // Save button
+                    if (_isEditing)
+                      ElevatedButton.icon(
+                        onPressed: _saveProfile,
+                        icon: const Icon(Icons.save),
+                        label: const Text('Save Changes'),
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(double.infinity, 50),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _phoneController.dispose();
+    super.dispose();
+  }
+}</code></pre>
+            </div>
+
+            <h3>Available User Profile Attributes</h3>
+            <p>
+              The <code>UserProfile</code> object contains the following
+              attributes:
+            </p>
+            <div class="code-block">
+              <pre><code>class UserProfile {
+  final String? username;      // User's unique username
+  final String? name;           // Full name
+  final String? givenName;      // First name
+  final String? familyName;     // Last name
+  final String? email;          // Email address
+  final bool? emailVerified;    // Email verification status
+  final String? phoneNumber;    // Phone number
+  final String? country;        // Country
+  final String? locale;         // Preferred locale
+  final String? sub;            // Subject identifier (unique ID)
+  final List&lt;String&gt;? roles;   // User roles/groups
+  final Map&lt;String, dynamic&gt;? customAttributes; // Custom claims
+}</code></pre>
+            </div>
+
+            <div class="info-box">
+              <strong>Best Practices:</strong>
+              <ul>
+                <li>
+                  Use <code>FutureBuilder</code> to handle async user profile
+                  fetching
+                </li>
+                <li>
+                  Always check for null values when displaying user attributes
+                </li>
+                <li>Show loading indicators while fetching user data</li>
+                <li>Handle errors gracefully with user-friendly messages</li>
+                <li>
+                  Cache user profile data locally to reduce API calls (use
+                  StatefulWidget or state management)
+                </li>
+                <li>
+                  Use <code>UserButton</code> widget for quick access to user
+                  actions
+                </li>
+                <li>
+                  Validate user input before updating profile information
+                </li>
+              </ul>
+            </div>
+
+            <div class="success-box">
+              <strong>✅ What You've Learned:</strong>
+              <p>
+                In this step, you've learned multiple ways to display user
+                information in your Flutter app using the Asgardeo SDK. You can
+                now use the <code>User</code> widget for simple username display,
+                <code>UserButton</code> for dropdown menus, or fetch the full
+                profile programmatically for custom layouts.
+              </p>
+              <p>
+                As the next step, we will learn how to secure routes within the
+                app to protect sensitive screens.
+              </p>
+            </div>
           </section>
 
           <!-- Step 8: Secure Routes -->
@@ -451,35 +1059,143 @@ class ProfilePage extends StatelessWidget {
             <div class="step-header">
               <span class="step-number">8</span>
               <div>
-                <h2>Securing Routes</h2>
-                <span class="step-time">2 mins</span>
+                <h2>Securing Routes Within the App</h2>
+                <span class="step-time">4 mins</span>
               </div>
             </div>
 
-            <p>Protect routes by requiring authentication:</p>
+            <p>
+              Securing routes in Flutter apps is essential to protect sensitive
+              content and ensure only authenticated users can access specific
+              screens. This guide covers conditional rendering, route guards,
+              navigation patterns, and deep link protection for mobile apps.
+            </p>
+
+            <h3>Conditional Rendering with SignedIn/SignedOut</h3>
+            <p>
+              The Asgardeo Flutter SDK provides built-in widgets for
+              conditional rendering based on authentication state. These widgets
+              automatically show or hide content depending on whether a user is
+              signed in.
+            </p>
+
+            <h4>Basic Usage</h4>
+            <div class="code-block">
+              <pre><code>import 'package:flutter/material.dart';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('My App'),
+        actions: [
+          // Show user button only when signed in
+          SignedIn(
+            child: UserButton(),
+          ),
+        ],
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Show welcome message and sign out when authenticated
+            SignedIn(
+              child: Column(
+                children: [
+                  const Icon(Icons.verified_user, size: 64, color: Colors.green),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Welcome! You are signed in.',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  const SizedBox(height: 24),
+                  SignOutButton(),
+                ],
+              ),
+            ),
+            // Show sign in prompt when not authenticated
+            SignedOut(
+              child: Column(
+                children: [
+                  const Icon(Icons.lock_outline, size: 64, color: Colors.grey),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Please sign in to continue',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  const SizedBox(height: 24),
+                  SignInButton(),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}</code></pre>
+            </div>
+
+            <h3>Protected Route Wrapper</h3>
+            <p>
+              Create a reusable <code>ProtectedRoute</code> widget that wraps
+              any screen and enforces authentication:
+            </p>
             <div class="code-block">
               <pre><code>import 'package:flutter/material.dart';
 import 'package:asgardeo_flutter/asgardeo_flutter.dart';
 
 class ProtectedRoute extends StatelessWidget {
   final Widget child;
+  final String? redirectMessage;
   
-  const ProtectedRoute({super.key, required this.child});
+  const ProtectedRoute({
+    super.key,
+    required this.child,
+    this.redirectMessage,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SignedIn(
       fallback: Scaffold(
+        appBar: AppBar(
+          title: const Text('Authentication Required'),
+        ),
         body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.lock, size: 48),
-              const SizedBox(height: 16),
-              const Text('Please sign in to access this page'),
-              const SizedBox(height: 24),
-              SignInButton(),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.lock_outline,
+                  size: 80,
+                  color: Colors.orange,
+                ),
+                const SizedBox(height: 24),
+                Text(
+                  redirectMessage ?? 'Please sign in to access this page',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 32),
+                SignInButton(),
+                const SizedBox(height: 16),
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text('Go Back'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -488,20 +1204,527 @@ class ProtectedRoute extends StatelessWidget {
   }
 }
 
-// Usage
-class ProtectedPage extends StatelessWidget {
+// Usage in any protected screen
+class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ProtectedRoute(
+      redirectMessage: 'Sign in to view your profile',
       child: Scaffold(
-        appBar: AppBar(title: const Text('Protected Page')),
+        appBar: AppBar(title: const Text('My Profile')),
         body: const Center(
-          child: Text('This is a protected page'),
+          child: Text('Protected Profile Content'),
         ),
       ),
     );
   }
 }</code></pre>
+            </div>
+
+            <h3>Route Guards with Navigator 2.0</h3>
+            <p>
+              For more advanced routing control, implement route guards using
+              Flutter's Navigator 2.0 pattern:
+            </p>
+            <div class="code-block">
+              <pre><code>import 'package:flutter/material.dart';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
+
+class AuthRouterDelegate extends RouterDelegate&lt;RouteInformation&gt;
+    with ChangeNotifier, PopNavigatorRouterDelegateMixin&lt;RouteInformation&gt; {
+  
+  @override
+  final GlobalKey&lt;NavigatorState&gt; navigatorKey;
+  
+  final AsgardeoAuth auth;
+  String? _currentPath;
+
+  AuthRouterDelegate(this.auth) : navigatorKey = GlobalKey&lt;NavigatorState&gt;() {
+    // Listen to auth state changes
+    auth.addListener(_handleAuthStateChange);
+  }
+
+  void _handleAuthStateChange() {
+    notifyListeners();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Navigator(
+      key: navigatorKey,
+      pages: [
+        // Public routes
+        MaterialPage(
+          key: const ValueKey('home'),
+          child: HomePage(),
+        ),
+        
+        // Protected routes - only show if authenticated
+        if (auth.isAuthenticated && _currentPath == '/profile')
+          MaterialPage(
+            key: const ValueKey('profile'),
+            child: ProfilePage(),
+          ),
+        
+        if (auth.isAuthenticated && _currentPath == '/settings')
+          MaterialPage(
+            key: const ValueKey('settings'),
+            child: SettingsPage(),
+          ),
+        
+        // Redirect to login if not authenticated
+        if (!auth.isAuthenticated && _isProtectedRoute(_currentPath))
+          MaterialPage(
+            key: const ValueKey('login'),
+            child: LoginPage(),
+          ),
+      ],
+      onPopPage: (route, result) {
+        if (!route.didPop(result)) {
+          return false;
+        }
+        _currentPath = '/';
+        notifyListeners();
+        return true;
+      },
+    );
+  }
+
+  bool _isProtectedRoute(String? path) {
+    const protectedRoutes = ['/profile', '/settings', '/dashboard'];
+    return protectedRoutes.contains(path);
+  }
+
+  @override
+  Future&lt;void&gt; setNewRoutePath(RouteInformation configuration) async {
+    _currentPath = configuration.location;
+    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    auth.removeListener(_handleAuthStateChange);
+    super.dispose();
+  }
+}</code></pre>
+            </div>
+
+            <h3>Named Routes with Authentication Guards</h3>
+            <p>
+              Implement route guards with named routes for simpler navigation:
+            </p>
+            <div class="code-block">
+              <pre><code>import 'package:flutter/material.dart';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
+
+class AppRoutes {
+  static const String home = '/';
+  static const String profile = '/profile';
+  static const String settings = '/settings';
+  static const String dashboard = '/dashboard';
+  
+  static final Set&lt;String&gt; protectedRoutes = {
+    profile,
+    settings,
+    dashboard,
+  };
+
+  static Route&lt;dynamic&gt; generateRoute(
+    RouteSettings settings,
+    BuildContext context,
+  ) {
+    final auth = AsgardeoProvider.of(context);
+    final routeName = settings.name;
+
+    // Check if route requires authentication
+    if (protectedRoutes.contains(routeName)) {
+      // Redirect to login if not authenticated
+      if (!auth.isAuthenticated) {
+        return MaterialPageRoute(
+          builder: (_) => LoginRequiredPage(
+            intendedRoute: routeName,
+          ),
+        );
+      }
+    }
+
+    // Route to appropriate screen
+    switch (routeName) {
+      case home:
+        return MaterialPageRoute(builder: (_) => HomePage());
+      case profile:
+        return MaterialPageRoute(builder: (_) => ProfilePage());
+      case settings:
+        return MaterialPageRoute(builder: (_) => SettingsPage());
+      case dashboard:
+        return MaterialPageRoute(builder: (_) => DashboardPage());
+      default:
+        return MaterialPageRoute(
+          builder: (_) => Scaffold(
+            body: Center(child: Text('Page not found: $routeName')),
+          ),
+        );
+    }
+  }
+}
+
+// Usage in MaterialApp
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Secure App',
+      initialRoute: AppRoutes.home,
+      onGenerateRoute: (settings) => AppRoutes.generateRoute(settings, context),
+    );
+  }
+}</code></pre>
+            </div>
+
+            <h3>Handling Deep Links with Authentication</h3>
+            <p>
+              Protect deep links by checking authentication before navigation:
+            </p>
+            <div class="code-block">
+              <pre><code>import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:uni_links/uni_links.dart';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
+
+class DeepLinkHandler {
+  final BuildContext context;
+  StreamSubscription? _sub;
+
+  DeepLinkHandler(this.context);
+
+  void initialize() {
+    _sub = uriLinkStream.listen((Uri? uri) async {
+      if (uri != null) {
+        await _handleDeepLink(uri);
+      }
+    }, onError: (err) {
+      debugPrint('Deep link error: $err');
+    });
+  }
+
+  Future&lt;void&gt; _handleDeepLink(Uri uri) async {
+    final auth = AsgardeoProvider.of(context);
+    final path = uri.path;
+    
+    // Handle OAuth callback
+    if (path.contains('callback')) {
+      await auth.handleRedirect(uri);
+      return;
+    }
+
+    // Check if deep link route requires authentication
+    final protectedRoutes = ['/profile', '/settings', '/dashboard'];
+    final requiresAuth = protectedRoutes.any((route) => path.contains(route));
+
+    if (requiresAuth) {
+      // Check authentication state
+      if (await auth.isAuthenticated) {
+        // Navigate to the protected route
+        if (context.mounted) {
+          Navigator.of(context).pushNamed(path);
+        }
+      } else {
+        // Store intended destination and redirect to login
+        await _storeIntendedRoute(path);
+        if (context.mounted) {
+          Navigator.of(context).pushReplacementNamed('/login');
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Please sign in to access this page'),
+            ),
+          );
+        }
+      }
+    } else {
+      // Navigate to public route
+      if (context.mounted) {
+        Navigator.of(context).pushNamed(path);
+      }
+    }
+  }
+
+  Future&lt;void&gt; _storeIntendedRoute(String route) async {
+    // Store in secure storage or shared preferences
+    // After successful login, redirect to this route
+  }
+
+  void dispose() {
+    _sub?.cancel();
+  }
+}</code></pre>
+            </div>
+
+            <h3>State-Based Navigation</h3>
+            <p>
+              Navigate based on authentication state changes automatically:
+            </p>
+            <div class="code-block">
+              <pre><code>import 'package:flutter/material.dart';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
+
+class AuthStateNavigator extends StatefulWidget {
+  const AuthStateNavigator({super.key});
+
+  @override
+  State&lt;AuthStateNavigator&gt; createState() => _AuthStateNavigatorState();
+}
+
+class _AuthStateNavigatorState extends State&lt;AuthStateNavigator&gt; {
+  @override
+  void initState() {
+    super.initState();
+    _checkInitialAuth();
+  }
+
+  Future&lt;void&gt; _checkInitialAuth() async {
+    final auth = AsgardeoProvider.of(context);
+    
+    // Listen to auth state changes
+    auth.addListener(() {
+      if (mounted) {
+        _handleAuthChange();
+      }
+    });
+  }
+
+  void _handleAuthChange() {
+    final auth = AsgardeoProvider.of(context);
+    
+    if (auth.isAuthenticated) {
+      // User just signed in - navigate to home
+      Navigator.of(context).pushReplacementNamed('/home');
+    } else {
+      // User signed out - navigate to landing page
+      Navigator.of(context).pushReplacementNamed('/');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final auth = AsgardeoProvider.of(context);
+    
+    // Show appropriate screen based on auth state
+    if (auth.isLoading) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+    
+    return auth.isAuthenticated ? HomePage() : LandingPage();
+  }
+}</code></pre>
+            </div>
+
+            <h3>Role-Based Access Control (RBAC)</h3>
+            <p>
+              Implement role-based routing for fine-grained access control:
+            </p>
+            <div class="code-block">
+              <pre><code>import 'package:flutter/material.dart';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
+
+class RoleBasedRoute extends StatelessWidget {
+  final Widget child;
+  final List&lt;String&gt; requiredRoles;
+  final String? deniedMessage;
+
+  const RoleBasedRoute({
+    super.key,
+    required this.child,
+    required this.requiredRoles,
+    this.deniedMessage,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final auth = AsgardeoProvider.of(context);
+
+    return FutureBuilder&lt;UserProfile&gt;(
+      future: auth.getUserProfile(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
+
+        final user = snapshot.data!;
+        final userRoles = user.roles ?? [];
+        final hasAccess = requiredRoles.any((role) => userRoles.contains(role));
+
+        if (!hasAccess) {
+          return Scaffold(
+            appBar: AppBar(title: const Text('Access Denied')),
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.block, size: 64, color: Colors.red),
+                  const SizedBox(height: 16),
+                  Text(
+                    deniedMessage ?? 'You do not have permission to access this page',
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 24),
+                  ElevatedButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text('Go Back'),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+
+        return child;
+      },
+    );
+  }
+}
+
+// Usage
+class AdminPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return RoleBasedRoute(
+      requiredRoles: ['admin', 'super_admin'],
+      deniedMessage: 'Admin access required',
+      child: Scaffold(
+        appBar: AppBar(title: const Text('Admin Panel')),
+        body: const Center(child: Text('Admin Content')),
+      ),
+    );
+  }
+}</code></pre>
+            </div>
+
+            <h3>Best Practices for Mobile Route Security</h3>
+            <div class="info-box">
+              <strong>Security Best Practices:</strong>
+              <ul>
+                <li>
+                  <strong>✅ Always validate authentication state</strong> on
+                  route navigation, not just UI rendering
+                </li>
+                <li>
+                  <strong>✅ Implement route guards</strong> for all protected
+                  screens, including deep links
+                </li>
+                <li>
+                  <strong>✅ Handle authentication state changes</strong> with
+                  automatic navigation
+                </li>
+                <li>
+                  <strong>✅ Use fallback screens</strong> with clear messaging
+                  for unauthenticated users
+                </li>
+                <li>
+                  <strong>✅ Clear navigation stack</strong> on sign out to
+                  prevent back-button access
+                </li>
+                <li>
+                  <strong>✅ Store intended routes</strong> and redirect after
+                  successful login
+                </li>
+                <li>
+                  <strong>✅ Validate tokens</strong> before showing sensitive
+                  content, even on protected routes
+                </li>
+                <li>
+                  <strong>❌ Don't rely solely on UI hiding</strong> - always
+                  enforce security at the route level
+                </li>
+                <li>
+                  <strong>❌ Don't cache sensitive screens</strong> in the
+                  navigation stack after logout
+                </li>
+                <li>
+                  <strong>❌ Don't forget deep link security</strong> - they
+                  bypass normal navigation
+                </li>
+              </ul>
+            </div>
+
+            <h3>Complete Navigation Example</h3>
+            <p>
+              Here's a complete example combining all concepts:
+            </p>
+            <div class="code-block">
+              <pre><code>import 'package:flutter/material.dart';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
+
+void main() {
+  runApp(
+    AsgardeoProvider(
+      config: AsgardeoConfig(
+        baseUrl: 'https://api.asgardeo.io/t/&lt;org&gt;',
+        clientId: '&lt;client-id&gt;',
+        afterSignInUrl: 'myapp://callback',
+        afterSignOutUrl: 'myapp://callback',
+        scopes: ['openid', 'profile', 'email'],
+      ),
+      child: const MyApp(),
+    ),
+  );
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Secure Flutter App',
+      initialRoute: '/',
+      onGenerateRoute: (settings) {
+        final auth = AsgardeoProvider.of(context);
+        
+        // Define protected routes
+        final protectedRoutes = {'/profile', '/settings', '/dashboard'};
+        final requiresAuth = protectedRoutes.contains(settings.name);
+
+        // Guard protected routes
+        if (requiresAuth && !auth.isAuthenticated) {
+          return MaterialPageRoute(
+            builder: (_) => LoginRequiredPage(
+              intendedRoute: settings.name,
+            ),
+          );
+        }
+
+        // Route to screens
+        switch (settings.name) {
+          case '/':
+            return MaterialPageRoute(builder: (_) => HomePage());
+          case '/profile':
+            return MaterialPageRoute(builder: (_) => ProfilePage());
+          case '/settings':
+            return MaterialPageRoute(builder: (_) => SettingsPage());
+          default:
+            return MaterialPageRoute(builder: (_) => NotFoundPage());
+        }
+      },
+    );
+  }
+}</code></pre>
+            </div>
+
+            <div class="success-box">
+              <strong>💡 Pro Tip:</strong> For production apps, combine route
+              guards with server-side validation. Never trust client-side
+              routing alone - always validate authentication and authorization
+              on your backend API for every protected resource.
             </div>
           </section>
 
@@ -558,50 +1781,460 @@ Future&lt;Map&lt;String, dynamic&gt;&gt; fetchProtectedData(BuildContext context
             <div class="step-header">
               <span class="step-number">10</span>
               <div>
-                <h2>Manage Tokens in Flutter</h2>
-                <span class="step-time">2 mins</span>
+                <h2>Manage Tokens in Flutter Apps</h2>
+                <span class="step-time">5 mins</span>
               </div>
             </div>
 
-            <h3>Understanding Token Lifecycle</h3>
+            <p>
+              Proper token management is critical for maintaining security and
+              user experience in mobile applications. This guide covers token
+              validation, secure storage, lifecycle management, and best
+              practices specific to Flutter mobile apps.
+            </p>
+
+            <h3>Token Validation</h3>
+            <p>
+              A key principle of security tokens is that the receiver must first
+              validate the token. This involves checking the authenticity of the
+              token issuer, ensuring the token meets validity criteria such as
+              expiration time, and confirming that the receiver is authorized to
+              use the token.
+            </p>
+
+            <p>
+              The Asgardeo Flutter SDK handles token validation automatically as
+              part of its authentication and session management process. When a
+              user signs in, the SDK acquires:
+            </p>
+
             <ul>
               <li>
-                <strong>Access Token:</strong> Short-lived (typically 1 hour),
-                used for API calls
+                <strong>Access Token:</strong> By default an opaque token, used
+                for API authorization (typically 1 hour validity)
               </li>
               <li>
-                <strong>Refresh Token:</strong> Long-lived token used to obtain
+                <strong>ID Token:</strong> A JWT containing user information and
+                claims
+              </li>
+              <li>
+                <strong>Refresh Token:</strong> Long-lived token for obtaining
                 new access tokens
-              </li>
-              <li>
-                <strong>ID Token:</strong> Contains user information and claims
               </li>
             </ul>
 
-            <h3>Token Best Practices</h3>
-            <div class="code-block">
-              <pre><code>// Always get fresh access token before API calls
-final token = await auth.getAccessToken();
+            <p>The SDK automatically validates tokens by checking:</p>
+            <ul>
+              <li>
+                <strong>Signature Validation:</strong> Verifies the JWT's
+                signature using the public key from Asgardeo's JWKS endpoint
+              </li>
+              <li>
+                <strong>Expiration Check:</strong> Validates the
+                <code>exp</code> claim to ensure tokens haven't expired
+              </li>
+              <li>
+                <strong>Issuer Validation:</strong> Confirms the
+                <code>iss</code> claim matches your Asgardeo organization
+              </li>
+              <li>
+                <strong>Audience Validation:</strong> Ensures the
+                <code>aud</code> claim matches your client ID
+              </li>
+            </ul>
 
-// The SDK automatically handles token refresh
-// No need to manually manage refresh tokens</code></pre>
+            <h3>Token Persistence with Secure Storage</h3>
+            <p>
+              On mobile devices, token security is paramount. Unlike web apps
+              that use browser storage, mobile apps must use
+              <strong>native secure storage</strong> mechanisms to protect
+              sensitive authentication data.
+            </p>
+
+            <h4>Installing Flutter Secure Storage</h4>
+            <p>
+              Add <code>flutter_secure_storage</code> to your
+              <code>pubspec.yaml</code>:
+            </p>
+            <div class="code-block">
+              <pre><code>dependencies:
+  flutter_secure_storage: ^9.0.0</code></pre>
             </div>
 
+            <h4>Platform-Specific Secure Storage</h4>
+            <p>
+              <code>flutter_secure_storage</code> uses native platform APIs to
+              securely store tokens:
+            </p>
+
+            <ul>
+              <li>
+                <strong>iOS:</strong> Uses the
+                <strong>Keychain Services</strong> - Apple's secure storage
+                system that encrypts data and requires device authentication for
+                access
+              </li>
+              <li>
+                <strong>Android:</strong> Uses the
+                <strong>Android Keystore</strong> system, which stores
+                cryptographic keys in a hardware-backed container (on supported
+                devices) or software keystore
+              </li>
+            </ul>
+
+            <h4>iOS Configuration</h4>
+            <p>
+              For iOS, add KeychainAccess to your
+              <code>ios/Runner/Info.plist</code>:
+            </p>
+            <div class="code-block">
+              <pre><code>&lt;key&gt;KeychainAccessGroups&lt;/key&gt;
+&lt;array&gt;
+  &lt;string&gt;$(AppIdentifierPrefix)com.yourcompany.yourapp&lt;/string&gt;
+&lt;/array&gt;</code></pre>
+            </div>
+
+            <h4>Android Configuration</h4>
+            <p>
+              Set minimum SDK version to 18 in
+              <code>android/app/build.gradle</code>:
+            </p>
+            <div class="code-block">
+              <pre><code>android {
+    defaultConfig {
+        minSdkVersion 18  // Required for secure storage
+    }
+}</code></pre>
+            </div>
+
+            <h4>Implementing Secure Token Storage</h4>
+            <p>Create a service to manage secure token storage:</p>
+            <div class="code-block">
+              <pre><code>import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+class SecureTokenStorage {
+  final _storage = const FlutterSecureStorage(
+    aOptions: AndroidOptions(
+      encryptedSharedPreferences: true,
+      // Use hardware-backed encryption on supported devices
+      resetOnError: true,
+    ),
+    iOptions: IOSOptions(
+      accessibility: KeychainAccessibility.first_unlock,
+      // Require biometric authentication for access
+      accountName: 'com.yourcompany.yourapp',
+    ),
+  );
+
+  // Store access token
+  Future&lt;void&gt; saveAccessToken(String token) async {
+    await _storage.write(
+      key: 'access_token',
+      value: token,
+    );
+  }
+
+  // Retrieve access token
+  Future&lt;String?&gt; getAccessToken() async {
+    return await _storage.read(key: 'access_token');
+  }
+
+  // Store refresh token
+  Future&lt;void&gt; saveRefreshToken(String token) async {
+    await _storage.write(
+      key: 'refresh_token',
+      value: token,
+    );
+  }
+
+  // Retrieve refresh token
+  Future&lt;String?&gt; getRefreshToken() async {
+    return await _storage.read(key: 'refresh_token');
+  }
+
+  // Store ID token
+  Future&lt;void&gt; saveIdToken(String token) async {
+    await _storage.write(
+      key: 'id_token',
+      value: token,
+    );
+  }
+
+  // Clear all tokens on logout
+  Future&lt;void&gt; clearAllTokens() async {
+    await _storage.delete(key: 'access_token');
+    await _storage.delete(key: 'refresh_token');
+    await _storage.delete(key: 'id_token');
+  }
+
+  // Check if tokens exist
+  Future&lt;bool&gt; hasTokens() async {
+    final accessToken = await _storage.read(key: 'access_token');
+    return accessToken != null;
+  }
+}</code></pre>
+            </div>
+
+            <h3>Token Lifecycle Management</h3>
+            <p>
+              Proper token lifecycle management ensures users stay authenticated
+              and your app handles token expiration gracefully.
+            </p>
+
+            <h4>Automatic Token Refresh</h4>
+            <p>
+              The Asgardeo SDK automatically handles token refresh. When the
+              access token is about to expire, the SDK uses the refresh token to
+              obtain a new access token without user intervention:
+            </p>
+            <div class="code-block">
+              <pre><code>import 'package:flutter/material.dart';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
+
+class ApiService {
+  final BuildContext context;
+  
+  ApiService(this.context);
+
+  Future&lt;String&gt; getValidAccessToken() async {
+    final auth = AsgardeoProvider.of(context);
+    
+    // SDK automatically refreshes if token is expired
+    final token = await auth.getAccessToken();
+    
+    if (token == null) {
+      throw Exception('No valid access token available');
+    }
+    
+    return token;
+  }
+
+  Future&lt;void&gt; makeAuthenticatedRequest() async {
+    try {
+      final token = await getValidAccessToken();
+      
+      // Use token in API call
+      final response = await http.get(
+        Uri.parse('https://api.example.com/data'),
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
+      
+      // Handle response
+    } catch (e) {
+      // Handle token refresh failure
+      print('Authentication error: $e');
+    }
+  }
+}</code></pre>
+            </div>
+
+            <h4>Handling Token Expiration</h4>
+            <p>
+              Always handle 401 responses which indicate expired or invalid
+              tokens:
+            </p>
+            <div class="code-block">
+              <pre><code>import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
+
+Future&lt;void&gt; makeApiCall(BuildContext context) async {
+  final auth = AsgardeoProvider.of(context);
+  final token = await auth.getAccessToken();
+
+  final response = await http.get(
+    Uri.parse('https://api.example.com/protected'),
+    headers: {'Authorization': 'Bearer $token'},
+  );
+
+  if (response.statusCode == 401) {
+    // Token expired and couldn't be refreshed
+    // Clear local session and redirect to login
+    await auth.signOut();
+    
+    if (context.mounted) {
+      Navigator.of(context).pushReplacementNamed('/login');
+      
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Session expired. Please sign in again.'),
+        ),
+      );
+    }
+  } else if (response.statusCode == 200) {
+    // Process successful response
+  }
+}</code></pre>
+            </div>
+
+            <h3>Initiate Logout</h3>
+            <p>
+              When a user logs out, the SDK ensures both the local session and
+              the session on Asgardeo are terminated:
+            </p>
+
+            <ol>
+              <li>
+                <strong>Local Session Termination:</strong> The SDK clears
+                locally stored tokens and credentials
+              </li>
+              <li>
+                <strong>Secure Storage Cleanup:</strong> All tokens are removed
+                from iOS Keychain / Android Keystore
+              </li>
+              <li>
+                <strong>Remote Sign Out:</strong> User is signed out from
+                Asgardeo globally (important for SSO scenarios)
+              </li>
+              <li>
+                <strong>Redirect:</strong> User is redirected to the configured
+                post-logout URL
+              </li>
+            </ol>
+
+            <div class="code-block">
+              <pre><code>import 'package:flutter/material.dart';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
+
+class LogoutButton extends StatelessWidget {
+  const LogoutButton({super.key});
+
+  Future&lt;void&gt; _handleLogout(BuildContext context) async {
+    final auth = AsgardeoProvider.of(context);
+    
+    try {
+      // Show loading indicator
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+
+      // Sign out (clears tokens and signs out from Asgardeo)
+      await auth.signOut();
+      
+      // Clear secure storage
+      final secureStorage = SecureTokenStorage();
+      await secureStorage.clearAllTokens();
+
+      if (context.mounted) {
+        Navigator.of(context).pop(); // Close loading dialog
+        Navigator.of(context).pushReplacementNamed('/login');
+      }
+    } catch (e) {
+      if (context.mounted) {
+        Navigator.of(context).pop();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Logout failed: $e')),
+        );
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () => _handleLogout(context),
+      child: const Text('Sign Out'),
+    );
+  }
+}</code></pre>
+            </div>
+
+            <h3>Security Best Practices for Mobile Apps</h3>
             <div class="info-box">
-              <strong>Security Tips:</strong>
+              <strong>Critical Security Guidelines:</strong>
               <ul>
                 <li>
-                  Always call <code>getAccessToken()</code> before making API
-                  requests
+                  <strong>✅ DO:</strong> Always use
+                  <code>flutter_secure_storage</code> for tokens
                 </li>
-                <li>Never cache tokens manually in your app</li>
                 <li>
-                  Use <code>flutter_secure_storage</code> for sensitive data in
-                  production
+                  <strong>✅ DO:</strong> Call <code>getAccessToken()</code>
+                  before every API request
                 </li>
-                <li>Handle 401 responses by signing out the user</li>
-                <li>Don't store tokens in SharedPreferences</li>
+                <li>
+                  <strong>✅ DO:</strong> Handle 401 responses by signing out
+                  the user
+                </li>
+                <li>
+                  <strong>✅ DO:</strong> Enable biometric authentication for
+                  sensitive operations
+                </li>
+                <li>
+                  <strong>✅ DO:</strong> Clear all tokens on logout
+                </li>
+                <li>
+                  <strong>❌ DON'T:</strong> Store tokens in SharedPreferences
+                  or plain text
+                </li>
+                <li>
+                  <strong>❌ DON'T:</strong> Cache tokens in memory longer than
+                  necessary
+                </li>
+                <li>
+                  <strong>❌ DON'T:</strong> Log tokens in debug output
+                </li>
+                <li>
+                  <strong>❌ DON'T:</strong> Share tokens between apps
+                </li>
+                <li>
+                  <strong>❌ DON'T:</strong> Transmit tokens over insecure
+                  connections
+                </li>
               </ul>
+            </div>
+
+            <h3>Advanced: Token Refresh with Biometric Authentication</h3>
+            <p>
+              For enhanced security, require biometric authentication before
+              refreshing tokens:
+            </p>
+            <div class="code-block">
+              <pre><code>import 'package:local_auth/local_auth.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+class BiometricTokenManager {
+  final LocalAuthentication _localAuth = LocalAuthentication();
+  final _storage = const FlutterSecureStorage();
+
+  Future&lt;bool&gt; canUseBiometrics() async {
+    final canCheck = await _localAuth.canCheckBiometrics;
+    final isDeviceSupported = await _localAuth.isDeviceSupported();
+    return canCheck && isDeviceSupported;
+  }
+
+  Future&lt;String?&gt; getTokenWithBiometrics() async {
+    try {
+      final authenticated = await _localAuth.authenticate(
+        localizedReason: 'Authenticate to access your account',
+        options: const AuthenticationOptions(
+          biometricOnly: true,
+          stickyAuth: true,
+        ),
+      );
+
+      if (authenticated) {
+        return await _storage.read(key: 'access_token');
+      }
+      return null;
+    } catch (e) {
+      print('Biometric authentication failed: $e');
+      return null;
+    }
+  }
+}</code></pre>
+            </div>
+
+            <div class="success-box">
+              <strong>💡 Pro Tip:</strong> In production, combine secure storage
+              with additional app-level security measures like SSL pinning,
+              certificate validation, and runtime integrity checks to prevent
+              token theft and tampering.
             </div>
           </section>
 
