@@ -1,79 +1,156 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Asgardeo Flutter SDK - Documentation</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <nav class="navbar">
-        <div class="container">
-            <div class="nav-brand">
-                <img src="https://wso2.cachefly.net/wso2/sites/images/brand/downloads/wso2-logo.png" alt="WSO2" class="logo">
-                <span class="sdk-title">Asgardeo Flutter SDK</span>
-            </div>
-            <ul class="nav-menu">
-                <li><a href="index.html" class="active">Home</a></li>
-                <li><a href="quickstart.html">Quick Start</a></li>
-                <li><a href="components.html">Components</a></li>
-                <li><a href="api.html">API Reference</a></li>
-                <li><a href="examples.html">Examples</a></li>
-            </ul>
+      <div class="container">
+        <div class="nav-brand">
+          <img
+            src="https://wso2.cachefly.net/wso2/sites/images/brand/downloads/wso2-logo.png"
+            alt="WSO2"
+            class="logo"
+          />
+          <span class="sdk-title">ASGARDEO® Docs</span>
         </div>
+        <ul class="nav-menu">
+          <li><a href="#" class="nav-icon">☀️</a></li>
+          <li><a href="#" class="nav-icon">🔍</a></li>
+          <li><a href="#" class="btn-help">💬 Get Help</a></li>
+          <li>
+            <a href="https://console.asgardeo.io" class="btn-try"
+              >✨ Try Asgardeo</a
+            >
+          </li>
+        </ul>
+      </div>
     </nav>
 
-    <main class="container">
-        <section class="hero">
-            <h1>Asgardeo Flutter SDK</h1>
-            <p class="subtitle">Integrate secure authentication into your Flutter applications with ease</p>
-            <div class="hero-actions">
-                <a href="quickstart.html" class="btn btn-primary">Get Started</a>
-                <a href="https://github.com/yourusername/asgardeo-flutter" class="btn btn-secondary">View on GitHub</a>
-            </div>
-        </section>
+    <main class="doc-container">
+      <aside class="main-sidebar">
+        <nav>
+          <div class="sidebar-section">
+            <a href="#home" class="sidebar-link">🏠 Home</a>
+            <a href="#get-started" class="sidebar-link">🚀 Get started</a>
+          </div>
 
-        <section class="features">
+          <div class="sidebar-section">
+            <div class="sidebar-heading" onclick="toggleSubmenu(this)">
+              <span class="framework-icon">📱</span>
+              <span>Flutter</span>
+            </div>
+            <div class="sidebar-submenu active">
+              <a href="#quickstart" class="sidebar-sublink">Quickstart</a>
+              <a href="#complete-guide" class="sidebar-sublink"
+                >Complete Guide</a
+              >
+            </div>
+          </div>
+
+          <div class="sidebar-section">
+            <div class="sidebar-link disabled">
+              <span class="framework-icon">⚛️</span>
+              <span>React</span>
+            </div>
+            <div class="sidebar-link disabled">
+              <span class="framework-icon">🅰️</span>
+              <span>Angular</span>
+            </div>
+            <div class="sidebar-link disabled">
+              <span class="framework-icon">📜</span>
+              <span>Javascript</span>
+            </div>
+            <div class="sidebar-link disabled">
+              <span class="framework-icon">▲</span>
+              <span>Next.js</span>
+            </div>
+          </div>
+
+          <div class="sidebar-section">
+            <a href="#components" class="sidebar-link">📦 Components</a>
+            <a href="#api" class="sidebar-link">📖 API Reference</a>
+            <a href="#examples" class="sidebar-link">💡 Examples</a>
+          </div>
+        </nav>
+      </aside>
+
+      <section class="main-content">
+        <!-- HOME SECTION -->
+        <div id="home" class="section-content">
+          <div class="content-header">
+            <h1>Flutter SDK</h1>
+            <p class="subtitle">
+              Integrate secure authentication into your Flutter applications
+              with ease
+            </p>
+          </div>
+
+          <section class="features">
             <h2>Features</h2>
             <div class="feature-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">🔐</div>
-                    <h3>Secure Authentication</h3>
-                    <p>Implement OpenID Connect (OIDC) authentication with Authorization Code + PKCE flow for maximum security.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎨</div>
-                    <h3>Pre-built Widgets</h3>
-                    <p>Use ready-to-go components like SignInButton, SignedIn, SignedOut, and UserButton to speed up development.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🏢</div>
-                    <h3>Organization Switching</h3>
-                    <p>Seamlessly switch between organizations with built-in support for multi-tenancy.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📱</div>
-                    <h3>Cross-Platform</h3>
-                    <p>Works on iOS, Android, and Web with platform-specific optimizations.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🔄</div>
-                    <h3>SSO Support</h3>
-                    <p>Single Sign-On using ASWebAuthenticationSession (iOS) and Custom Tabs (Android).</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h3>Developer Friendly</h3>
-                    <p>Simple API with Flutter's reactive programming model using Provider pattern.</p>
-                </div>
+              <div class="feature-card">
+                <div class="feature-icon">🔐</div>
+                <h3>Secure Authentication</h3>
+                <p>
+                  Implement OpenID Connect (OIDC) authentication with
+                  Authorization Code + PKCE flow for maximum security.
+                </p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <h3>Pre-built Widgets</h3>
+                <p>
+                  Use ready-to-go components like SignInButton, SignedIn,
+                  SignedOut, and UserButton to speed up development.
+                </p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">🏢</div>
+                <h3>Organization Switching</h3>
+                <p>
+                  Seamlessly switch between organizations with built-in support
+                  for multi-tenancy.
+                </p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Cross-Platform</h3>
+                <p>
+                  Works on iOS, Android, and Web with platform-specific
+                  optimizations.
+                </p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h3>SSO Support</h3>
+                <p>
+                  Single Sign-On using ASWebAuthenticationSession (iOS) and
+                  Custom Tabs (Android).
+                </p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Developer Friendly</h3>
+                <p>
+                  Simple API with Flutter's reactive programming model using
+                  Provider pattern.
+                </p>
+              </div>
             </div>
-        </section>
+          </section>
 
-        <section class="getting-started">
+          <section class="getting-started">
             <h2>Quick Example</h2>
             <div class="code-example">
-                <pre><code>import 'package:flutter/material.dart';
+              <pre><code>import 'package:flutter/material.dart';
 import 'package:asgardeo_flutter/asgardeo_flutter.dart';
 
 void main() {
@@ -121,91 +198,1077 @@ class MyApp extends StatelessWidget {
   }
 }</code></pre>
             </div>
-        </section>
+          </section>
 
-        <section class="prerequisites">
-            <h2>Prerequisites</h2>
-            <ul class="checklist">
-                <li>
-                    <span class="check">✓</span>
-                    <div>
-                        <strong>Asgardeo Account</strong>
-                        <p>Create a free account at <a href="https://asgardeo.io" target="_blank">asgardeo.io</a></p>
-                    </div>
-                </li>
-                <li>
-                    <span class="check">✓</span>
-                    <div>
-                        <strong>Flutter 3.22+</strong>
-                        <p>Install the latest Flutter SDK with Dart 3+</p>
-                    </div>
-                </li>
-                <li>
-                    <span class="check">✓</span>
-                    <div>
-                        <strong>Asgardeo Application</strong>
-                        <p>Register your application in the Asgardeo console (Mobile/SPA type)</p>
-                    </div>
-                </li>
-            </ul>
-        </section>
-
-        <section class="installation">
+          <section class="installation">
             <h2>Installation</h2>
             <p>Add the SDK to your <code>pubspec.yaml</code>:</p>
             <div class="code-block">
-                <pre><code>dependencies:
+              <pre><code>dependencies:
   asgardeo_flutter: ^0.1.0
   uni_links: ^0.5.1
   flutter_web_auth_2: ^4.0.3</code></pre>
             </div>
             <p>Then run:</p>
             <div class="code-block">
-                <pre><code>flutter pub get</code></pre>
+              <pre><code>flutter pub get</code></pre>
             </div>
-        </section>
+          </section>
+        </div>
 
-        <section class="next-steps">
-            <h2>Next Steps</h2>
-            <div class="steps-grid">
-                <a href="quickstart.html" class="step-card">
-                    <h3>📚 Quick Start Guide</h3>
-                    <p>Follow our step-by-step guide to integrate authentication in minutes</p>
-                </a>
-                <a href="components.html" class="step-card">
-                    <h3>🧩 Explore Components</h3>
-                    <p>Learn about all available widgets and how to use them</p>
-                </a>
-                <a href="api.html" class="step-card">
-                    <h3>📖 API Reference</h3>
-                    <p>Dive deep into the SDK's API documentation</p>
-                </a>
-                <a href="examples.html" class="step-card">
-                    <h3>💡 View Examples</h3>
-                    <p>Check out complete example applications and use cases</p>
-                </a>
+        <!-- QUICKSTART SECTION -->
+        <div id="quickstart" class="section-content">
+          <div class="content-header">
+            <h1>Flutter Quickstart</h1>
+            <p class="subtitle">
+              Get up and running with Asgardeo authentication in your Flutter
+              app in under 10 minutes.
+            </p>
+
+            <div class="intro-box">
+              <p>
+                Welcome to the Flutter Quickstart guide! In this document, you
+                will learn to build a Flutter app, add user sign-in and display
+                user profile information using Asgardeo.
+              </p>
             </div>
-        </section>
+          </div>
 
-        <section class="why-oidc">
-            <h2>Why Browser-Based Auth?</h2>
+          <div class="two-column-intro">
+            <div class="intro-section">
+              <h3>What You Will Learn</h3>
+              <ul class="checkmark-list">
+                <li>Create new Flutter app using recommended tools</li>
+                <li>Install <code>asgardeo_flutter</code> package</li>
+                <li>Add user sign-in and sign-out</li>
+                <li>Display user profile information</li>
+              </ul>
+            </div>
+            <div class="intro-section">
+              <h3>Prerequisites</h3>
+              <p>Before you start, ensure you have the following:</p>
+              <ul class="checkmark-list">
+                <li>About 10 minutes</li>
+                <li>Asgardeo account</li>
+                <li>Install Flutter 3.22+ on your system</li>
+                <li>A favorite text editor or IDE</li>
+              </ul>
+            </div>
+          </div>
+
+          <section id="prerequisites">
+            <h2>Step 1: Configure Asgardeo Application</h2>
+
+            <h3>1.1 Create an Application</h3>
+            <ol>
+              <li>
+                Log in to your
+                <a href="https://console.asgardeo.io" target="_blank"
+                  >Asgardeo Console</a
+                >
+              </li>
+              <li>
+                Navigate to <strong>Applications</strong> →
+                <strong>New Application</strong>
+              </li>
+              <li>Select <strong>Mobile Application</strong></li>
+              <li>Enter a name (e.g., "My Flutter App")</li>
+            </ol>
+
+            <h3>1.2 Configure OAuth Settings</h3>
+            <p>In your application settings, configure:</p>
+            <ul>
+              <li>
+                <strong>Authorized redirect URLs:</strong>
+                <code>myapp://callback</code>
+              </li>
+              <li><strong>Allowed grant types:</strong> Authorization Code</li>
+              <li>
+                <strong>Public client:</strong> Enable (mobile apps don't use
+                client secrets)
+              </li>
+            </ul>
+
             <div class="info-box">
-                <p><strong>Security & Standards:</strong> The Asgardeo Flutter SDK uses the industry-standard OpenID Connect (OIDC) Authorization Code flow with PKCE, which is the recommended approach for mobile applications.</p>
-                <ul>
-                    <li><strong>Enhanced Security:</strong> Your app never handles user passwords directly</li>
-                    <li><strong>MFA Support:</strong> Multi-factor authentication works out of the box</li>
-                    <li><strong>SSO Enabled:</strong> Seamless single sign-on experience across apps</li>
-                    <li><strong>Federation Support:</strong> Social logins and enterprise identity providers</li>
-                    <li><strong>WebAuthn Ready:</strong> Support for passkeys and biometric authentication</li>
-                </ul>
+              <strong>Note:</strong> Replace <code>myapp</code> with your app's
+              custom URL scheme. Make sure it's unique and matches your bundle
+              identifier pattern.
             </div>
-        </section>
+          </section>
+
+          <section id="installation">
+            <h2>Step 2: Installation</h2>
+            <p>Add dependencies to your <code>pubspec.yaml</code>:</p>
+            <div class="code-block">
+              <pre><code>dependencies:
+  flutter:
+    sdk: flutter
+  asgardeo_flutter: ^0.1.0
+  uni_links: ^0.5.1
+  flutter_web_auth_2: ^4.0.3</code></pre>
+            </div>
+            <p>Then install:</p>
+            <div class="code-block">
+              <pre><code>flutter pub get</code></pre>
+            </div>
+          </section>
+
+          <section id="configure-deep-links">
+            <h2>Step 3: Configure Deep Links</h2>
+
+            <h3>3.1 Android Configuration</h3>
+            <p>Edit <code>android/app/src/main/AndroidManifest.xml</code>:</p>
+            <div class="code-block">
+              <pre><code>&lt;activity android:name=".MainActivity"&gt;
+  &lt;intent-filter android:autoVerify="true"&gt;
+    &lt;action android:name="android.intent.action.VIEW" /&gt;
+    &lt;category android:name="android.intent.category.DEFAULT" /&gt;
+    &lt;category android:name="android.intent.category.BROWSABLE" /&gt;
+    &lt;data android:scheme="myapp" android:host="callback" /&gt;
+  &lt;/intent-filter&gt;
+&lt;/activity&gt;</code></pre>
+            </div>
+
+            <h3>3.2 iOS Configuration</h3>
+            <p>Edit <code>ios/Runner/Info.plist</code>:</p>
+            <div class="code-block">
+              <pre><code>&lt;key&gt;CFBundleURLTypes&lt;/key&gt;
+&lt;array&gt;
+  &lt;dict&gt;
+    &lt;key&gt;CFBundleURLSchemes&lt;/key&gt;
+    &lt;array&gt;
+      &lt;string&gt;myapp&lt;/string&gt;
+    &lt;/array&gt;
+  &lt;/dict&gt;
+&lt;/array&gt;</code></pre>
+            </div>
+          </section>
+
+          <section id="initialize-sdk">
+            <h2>Step 4: Initialize the SDK</h2>
+            <p>Wrap your app with <code>AsgardeoProvider</code>:</p>
+            <div class="code-block">
+              <pre><code>import 'package:flutter/material.dart';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
+
+void main() {
+  runApp(
+    AsgardeoProvider(
+      config: AsgardeoConfig(
+        baseUrl: 'https://api.asgardeo.io/t/&lt;your-org&gt;',
+        clientId: '&lt;your-client-id&gt;',
+        afterSignInUrl: 'myapp://callback',
+        afterSignOutUrl: 'myapp://callback',
+        scopes: ['openid', 'profile', 'email'],
+      ),
+      child: const MyApp(),
+    ),
+  );
+}</code></pre>
+            </div>
+          </section>
+
+          <section id="add-authentication">
+            <h2>Step 5: Add Authentication UI</h2>
+            <div class="code-block">
+              <pre><code>class HomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('My App'),
+        actions: [
+          SignedIn(child: UserButton()),
+        ],
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SignedIn(
+              child: Column(
+                children: [
+                  const Text('Welcome! You are signed in.'),
+                  SignOutButton(),
+                ],
+              ),
+            ),
+            SignedOut(
+              child: SignInButton(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}</code></pre>
+            </div>
+          </section>
+
+          <section id="handle-redirects">
+            <h2>Step 6: Handle Authentication Redirects</h2>
+            <div class="code-block">
+              <pre><code>import 'dart:async';
+import 'package:uni_links/uni_links.dart';
+
+class HomePage extends StatefulWidget {
+  @override
+  State&lt;HomePage&gt; createState() => _HomePageState();
+}
+
+class _HomePageState extends State&lt;HomePage&gt; {
+  StreamSubscription? _sub;
+
+  @override
+  void initState() {
+    super.initState();
+    _sub = uriLinkStream.listen((Uri? uri) async {
+      if (uri != null && mounted) {
+        await AsgardeoProvider.of(context).handleRedirect(uri);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _sub?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Your UI here
+  }
+}</code></pre>
+            </div>
+          </section>
+
+          <section id="run-app">
+            <h2>Step 7: Run Your App</h2>
+            <div class="code-block">
+              <pre><code>flutter run</code></pre>
+            </div>
+            <div class="success-box">
+              <strong>🎉 Congratulations!</strong> You've successfully
+              integrated Asgardeo authentication into your Flutter app.
+            </div>
+          </section>
+        </div>
+
+        <!-- COMPLETE GUIDE SECTION -->
+        <div id="complete-guide" class="section-content">
+          <div class="content-header">
+            <h1>Complete Guide</h1>
+            <p class="subtitle">
+              A comprehensive guide to implementing authentication in your
+              Flutter app
+            </p>
+          </div>
+
+          <section>
+            <h2>Architecture & Approach</h2>
+            <p>
+              The Asgardeo Flutter SDK uses OpenID Connect (OIDC) Authorization
+              Code flow with PKCE:
+            </p>
+            <div class="info-box">
+              <strong>Authentication Flow:</strong>
+              <ol>
+                <li>User initiates sign-in from your Flutter app</li>
+                <li>
+                  SDK opens system browser with Asgardeo authorization URL
+                </li>
+                <li>User authenticates with Asgardeo</li>
+                <li>Asgardeo redirects back to your app via deep link</li>
+                <li>SDK exchanges authorization code for access token</li>
+                <li>User is now authenticated</li>
+              </ol>
+            </div>
+          </section>
+
+          <section>
+            <h2>Provider Pattern</h2>
+            <p>The SDK uses Flutter's Provider pattern:</p>
+            <div class="code-block">
+              <pre><code>AsgardeoProvider
+  └─ AsgardeoAuth (ChangeNotifier)
+      ├─ isSignedIn
+      ├─ isLoading
+      └─ methods (signIn, signOut, etc.)</code></pre>
+            </div>
+          </section>
+
+          <section>
+            <h2>Making Authenticated API Calls</h2>
+            <div class="code-block">
+              <pre><code>import 'package:http/http.dart' as http;
+
+Future&lt;void&gt; fetchData() async {
+  final auth = AsgardeoProvider.of(context);
+  final token = await auth.getAccessToken();
+
+  final response = await http.get(
+    Uri.parse('https://api.example.com/data'),
+    headers: {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    },
+  );
+
+  if (response.statusCode == 200) {
+    // Process response
+  }
+}</code></pre>
+            </div>
+          </section>
+
+          <section>
+            <h2>Best Practices</h2>
+            <ul>
+              <li>
+                <strong>Secure Storage:</strong> Use
+                <code>flutter_secure_storage</code> for tokens in production
+              </li>
+              <li>
+                <strong>Deep Links:</strong> Always set up deep link listeners
+                properly
+              </li>
+              <li>
+                <strong>Protected Routes:</strong> Wrap sensitive screens with
+                <code>SignedIn</code> component
+              </li>
+              <li>
+                <strong>Loading States:</strong> Show loading indicators during
+                auth operations
+              </li>
+              <li>
+                <strong>Testing:</strong> Test on real devices, not just
+                simulators
+              </li>
+            </ul>
+          </section>
+        </div>
+
+        <!-- COMPONENTS SECTION -->
+        <div id="components" class="section-content">
+          <div class="content-header">
+            <h1>Components Reference</h1>
+            <p class="subtitle">
+              Pre-built widgets to accelerate your authentication implementation
+            </p>
+          </div>
+
+          <section>
+            <h2>AsgardeoProvider</h2>
+            <p>
+              The root component that provides authentication state to your app.
+            </p>
+            <div class="code-block">
+              <pre><code>AsgardeoProvider(
+  config: AsgardeoConfig(
+    baseUrl: 'https://api.asgardeo.io/t/yourorg',
+    clientId: 'your-client-id',
+    afterSignInUrl: 'myapp://callback',
+    afterSignOutUrl: 'myapp://callback',
+    scopes: ['openid', 'profile', 'email'],
+  ),
+  child: const MyApp(),
+)</code></pre>
+            </div>
+          </section>
+
+          <section>
+            <h2>Control Components</h2>
+
+            <h3>SignedIn</h3>
+            <p>Renders its child only when the user is authenticated.</p>
+            <div class="code-block">
+              <pre><code>SignedIn(
+  fallback: const Text('Please sign in'),
+  child: const DashboardContent(),
+)</code></pre>
+            </div>
+
+            <h3>SignedOut</h3>
+            <p>Renders its child only when the user is not authenticated.</p>
+            <div class="code-block">
+              <pre><code>SignedOut(
+  child: SignInButton(),
+)</code></pre>
+            </div>
+          </section>
+
+          <section>
+            <h2>Action Components</h2>
+
+            <h3>SignInButton</h3>
+            <div class="code-block">
+              <pre><code>SignInButton(
+  child: const Text('Sign in with Asgardeo'),
+  onSuccess: (user) {
+    Navigator.pushReplacementNamed(context, '/home');
+  },
+  onError: (error) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Failed: $error')),
+    );
+  },
+)</code></pre>
+            </div>
+
+            <h3>SignOutButton</h3>
+            <div class="code-block">
+              <pre><code>SignOutButton(
+  child: const Text('Sign Out'),
+  onSuccess: () {
+    Navigator.pushReplacementNamed(context, '/login');
+  },
+)</code></pre>
+            </div>
+
+            <h3>UserButton</h3>
+            <p>Compact user avatar with dropdown menu:</p>
+            <div class="code-block">
+              <pre><code>AppBar(
+  actions: [
+    SignedIn(
+      child: UserButton(size: 36),
+    ),
+  ],
+)</code></pre>
+            </div>
+          </section>
+
+          <section>
+            <h2>Organization Components</h2>
+
+            <h3>OrganizationSwitcher</h3>
+            <div class="code-block">
+              <pre><code>final auth = AsgardeoProvider.of(context);
+final orgs = await auth.getMyOrganizations();
+
+OrganizationSwitcher(
+  organizations: orgs,
+  current: auth.currentOrganization,
+  onSwitch: (org) async {
+    await auth.switchOrganization(org);
+  },
+)</code></pre>
+            </div>
+          </section>
+        </div>
+
+        <!-- API REFERENCE SECTION -->
+        <div id="api" class="section-content">
+          <div class="content-header">
+            <h1>API Reference</h1>
+            <p class="subtitle">
+              Complete reference for all SDK classes and methods
+            </p>
+          </div>
+
+          <section>
+            <h2>AsgardeoAuth</h2>
+            <p>Access via <code>AsgardeoProvider.of(context)</code></p>
+
+            <h3>Properties</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Property</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>isInitialized</code></td>
+                  <td>bool</td>
+                  <td>Whether the SDK has been initialized</td>
+                </tr>
+                <tr>
+                  <td><code>isLoading</code></td>
+                  <td>bool</td>
+                  <td>Whether an auth operation is in progress</td>
+                </tr>
+                <tr>
+                  <td><code>isSignedIn</code></td>
+                  <td>bool</td>
+                  <td>Whether the user is authenticated</td>
+                </tr>
+                <tr>
+                  <td><code>currentOrganization</code></td>
+                  <td>Organization?</td>
+                  <td>Currently active organization</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section>
+            <h2>Methods</h2>
+
+            <h3>signIn()</h3>
+            <p>Initiates the sign-in flow.</p>
+            <div class="code-block">
+              <pre><code>Future&lt;User?&gt; signIn([Map&lt;String, dynamic&gt;? options])
+
+// Example
+final auth = AsgardeoProvider.of(context);
+final user = await auth.signIn();
+print('Signed in: ${user?.username}');</code></pre>
+            </div>
+
+            <h3>signOut()</h3>
+            <p>Signs the user out.</p>
+            <div class="code-block">
+              <pre><code>Future&lt;void&gt; signOut()
+
+// Example
+await auth.signOut();</code></pre>
+            </div>
+
+            <h3>getAccessToken()</h3>
+            <p>Retrieves the current access token.</p>
+            <div class="code-block">
+              <pre><code>Future&lt;String&gt; getAccessToken()
+
+// Example
+final token = await auth.getAccessToken();
+// Use in API calls</code></pre>
+            </div>
+
+            <h3>getUserProfile()</h3>
+            <p>Fetches the user profile.</p>
+            <div class="code-block">
+              <pre><code>Future&lt;User&gt; getUserProfile()
+
+// Example
+final user = await auth.getUserProfile();
+print('Email: ${user.email}');</code></pre>
+            </div>
+
+            <h3>getMyOrganizations()</h3>
+            <p>Retrieves user's organizations.</p>
+            <div class="code-block">
+              <pre><code>Future&lt;List&lt;Organization&gt;&gt; getMyOrganizations()
+
+// Example
+final orgs = await auth.getMyOrganizations();</code></pre>
+            </div>
+
+            <h3>switchOrganization()</h3>
+            <p>Switches the current organization.</p>
+            <div class="code-block">
+              <pre><code>Future&lt;void&gt; switchOrganization(Organization org)
+
+// Example
+await auth.switchOrganization(selectedOrg);</code></pre>
+            </div>
+          </section>
+
+          <section>
+            <h2>Models</h2>
+
+            <h3>AsgardeoConfig</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Property</th>
+                  <th>Type</th>
+                  <th>Required</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>baseUrl</code></td>
+                  <td>String</td>
+                  <td>Yes</td>
+                  <td>Asgardeo organization base URL</td>
+                </tr>
+                <tr>
+                  <td><code>clientId</code></td>
+                  <td>String</td>
+                  <td>Yes</td>
+                  <td>Application client ID</td>
+                </tr>
+                <tr>
+                  <td><code>afterSignInUrl</code></td>
+                  <td>String</td>
+                  <td>Yes</td>
+                  <td>Redirect URL after sign-in</td>
+                </tr>
+                <tr>
+                  <td><code>afterSignOutUrl</code></td>
+                  <td>String</td>
+                  <td>Yes</td>
+                  <td>Redirect URL after sign-out</td>
+                </tr>
+                <tr>
+                  <td><code>scopes</code></td>
+                  <td>List&lt;String&gt;</td>
+                  <td>No</td>
+                  <td>OAuth scopes</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h3>User</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Property</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>id</code></td>
+                  <td>String?</td>
+                  <td>Unique user identifier</td>
+                </tr>
+                <tr>
+                  <td><code>username</code></td>
+                  <td>String?</td>
+                  <td>User's username</td>
+                </tr>
+                <tr>
+                  <td><code>email</code></td>
+                  <td>String?</td>
+                  <td>User's email address</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h3>Organization</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Property</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>id</code></td>
+                  <td>String</td>
+                  <td>Organization identifier</td>
+                </tr>
+                <tr>
+                  <td><code>name</code></td>
+                  <td>String?</td>
+                  <td>Organization display name</td>
+                </tr>
+                <tr>
+                  <td><code>orgHandle</code></td>
+                  <td>String?</td>
+                  <td>Organization handle/slug</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </div>
+
+        <!-- EXAMPLES SECTION -->
+        <div id="examples" class="section-content">
+          <div class="content-header">
+            <h1>Examples</h1>
+            <p class="subtitle">Real-world examples and common use cases</p>
+          </div>
+
+          <section>
+            <h2>Basic Authentication Flow</h2>
+            <div class="code-block">
+              <pre><code>import 'package:flutter/material.dart';
+import 'package:asgardeo_flutter/asgardeo_flutter.dart';
+
+class AuthPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Authentication Demo'),
+        actions: [
+          SignedIn(child: UserButton()),
+        ],
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SignedOut(
+              child: Column(
+                children: [
+                  const Icon(Icons.lock_outline, size: 64),
+                  const SizedBox(height: 24),
+                  const Text('Welcome to Our App'),
+                  const SizedBox(height: 32),
+                  SignInButton(),
+                ],
+              ),
+            ),
+            SignedIn(
+              child: Column(
+                children: [
+                  const Icon(Icons.check_circle, size: 64, color: Colors.green),
+                  const Text('You are signed in!'),
+                  const SizedBox(height: 32),
+                  SignOutButton(),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}</code></pre>
+            </div>
+          </section>
+
+          <section>
+            <h2>Protected Routes</h2>
+            <div class="code-block">
+              <pre><code>class ProtectedRoute extends StatelessWidget {
+  final Widget child;
+  
+  const ProtectedRoute({required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return SignedIn(
+      fallback: Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.lock, size: 48),
+              const SizedBox(height: 16),
+              const Text('Please sign in to access this page'),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                onPressed: () => Navigator.pushNamed(context, '/'),
+                child: const Text('Go to Home'),
+              ),
+            ],
+          ),
+        ),
+      ),
+      child: child,
+    );
+  }
+}</code></pre>
+            </div>
+          </section>
+
+          <section>
+            <h2>Display User Profile</h2>
+            <div class="code-block">
+              <pre><code>class ProfilePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final auth = AsgardeoProvider.of(context);
+
+    return Scaffold(
+      appBar: AppBar(title: const Text('My Profile')),
+      body: SignedIn(
+        child: FutureBuilder&lt;User&gt;(
+          future: auth.getUserProfile(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            final user = snapshot.data;
+            return ListView(
+              padding: const EdgeInsets.all(16),
+              children: [
+                CircleAvatar(
+                  radius: 50,
+                  child: Text(user?.username?.substring(0, 1).toUpperCase() ?? '?'),
+                ),
+                const SizedBox(height: 24),
+                Card(
+                  child: ListTile(
+                    title: const Text('Username'),
+                    subtitle: Text(user?.username ?? 'N/A'),
+                  ),
+                ),
+                Card(
+                  child: ListTile(
+                    title: const Text('Email'),
+                    subtitle: Text(user?.email ?? 'N/A'),
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+}</code></pre>
+            </div>
+          </section>
+
+          <section>
+            <h2>Making API Calls</h2>
+            <div class="code-block">
+              <pre><code>import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+class ApiService {
+  final BuildContext context;
+
+  ApiService(this.context);
+
+  Future&lt;Map&lt;String, dynamic&gt;&gt; fetchUserData() async {
+    final auth = AsgardeoProvider.of(context);
+    final token = await auth.getAccessToken();
+
+    final response = await http.get(
+      Uri.parse('https://api.example.com/user/me'),
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else if (response.statusCode == 401) {
+      await auth.signOut();
+      throw Exception('Authentication expired');
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+}</code></pre>
+            </div>
+          </section>
+
+          <section>
+            <h2>Error Handling</h2>
+            <div class="code-block">
+              <pre><code>import 'dart:async';
+import 'dart:io';
+
+Future&lt;void&gt; handleSignIn(BuildContext context) async {
+  try {
+    final auth = AsgardeoProvider.of(context);
+    await auth.signIn();
+  } on TimeoutException {
+    _showError(context, 'Request timed out. Please try again.');
+  } on SocketException {
+    _showError(context, 'No internet connection.');
+  } catch (e) {
+    _showError(context, 'Sign in failed: $e');
+  }
+}
+
+void _showError(BuildContext context, String message) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.red,
+    ),
+  );
+}</code></pre>
+            </div>
+          </section>
+
+          <section>
+            <h2>Organization Switching</h2>
+            <div class="code-block">
+              <pre><code>class OrgSwitcherPage extends StatefulWidget {
+  @override
+  State&lt;OrgSwitcherPage&gt; createState() => _OrgSwitcherPageState();
+}
+
+class _OrgSwitcherPageState extends State&lt;OrgSwitcherPage&gt; {
+  Future&lt;void&gt; _switchOrganization(Organization org) async {
+    final auth = AsgardeoProvider.of(context);
+    
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+
+    try {
+      await auth.switchOrganization(org);
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Switched to ${org.name}'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } catch (e) {
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to switch: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final auth = AsgardeoProvider.of(context);
+
+    return FutureBuilder&lt;List&lt;Organization&gt;&gt;(
+      future: auth.getMyOrganizations(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const CircularProgressIndicator();
+        }
+
+        return ListView.builder(
+          itemCount: snapshot.data!.length,
+          itemBuilder: (context, index) {
+            final org = snapshot.data![index];
+            final isCurrent = auth.currentOrganization?.id == org.id;
+
+            return ListTile(
+              title: Text(org.name ?? org.id),
+              trailing: isCurrent
+                  ? const Chip(label: Text('Current'))
+                  : TextButton(
+                      onPressed: () => _switchOrganization(org),
+                      child: const Text('Switch'),
+                    ),
+            );
+          },
+        );
+      },
+    );
+  }
+}</code></pre>
+            </div>
+          </section>
+        </div>
+
+        <!-- GET STARTED SECTION -->
+        <div id="get-started" class="section-content">
+          <div class="content-header">
+            <h1>Get Started</h1>
+            <p class="subtitle">
+              Choose your path to integrate Asgardeo authentication
+            </p>
+          </div>
+
+          <section>
+            <div class="steps-grid">
+              <a href="#quickstart" class="step-card">
+                <h3>⚡ Quickstart</h3>
+                <p>
+                  Get up and running in under 10 minutes with our step-by-step
+                  guide
+                </p>
+              </a>
+              <a href="#complete-guide" class="step-card">
+                <h3>📚 Complete Guide</h3>
+                <p>
+                  In-depth guide covering architecture, best practices, and
+                  advanced features
+                </p>
+              </a>
+              <a href="#components" class="step-card">
+                <h3>🧩 Components</h3>
+                <p>Explore pre-built widgets to accelerate development</p>
+              </a>
+              <a href="#api" class="step-card">
+                <h3>📖 API Reference</h3>
+                <p>Complete reference for all SDK classes and methods</p>
+              </a>
+              <a href="#examples" class="step-card">
+                <h3>💡 Examples</h3>
+                <p>Real-world code examples for common use cases</p>
+              </a>
+              <a
+                href="https://github.com/yourusername/asgardeo-flutter"
+                class="step-card"
+              >
+                <h3>💻 GitHub</h3>
+                <p>View source code, contribute, or report issues</p>
+              </a>
+            </div>
+          </section>
+        </div>
+      </section>
     </main>
 
     <footer class="footer">
-        <div class="container">
-            <p>&copy; 2024 WSO2 LLC. All rights reserved. | <a href="https://wso2.com/asgardeo/">Asgardeo</a></p>
-        </div>
+      <div class="container">
+        <p>
+          &copy; 2024 WSO2 LLC. All rights reserved. |
+          <a href="https://wso2.com/asgardeo/">Asgardeo</a>
+        </p>
+      </div>
     </footer>
-</body>
+
+    <script>
+      // Smooth scroll to sections
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+
+            // Update active states
+            document
+              .querySelectorAll(".sidebar-link, .sidebar-sublink")
+              .forEach((link) => {
+                link.classList.remove("active");
+              });
+            this.classList.add("active");
+          }
+        });
+      });
+
+      // Toggle submenu
+      function toggleSubmenu(element) {
+        const submenu = element.nextElementSibling;
+        if (submenu && submenu.classList.contains("sidebar-submenu")) {
+          submenu.classList.toggle("active");
+        }
+      }
+
+      // Highlight active section on scroll
+      window.addEventListener("scroll", () => {
+        const sections = document.querySelectorAll(".section-content");
+        const scrollPos = window.scrollY + 100;
+
+        sections.forEach((section) => {
+          const top = section.offsetTop;
+          const height = section.offsetHeight;
+          const id = section.getAttribute("id");
+
+          if (scrollPos >= top && scrollPos < top + height) {
+            document
+              .querySelectorAll(".sidebar-link, .sidebar-sublink")
+              .forEach((link) => {
+                link.classList.remove("active");
+              });
+            const activeLink = document.querySelector(`a[href="#${id}"]`);
+            if (activeLink) {
+              activeLink.classList.add("active");
+            }
+          }
+        });
+      });
+    </script>
+  </body>
 </html>
