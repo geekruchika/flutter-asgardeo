@@ -590,6 +590,128 @@ code {
   color: var(--text-primary);
 }
 
+/* Timeline UI Styles */
+.timeline-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: #2a2a2a;
+  min-height: 100vh;
+}
+
+.go-back-link {
+  display: inline-flex;
+  align-items: center;
+  color: #888;
+  text-decoration: none;
+  font-size: 16px;
+  font-style: italic;
+  margin-bottom: 2rem;
+  transition: color 0.3s ease;
+}
+
+.go-back-link:hover {
+  color: #fff;
+}
+
+.timeline {
+  position: relative;
+  padding-left: 0;
+}
+
+.timeline-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0;
+  position: relative;
+  padding-left: 0;
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: 22px;
+  top: 50px;
+  width: 2px;
+  height: calc(100% + 10px);
+  background: #4a4a4a;
+}
+
+.timeline-item:last-child::before {
+  display: none;
+}
+
+.timeline-marker {
+  position: relative;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: #6b7280;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.timeline-item.completed .timeline-marker {
+  background: #6b7280;
+}
+
+.timeline-item.active .timeline-marker {
+  background: #ff6b35;
+}
+
+.timeline-number {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.timeline-item.completed .timeline-number {
+  display: none;
+}
+
+.timeline-check {
+  display: none;
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.timeline-item.completed .timeline-check {
+  display: block;
+}
+
+.timeline-content {
+  margin-left: 20px;
+  padding-bottom: 30px;
+}
+
+.timeline-title {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 400;
+  margin: 0 0 4px 0;
+  line-height: 1.3;
+}
+
+.timeline-item.active .timeline-title {
+  color: #ff6b35;
+}
+
+.timeline-duration {
+  color: #888;
+  font-size: 14px;
+  font-style: italic;
+}
+
+.timeline-item.completed .timeline-duration::after {
+  content: " ✓";
+  color: #4ade80;
+  margin-left: 8px;
+}
+
 /* Footer */
 .footer {
   background: var(--dark-color);
