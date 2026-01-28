@@ -220,6 +220,14 @@ body {
   font-weight: 500;
 }
 
+.time-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  color: var(--text-light);
+  opacity: 0.7;
+  margin-left: 0.25rem;
+}
+
 /* Main Content */
 .main-content {
   flex: 1;
@@ -468,6 +476,97 @@ code {
 /* Guide Content */
 .guide-content {
   max-width: 900px;
+}
+
+/* Complete Guide Styling */
+.time-estimate {
+  display: inline-block;
+  background: #e7f3ff;
+  color: var(--secondary-color);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+  font-weight: 500;
+}
+
+.guide-step {
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.guide-step:last-child {
+  border-bottom: none;
+}
+
+.step-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: var(--primary-color);
+  color: white;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.step-header h2 {
+  margin: 0;
+  padding: 0;
+  border: none;
+  font-size: 1.8rem;
+  color: var(--dark-color);
+}
+
+.step-time {
+  display: inline-block;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 400;
+  margin-top: 0.25rem;
+}
+
+.guide-step h3 {
+  font-size: 1.2rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: var(--dark-color);
+  font-weight: 600;
+}
+
+.guide-step h4 {
+  font-size: 1rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--dark-color);
+  font-weight: 600;
+}
+
+.guide-step ol {
+  margin-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.guide-step ol li {
+  margin-bottom: 0.75rem;
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+.guide-step p {
+  margin-bottom: 1rem;
+  line-height: 1.6;
 }
 
 /* Numbered Lists */
