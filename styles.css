@@ -614,6 +614,19 @@ code {
   color: #fff;
 }
 
+/* Back to Timeline link in complete guide page */
+.content-header .go-back-link {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+  font-style: normal;
+  font-weight: 500;
+}
+
+.content-header .go-back-link:hover {
+  color: var(--primary-dark);
+}
+
 .timeline {
   position: relative;
   padding-left: 0;
@@ -625,6 +638,17 @@ code {
   margin-bottom: 0;
   position: relative;
   padding-left: 0;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.timeline-item:hover {
+  transform: translateX(5px);
+}
+
+.timeline-item:hover .timeline-title {
+  color: #ff6b35;
 }
 
 .timeline-item::before {
