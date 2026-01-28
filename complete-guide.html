@@ -5,6 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Complete Guide - Asgardeo Flutter SDK</title>
     <link rel="stylesheet" href="styles.css" />
+    <style>
+      /* Responsive layout for complete guide page */
+      @media (max-width: 1024px) {
+        .doc-container {
+          flex-direction: column !important;
+        }
+
+        .doc-container > aside {
+          width: 100% !important;
+          position: relative !important;
+          height: auto !important;
+          max-height: 400px !important;
+        }
+
+        .main-content {
+          padding: 1rem !important;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .doc-container > aside {
+          display: none;
+        }
+
+        .timeline-container {
+          padding: 1rem !important;
+        }
+      }
+    </style>
   </head>
   <body>
     <!-- Top Navigation Bar -->
@@ -12,54 +41,166 @@
       <div class="nav-left">
         <span class="logo">ASGARDEO<sup>®</sup> Docs</span>
       </div>
+      <div class="nav-right">
+        <a href="index.html" class="nav-btn">← Back to Home</a>
+        <button class="nav-btn primary">✨ Try Asgardeo</button>
+      </div>
     </nav>
 
     <!-- Main Container -->
-    <div class="doc-container">
-      <!-- Sidebar -->
-      <aside class="main-sidebar">
-        <nav>
-          <div class="sidebar-section">
-            <a href="index.html#home" class="sidebar-link">
-              <span class="framework-icon">🏠</span>
-              Home
+    <div class="doc-container" style="display: flex; gap: 0">
+      <!-- Timeline Sidebar -->
+      <aside
+        style="
+          width: 400px;
+          flex-shrink: 0;
+          position: sticky;
+          top: 80px;
+          height: calc(100vh - 80px);
+          overflow-y: auto;
+        "
+      >
+        <div class="timeline-container" style="position: relative; top: 0">
+          <a href="index.html" class="go-back-link">← Go Back</a>
+
+          <div class="timeline">
+            <!-- Step 1: Introduction -->
+            <a href="#guide-introduction" class="timeline-item completed">
+              <div class="timeline-marker">
+                <span class="timeline-number">1</span>
+                <span class="timeline-check">✓</span>
+              </div>
+              <div class="timeline-content">
+                <h3 class="timeline-title">Complete Guide</h3>
+                <span class="timeline-duration">2 mins</span>
+              </div>
+            </a>
+
+            <!-- Step 2: Prerequisites -->
+            <a href="#guide-prerequisites" class="timeline-item">
+              <div class="timeline-marker">
+                <span class="timeline-number">2</span>
+              </div>
+              <div class="timeline-content">
+                <h3 class="timeline-title">Prerequisite</h3>
+                <span class="timeline-duration">30 secs</span>
+              </div>
+            </a>
+
+            <!-- Step 3: Configure Application -->
+            <a href="#guide-configure-app" class="timeline-item completed">
+              <div class="timeline-marker">
+                <span class="timeline-number">3</span>
+                <span class="timeline-check">✓</span>
+              </div>
+              <div class="timeline-content">
+                <h3 class="timeline-title">Configure an application</h3>
+                <span class="timeline-duration">2 min</span>
+              </div>
+            </a>
+
+            <!-- Step 4: Create Flutter App -->
+            <a href="#guide-create-app" class="timeline-item completed">
+              <div class="timeline-marker">
+                <span class="timeline-number">4</span>
+                <span class="timeline-check">✓</span>
+              </div>
+              <div class="timeline-content">
+                <h3 class="timeline-title">Create a Flutter app</h3>
+                <span class="timeline-duration">2 min</span>
+              </div>
+            </a>
+
+            <!-- Step 5: Configure SDK -->
+            <a href="#guide-configure-sdk" class="timeline-item completed">
+              <div class="timeline-marker">
+                <span class="timeline-number">5</span>
+                <span class="timeline-check">✓</span>
+              </div>
+              <div class="timeline-content">
+                <h3 class="timeline-title">Configure Asgardeo SDK</h3>
+                <span class="timeline-duration">2 min</span>
+              </div>
+            </a>
+
+            <!-- Step 6: Add Login/Logout -->
+            <a href="#guide-login-logout" class="timeline-item completed">
+              <div class="timeline-marker">
+                <span class="timeline-number">6</span>
+                <span class="timeline-check">✓</span>
+              </div>
+              <div class="timeline-content">
+                <h3 class="timeline-title">Add login and logout</h3>
+                <span class="timeline-duration">2 min</span>
+              </div>
+            </a>
+
+            <!-- Step 7: Display User Details -->
+            <a href="#guide-user-details" class="timeline-item completed">
+              <div class="timeline-marker">
+                <span class="timeline-number">7</span>
+                <span class="timeline-check">✓</span>
+              </div>
+              <div class="timeline-content">
+                <h3 class="timeline-title">Display user details</h3>
+                <span class="timeline-duration">4 mins</span>
+              </div>
+            </a>
+
+            <!-- Step 8: Secure Routes -->
+            <a href="#guide-secure-routes" class="timeline-item active">
+              <div class="timeline-marker">
+                <span class="timeline-number">8</span>
+              </div>
+              <div class="timeline-content">
+                <h3 class="timeline-title">Securing Routes</h3>
+                <span class="timeline-duration">4 mins</span>
+              </div>
+            </a>
+
+            <!-- Step 9: API Calls -->
+            <a href="#guide-api-calls" class="timeline-item">
+              <div class="timeline-marker">
+                <span class="timeline-number">9</span>
+              </div>
+              <div class="timeline-content">
+                <h3 class="timeline-title">Accessing protected API</h3>
+                <span class="timeline-duration">2 min</span>
+              </div>
+            </a>
+
+            <!-- Step 10: Manage Tokens -->
+            <a href="#guide-manage-tokens" class="timeline-item completed">
+              <div class="timeline-marker">
+                <span class="timeline-number">10</span>
+                <span class="timeline-check">✓</span>
+              </div>
+              <div class="timeline-content">
+                <h3 class="timeline-title">Manage tokens in Flutter</h3>
+                <span class="timeline-duration">5 mins</span>
+              </div>
+            </a>
+
+            <!-- Step 11: Next Steps -->
+            <a href="#guide-next-steps" class="timeline-item">
+              <div class="timeline-marker">
+                <span class="timeline-number">11</span>
+              </div>
+              <div class="timeline-content">
+                <h3 class="timeline-title">Next Steps</h3>
+                <span class="timeline-duration">1 min</span>
+              </div>
             </a>
           </div>
-
-          <div class="sidebar-section">
-            <div class="sidebar-heading" onclick="toggleSubmenu(this)">
-              <span class="framework-icon">📱</span>
-              <span>Flutter</span>
-              <span class="submenu-arrow">▼</span>
-            </div>
-            <div class="sidebar-submenu" style="display: block">
-              <a href="index.html#quickstart" class="sidebar-sublink">
-                Quickstart
-              </a>
-              <a href="complete-guide.html" class="sidebar-sublink active">
-                Complete Guide
-                <span class="time-badge">37 mins</span>
-              </a>
-            </div>
-          </div>
-        </nav>
+        </div>
       </aside>
 
       <!-- Main Content Area -->
-      <main class="main-content">
+      <main
+        class="main-content"
+        style="margin-left: 0; flex: 1; max-width: none; padding: 2rem 3rem"
+      >
         <div class="section-content">
-          <div class="content-header">
-            <a href="index.html#complete-guide" class="go-back-link"
-              >← Back to Timeline</a
-            >
-            <h1>Complete Guide</h1>
-            <p class="subtitle">
-              A comprehensive guide to implementing authentication in your
-              Flutter app with Asgardeo
-            </p>
-            <div class="time-estimate">⏱️ Estimated time: 37 minutes</div>
-          </div>
-
           <!-- Step 1: Introduction -->
           <section id="guide-introduction" class="guide-step">
             <div class="step-header">
@@ -2250,7 +2391,7 @@ class BiometricTokenManager {
         </div>
 
         <!-- Footer -->
-        <footer class="footer">
+        <footer class="footer" style="margin-left: 0">
           <p>
             Built with ❤️ by the Asgardeo team |
             <a href="https://github.com/asgardeo/asgardeo-flutter">GitHub</a> |
@@ -2275,19 +2416,31 @@ class BiometricTokenManager {
         });
       });
 
-      // Submenu toggle function
-      function toggleSubmenu(element) {
-        const submenu = element.nextElementSibling;
-        const arrow = element.querySelector(".submenu-arrow");
-        if (submenu && submenu.classList.contains("sidebar-submenu")) {
-          submenu.style.display =
-            submenu.style.display === "none" ? "block" : "none";
-          arrow.style.transform =
-            submenu.style.display === "none"
-              ? "rotate(-90deg)"
-              : "rotate(0deg)";
-        }
-      }
+      // Scroll spy to highlight active timeline item
+      const observerOptions = {
+        root: null,
+        rootMargin: "-20% 0px -70% 0px",
+        threshold: 0,
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = entry.target.getAttribute("id");
+            document.querySelectorAll(".timeline-item").forEach((item) => {
+              item.classList.remove("active");
+              if (item.getAttribute("href") === `#${id}`) {
+                item.classList.add("active");
+              }
+            });
+          }
+        });
+      }, observerOptions);
+
+      // Observe all guide sections
+      document.querySelectorAll('section[id^="guide-"]').forEach((section) => {
+        observer.observe(section);
+      });
     </script>
   </body>
 </html>
