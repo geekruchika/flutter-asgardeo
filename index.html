@@ -55,6 +55,19 @@
           </div>
 
           <div class="sidebar-section">
+            <div class="sidebar-heading" onclick="toggleSubmenu(this)">
+              <span class="framework-icon">🍎</span>
+              <span>iOS (Swift)</span>
+            </div>
+            <div class="sidebar-submenu">
+              <a href="#ios-quickstart" class="sidebar-sublink">Quickstart</a>
+              <a href="ios-complete-guide.html" class="sidebar-sublink"
+                >Complete Guide <span class="time-badge">35 mins</span></a
+              >
+            </div>
+          </div>
+
+          <div class="sidebar-section">
             <div class="sidebar-link disabled">
               <span class="framework-icon">⚛️</span>
               <span>React</span>
@@ -492,6 +505,326 @@ class _HomePageState extends State&lt;HomePage&gt; {
             <div class="success-box">
               <strong>🎉 Congratulations!</strong> You've successfully
               integrated Asgardeo authentication into your Flutter app.
+            </div>
+          </section>
+        </div>
+
+        <!-- iOS QUICKSTART SECTION -->
+        <div id="ios-quickstart" class="section-content">
+          <div class="content-header">
+            <h1>iOS Quickstart</h1>
+            <p class="subtitle">
+              Get up and running with Asgardeo authentication in your iOS app in
+              under 10 minutes.
+            </p>
+
+            <div class="intro-box">
+              <p>
+                Welcome to the iOS Quickstart guide! In this document, you will
+                learn to build an iOS app with Swift, add user sign-in and
+                display user profile information using Asgardeo.
+              </p>
+            </div>
+          </div>
+
+          <div class="two-column-intro">
+            <div class="intro-section">
+              <h3>What You Will Learn</h3>
+              <ul class="checkmark-list">
+                <li>Create a new iOS app with Xcode</li>
+                <li>Install Asgardeo iOS SDK via SPM</li>
+                <li>Add user sign-in and sign-out</li>
+                <li>Display user profile information</li>
+              </ul>
+            </div>
+            <div class="intro-section">
+              <h3>Prerequisites</h3>
+              <p>Before you start, ensure you have the following:</p>
+              <ul class="checkmark-list">
+                <li>About 10 minutes</li>
+                <li>Asgardeo account</li>
+                <li>Xcode 14+ installed on your Mac</li>
+                <li>iOS 14.0+ target deployment</li>
+              </ul>
+            </div>
+          </div>
+
+          <section id="ios-prerequisites">
+            <h2>Step 1: Configure Asgardeo Application</h2>
+
+            <h3>1.1 Create an Application</h3>
+            <ol>
+              <li>
+                Log in to your
+                <a href="https://console.asgardeo.io" target="_blank"
+                  >Asgardeo Console</a
+                >
+              </li>
+              <li>
+                Navigate to <strong>Applications</strong> →
+                <strong>New Application</strong>
+              </li>
+              <li>Select <strong>Mobile Application</strong></li>
+              <li>Enter a name (e.g., "My iOS App")</li>
+            </ol>
+
+            <h3>1.2 Configure OAuth Settings</h3>
+            <p>In your application settings, configure:</p>
+            <ul>
+              <li>
+                <strong>Authorized redirect URLs:</strong>
+                <code>com.yourcompany.myapp://callback</code>
+              </li>
+              <li><strong>Allowed grant types:</strong> Authorization Code</li>
+              <li>
+                <strong>Public client:</strong> Enable (mobile apps don't use
+                client secrets)
+              </li>
+            </ul>
+
+            <div class="info-box">
+              <strong>Note:</strong> Replace
+              <code>com.yourcompany.myapp</code> with your app's bundle
+              identifier. This will be used as your custom URL scheme.
+            </div>
+          </section>
+
+          <section id="ios-installation">
+            <h2>Step 2: Create iOS Project</h2>
+            <p>Create a new iOS app in Xcode:</p>
+            <ol>
+              <li>
+                Open Xcode and select
+                <strong>Create a new Xcode project</strong>
+              </li>
+              <li>Choose <strong>iOS → App</strong> template</li>
+              <li>Set Product Name: <code>MyApp</code></li>
+              <li>
+                Interface: <strong>SwiftUI</strong> (or UIKit if you prefer)
+              </li>
+              <li>Language: <strong>Swift</strong></li>
+              <li>
+                Set your Bundle Identifier: <code>com.yourcompany.myapp</code>
+              </li>
+            </ol>
+          </section>
+
+          <section id="ios-install-sdk">
+            <h2>Step 3: Install Asgardeo iOS SDK</h2>
+
+            <h3>3.1 Add Package Dependency</h3>
+            <p>Add the Asgardeo iOS SDK using Swift Package Manager:</p>
+            <ol>
+              <li>
+                In Xcode, select
+                <strong>File → Add Package Dependencies...</strong>
+              </li>
+              <li>
+                Enter the repository URL:
+                <code>https://github.com/asgardeo/asgardeo-ios-sdk</code>
+              </li>
+              <li>
+                Select <strong>Up to Next Major Version</strong>:
+                <code>1.0.0</code>
+              </li>
+              <li>Click <strong>Add Package</strong></li>
+            </ol>
+
+            <div class="code-block">
+              <pre><code>// Package.swift (if using SPM manually)
+dependencies: [
+    .package(
+        url: "https://github.com/asgardeo/asgardeo-ios-sdk",
+        from: "1.0.0"
+    )
+]</code></pre>
+            </div>
+
+            <h3>3.2 Configure Info.plist</h3>
+            <p>Add URL scheme for authentication callback:</p>
+            <div class="code-block">
+              <pre><code>&lt;key&gt;CFBundleURLTypes&lt;/key&gt;
+&lt;array&gt;
+    &lt;dict&gt;
+        &lt;key&gt;CFBundleURLSchemes&lt;/key&gt;
+        &lt;array&gt;
+            &lt;string&gt;com.yourcompany.myapp&lt;/string&gt;
+        &lt;/array&gt;
+    &lt;/dict&gt;
+&lt;/array&gt;</code></pre>
+            </div>
+          </section>
+
+          <section id="ios-initialize-sdk">
+            <h2>Step 4: Initialize the SDK</h2>
+            <p>Configure Asgardeo in your <code>App.swift</code> file:</p>
+            <div class="code-block">
+              <pre><code>import SwiftUI
+import AsgardeoAuth
+
+@main
+struct MyApp: App {
+    init() {
+        // Configure Asgardeo
+        AsgardeoAuth.shared.configure(
+            config: AsgardeoConfig(
+                issuer: "https://api.asgardeo.io/t/&lt;your-org&gt;/oauth2/token",
+                clientId: "&lt;your-client-id&gt;",
+                redirectUri: "com.yourcompany.myapp://callback",
+                scopes: ["openid", "profile", "email"]
+            )
+        )
+    }
+    
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+}</code></pre>
+            </div>
+          </section>
+
+          <section id="ios-add-authentication">
+            <h2>Step 5: Add Authentication UI</h2>
+            <p>Create a login view with SwiftUI:</p>
+            <div class="code-block">
+              <pre><code>import SwiftUI
+import AsgardeoAuth
+
+struct ContentView: View {
+    @StateObject private var auth = AsgardeoAuth.shared
+    @State private var showError = false
+    @State private var errorMessage = ""
+    
+    var body: some View {
+        NavigationView {
+            VStack(spacing: 20) {
+                if auth.isAuthenticated {
+                    // Signed In View
+                    VStack(spacing: 16) {
+                        Image(systemName: "checkmark.circle.fill")
+                            .font(.system(size: 64))
+                            .foregroundColor(.green)
+                        
+                        Text("Welcome!")
+                            .font(.title)
+                        
+                        if let user = auth.user {
+                            Text(user.name ?? user.email ?? "User")
+                                .font(.headline)
+                        }
+                        
+                        Button(action: signOut) {
+                            Text("Sign Out")
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.red)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
+                    }
+                    .padding()
+                } else {
+                    // Signed Out View
+                    VStack(spacing: 16) {
+                        Image(systemName: "lock.shield")
+                            .font(.system(size: 64))
+                            .foregroundColor(.gray)
+                        
+                        Text("Please sign in to continue")
+                            .font(.title2)
+                        
+                        Button(action: signIn) {
+                            Text("Sign In")
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
+                    }
+                    .padding()
+                }
+            }
+            .navigationTitle("My App")
+        }
+        .alert("Error", isPresented: $showError) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text(errorMessage)
+        }
+    }
+    
+    private func signIn() {
+        Task {
+            do {
+                try await auth.signIn()
+            } catch {
+                errorMessage = error.localizedDescription
+                showError = true
+            }
+        }
+    }
+    
+    private func signOut() {
+        Task {
+            do {
+                try await auth.signOut()
+            } catch {
+                errorMessage = error.localizedDescription
+                showError = true
+            }
+        }
+    }
+}</code></pre>
+            </div>
+          </section>
+
+          <section id="ios-handle-callback">
+            <h2>Step 6: Handle Authentication Callback</h2>
+            <p>Handle the OAuth callback in your App file:</p>
+            <div class="code-block">
+              <pre><code>import SwiftUI
+import AsgardeoAuth
+
+@main
+struct MyApp: App {
+    init() {
+        AsgardeoAuth.shared.configure(
+            config: AsgardeoConfig(
+                issuer: "https://api.asgardeo.io/t/&lt;your-org&gt;/oauth2/token",
+                clientId: "&lt;your-client-id&gt;",
+                redirectUri: "com.yourcompany.myapp://callback",
+                scopes: ["openid", "profile", "email"]
+            )
+        )
+    }
+    
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+                .onOpenURL { url in
+                    // Handle OAuth callback
+                    AsgardeoAuth.shared.handleCallback(url: url)
+                }
+        }
+    }
+}</code></pre>
+            </div>
+          </section>
+
+          <section id="ios-run-app">
+            <h2>Step 7: Run Your App</h2>
+            <p>Build and run your app:</p>
+            <ol>
+              <li>Select a simulator or device</li>
+              <li>Press <strong>Cmd + R</strong> or click the Run button</li>
+              <li>Click <strong>Sign In</strong> to test authentication</li>
+            </ol>
+            <div class="success-box">
+              <strong>🎉 Congratulations!</strong> You've successfully
+              integrated Asgardeo authentication into your iOS app.
             </div>
           </section>
         </div>

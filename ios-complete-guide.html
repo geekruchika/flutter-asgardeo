@@ -1,0 +1,2545 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>iOS Complete Guide - Asgardeo iOS SDK</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      /* Responsive layout for complete guide page */
+      @media (max-width: 1024px) {
+        .doc-container {
+          flex-direction: column !important;
+        }
+
+        .doc-container > aside {
+          width: 100% !important;
+          position: relative !important;
+          height: auto !important;
+          max-height: 400px !important;
+        }
+
+        .main-content {
+          padding: 1rem !important;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .doc-container > aside {
+          display: none;
+        }
+
+        .timeline-container {
+          padding: 1rem !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Top Navigation Bar -->
+    <nav class="navbar">
+      <div class="nav-left">
+        <span class="logo">ASGARDEO<sup>®</sup> Docs</span>
+      </div>
+      <div class="nav-right">
+        <a href="index.html" class="nav-btn">← Back to Home</a>
+        <button class="nav-btn primary">✨ Try Asgardeo</button>
+      </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="doc-container" style="display: flex; gap: 0">
+      <!-- Timeline Sidebar -->
+      <aside
+        style="
+          width: 400px;
+          flex-shrink: 0;
+          position: sticky;
+          top: 80px;
+          height: calc(100vh - 80px);
+          overflow-y: auto;
+        "
+      >
+        <div class="timeline-container" style="position: relative; top: 0">
+          <a href="index.html" class="go-back-link">← Go Back</a>
+
+          <div class="timeline">
+            <!-- Step 1: Introduction -->
+            <a href="#guide-introduction" class="timeline-item completed">
+              <div class="timeline-marker">
+                <span class="timeline-number">1</span>
+                <span class="timeline-check">✓</span>
+              </div>
+              <div class="timeline-content">
+                <h3 class="timeline-title">Complete Guide</h3>
+                <span class="timeline-duration">2 mins</span>
+              </div>
+            </a>
+
+            <!-- Step 2: Prerequisites -->
+            <a href="#guide-prerequisites" class="timeline-item">
+              <div class="timeline-marker">
+                <span class="timeline-number">2</span>
+              </div>
+              <div class="timeline-content">
+                <h3 class="timeline-title">Prerequisite</h3>
+                <span class="timeline-duration">30 secs</span>
+              </div>
+            </a>
+
+            <!-- Step 3: Configure Application -->
+            <a href="#guide-configure-app" class="timeline-item completed">
+              <div class="timeline-marker">
+                <span class="timeline-number">3</span>
+                <span class="timeline-check">✓</span>
+              </div>
+              <div class="timeline-content">
+                <h3 class="timeline-title">Configure an application</h3>
+                <span class="timeline-duration">2 min</span>
+              </div>
+            </a>
+
+            <!-- Step 4: Create iOS App -->
+            <a href="#guide-create-app" class="timeline-item completed">
+              <div class="timeline-marker">
+                <span class="timeline-number">4</span>
+                <span class="timeline-check">✓</span>
+              </div>
+              <div class="timeline-content">
+                <h3 class="timeline-title">Create an iOS app</h3>
+                <span class="timeline-duration">2 min</span>
+              </div>
+            </a>
+
+            <!-- Step 5: Configure SDK -->
+            <a href="#guide-configure-sdk" class="timeline-item completed">
+              <div class="timeline-marker">
+                <span class="timeline-number">5</span>
+                <span class="timeline-check">✓</span>
+              </div>
+              <div class="timeline-content">
+                <h3 class="timeline-title">Configure Asgardeo SDK</h3>
+                <span class="timeline-duration">3 mins</span>
+              </div>
+            </a>
+
+            <!-- Step 6: Add Login/Logout -->
+            <a href="#guide-login-logout" class="timeline-item completed">
+              <div class="timeline-marker">
+                <span class="timeline-number">6</span>
+                <span class="timeline-check">✓</span>
+              </div>
+              <div class="timeline-content">
+                <h3 class="timeline-title">Add login and logout</h3>
+                <span class="timeline-duration">3 mins</span>
+              </div>
+            </a>
+
+            <!-- Step 7: Display User Details -->
+            <a href="#guide-user-details" class="timeline-item completed">
+              <div class="timeline-marker">
+                <span class="timeline-number">7</span>
+                <span class="timeline-check">✓</span>
+              </div>
+              <div class="timeline-content">
+                <h3 class="timeline-title">Display user details</h3>
+                <span class="timeline-duration">3 mins</span>
+              </div>
+            </a>
+
+            <!-- Step 8: Secure Routes -->
+            <a href="#guide-secure-routes" class="timeline-item active">
+              <div class="timeline-marker">
+                <span class="timeline-number">8</span>
+              </div>
+              <div class="timeline-content">
+                <h3 class="timeline-title">Securing Views</h3>
+                <span class="timeline-duration">4 mins</span>
+              </div>
+            </a>
+
+            <!-- Step 9: API Calls -->
+            <a href="#guide-api-calls" class="timeline-item">
+              <div class="timeline-marker">
+                <span class="timeline-number">9</span>
+              </div>
+              <div class="timeline-content">
+                <h3 class="timeline-title">Accessing protected API</h3>
+                <span class="timeline-duration">3 mins</span>
+              </div>
+            </a>
+
+            <!-- Step 10: Manage Tokens -->
+            <a href="#guide-manage-tokens" class="timeline-item completed">
+              <div class="timeline-marker">
+                <span class="timeline-number">10</span>
+                <span class="timeline-check">✓</span>
+              </div>
+              <div class="timeline-content">
+                <h3 class="timeline-title">Manage tokens in iOS</h3>
+                <span class="timeline-duration">4 mins</span>
+              </div>
+            </a>
+
+            <!-- Step 11: Next Steps -->
+            <a href="#guide-next-steps" class="timeline-item">
+              <div class="timeline-marker">
+                <span class="timeline-number">11</span>
+              </div>
+              <div class="timeline-content">
+                <h3 class="timeline-title">Next Steps</h3>
+                <span class="timeline-duration">1 min</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content Area -->
+      <main
+        class="main-content"
+        style="margin-left: 0; flex: 1; max-width: none; padding: 2rem 3rem"
+      >
+        <div class="section-content">
+          <!-- Step 1: Introduction -->
+          <section id="guide-introduction" class="guide-step">
+            <div class="step-header">
+              <span class="step-number">1</span>
+              <div>
+                <h2>Introduction</h2>
+                <span class="step-time">2 mins</span>
+              </div>
+            </div>
+
+            <p>
+              iOS is Apple's mobile operating system for iPhone and iPad. Swift
+              is a modern, powerful programming language that provides safe and
+              expressive syntax for building iOS applications. SwiftUI is
+              Apple's declarative framework for building user interfaces across
+              all Apple platforms.
+            </p>
+
+            <p>
+              Implementing login functionality in your iOS app is essential for
+              managing user access, personalizing user experiences, and securing
+              the app. It enhances user experience, protects user data, boosts
+              engagement, and helps ensure regulatory compliance.
+            </p>
+
+            <h3>Learning objectives</h3>
+            <p>
+              This guide will walk you through everything you need to know about
+              securing iOS apps, including implementing user login in your iOS
+              app, integrating it with an Identity Provider (IdP) to make the
+              login process simple and secure, and general guidelines to protect
+              your end users.
+            </p>
+
+            <p><strong>In this guide, you will:</strong></p>
+            <ul class="checkmark-list">
+              <li>Register an application in Asgardeo</li>
+              <li>Create an iOS app with Xcode</li>
+              <li>Install Asgardeo iOS SDK</li>
+              <li>Add login and logout to your app</li>
+              <li>Display logged in user details</li>
+              <li>Secure views in your app</li>
+              <li>Access protected APIs</li>
+              <li>Manage tokens securely with iOS Keychain</li>
+            </ul>
+          </section>
+
+          <!-- Step 2: Prerequisites -->
+          <section id="guide-prerequisites" class="guide-step">
+            <div class="step-header">
+              <span class="step-number">2</span>
+              <div>
+                <h2>Prerequisites</h2>
+                <span class="step-time">30 seconds</span>
+              </div>
+            </div>
+
+            <p>Before you begin, make sure you have the following:</p>
+            <ul class="checkmark-list">
+              <li>
+                An
+                <a href="https://asgardeo.io" target="_blank"
+                  >Asgardeo account</a
+                >
+              </li>
+              <li>Mac computer with macOS Ventura or later</li>
+              <li>Xcode 14+ installed from the App Store</li>
+              <li>iOS 14.0+ target deployment</li>
+              <li>Basic knowledge of Swift and SwiftUI (or UIKit)</li>
+            </ul>
+          </section>
+
+          <!-- Step 3: Configure Application -->
+          <section id="guide-configure-app" class="guide-step">
+            <div class="step-header">
+              <span class="step-number">3</span>
+              <div>
+                <h2>Configure an Application in Asgardeo</h2>
+                <span class="step-time">2 mins</span>
+              </div>
+            </div>
+
+            <p>Register your iOS application in the Asgardeo console.</p>
+
+            <h3>Step 3.1: Register the Application</h3>
+            <ol>
+              <li>
+                Sign in to the
+                <a href="https://console.asgardeo.io" target="_blank"
+                  >Asgardeo Console</a
+                >
+              </li>
+              <li>
+                Go to <strong>Applications</strong> →
+                <strong>New Application</strong>
+              </li>
+              <li>Select <strong>Mobile Application</strong></li>
+              <li>Enter a name (e.g., "My iOS App")</li>
+              <li>Click <strong>Register</strong></li>
+            </ol>
+
+            <h3>Step 3.2: Configure OAuth Settings</h3>
+            <ol>
+              <li>Go to the <strong>Protocol</strong> tab</li>
+              <li>
+                Under <strong>Allowed grant types</strong>, select
+                <strong>Authorization Code</strong>
+              </li>
+              <li>
+                Under <strong>Authorized redirect URLs</strong>, add:
+                <code>com.yourcompany.myapp://callback</code>
+              </li>
+              <li>Enable <strong>Public client</strong></li>
+              <li>Click <strong>Update</strong></li>
+            </ol>
+
+            <div class="info-box">
+              <strong>Note:</strong> Replace
+              <code>com.yourcompany.myapp</code> with your actual bundle
+              identifier. This will be used as your custom URL scheme.
+            </div>
+          </section>
+
+          <!-- Step 4: Create iOS App -->
+          <section id="guide-create-app" class="guide-step">
+            <div class="step-header">
+              <span class="step-number">4</span>
+              <div>
+                <h2>Create an iOS App with Xcode</h2>
+                <span class="step-time">2 mins</span>
+              </div>
+            </div>
+
+            <p>Create a new iOS application project:</p>
+            <ol>
+              <li>Open Xcode</li>
+              <li>Select <strong>Create a new Xcode project</strong></li>
+              <li>Choose <strong>iOS → App</strong> template</li>
+              <li>
+                Configure your project:
+                <ul>
+                  <li><strong>Product Name:</strong> MyApp</li>
+                  <li>
+                    <strong>Team:</strong> Select your team (or add Apple ID)
+                  </li>
+                  <li>
+                    <strong>Organization Identifier:</strong> com.yourcompany
+                  </li>
+                  <li>
+                    <strong>Bundle Identifier:</strong> com.yourcompany.myapp
+                  </li>
+                  <li><strong>Interface:</strong> SwiftUI</li>
+                  <li><strong>Language:</strong> Swift</li>
+                </ul>
+              </li>
+              <li>
+                Click <strong>Next</strong> and choose a location to save your
+                project
+              </li>
+            </ol>
+
+            <p>
+              Test that your app runs by selecting a simulator and pressing
+              <strong>Cmd + R</strong> or clicking the Run button.
+            </p>
+          </section>
+
+          <!-- Step 5: Configure SDK -->
+          <section id="guide-configure-sdk" class="guide-step">
+            <div class="step-header">
+              <span class="step-number">5</span>
+              <div>
+                <h2>Install and Configure Asgardeo iOS SDK</h2>
+                <span class="step-time">3 mins</span>
+              </div>
+            </div>
+
+            <h3>Step 5.1: Add SDK via Swift Package Manager</h3>
+            <p>Install the Asgardeo iOS SDK using SPM:</p>
+            <ol>
+              <li>In Xcode, select your project in the Project Navigator</li>
+              <li>Select your app target</li>
+              <li>Go to <strong>Package Dependencies</strong> tab</li>
+              <li>Click the <strong>+</strong> button</li>
+              <li>
+                Enter repository URL:
+                <code>https://github.com/asgardeo/asgardeo-ios-sdk</code>
+              </li>
+              <li>Click <strong>Add Package</strong></li>
+            </ol>
+
+            <h3>Step 5.2: Configure Info.plist for URL Scheme</h3>
+            <p>Add your custom URL scheme for OAuth callback:</p>
+            <ol>
+              <li>Open <code>Info.plist</code> in your project</li>
+              <li>Right-click and select <strong>Add Row</strong></li>
+              <li>Add <code>URL types</code> (CFBundleURLTypes) as an Array</li>
+              <li>
+                Add a Dictionary item with:
+                <ul>
+                  <li>
+                    <strong>URL Schemes</strong> (CFBundleURLSchemes): Array
+                    with your bundle ID
+                  </li>
+                </ul>
+              </li>
+            </ol>
+
+            <div class="code-block">
+              <pre><code>&lt;key&gt;CFBundleURLTypes&lt;/key&gt;
+&lt;array&gt;
+    &lt;dict&gt;
+        &lt;key&gt;CFBundleTypeRole&lt;/key&gt;
+        &lt;string&gt;Editor&lt;/string&gt;
+        &lt;key&gt;CFBundleURLName&lt;/key&gt;
+        &lt;string&gt;$(PRODUCT_BUNDLE_IDENTIFIER)&lt;/string&gt;
+        &lt;key&gt;CFBundleURLSchemes&lt;/key&gt;
+        &lt;array&gt;
+            &lt;string&gt;com.yourcompany.myapp&lt;/string&gt;
+        &lt;/array&gt;
+    &lt;/dict&gt;
+&lt;/array&gt;</code></pre>
+            </div>
+
+            <div class="info-box">
+              <strong>Important:</strong> Ensure the URL scheme matches exactly
+              what you configured in Asgardeo console.
+            </div>
+          </section>
+
+          <!-- Step 6: Add Login/Logout -->
+          <section id="guide-login-logout" class="guide-step">
+            <div class="step-header">
+              <span class="step-number">6</span>
+              <div>
+                <h2>Add Login and Logout</h2>
+                <span class="step-time">3 mins</span>
+              </div>
+            </div>
+
+            <p>Initialize the SDK in your <code>App.swift</code> file:</p>
+            <div class="code-block">
+              <pre><code>import SwiftUI
+import AsgardeoAuth
+
+@main
+struct MyApp: App {
+    @StateObject private var auth = AsgardeoAuth.shared
+    
+    init() {
+        // Configure Asgardeo SDK
+        AsgardeoAuth.shared.configure(
+            config: AsgardeoConfig(
+                issuer: "https://api.asgardeo.io/t/&lt;your-org&gt;/oauth2/token",
+                clientId: "&lt;your-client-id&gt;",
+                redirectUri: "com.yourcompany.myapp://callback",
+                scopes: ["openid", "profile", "email"],
+                discoveryEndpoint: "https://api.asgardeo.io/t/&lt;your-org&gt;/oauth2/token/.well-known/openid-configuration"
+            )
+        )
+    }
+    
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+                .environmentObject(auth)
+                .onOpenURL { url in
+                    // Handle OAuth callback
+                    AsgardeoAuth.shared.handleCallback(url: url)
+                }
+        }
+    }
+}</code></pre>
+            </div>
+
+            <p>Create authentication UI in <code>ContentView.swift</code>:</p>
+            <div class="code-block">
+              <pre><code>import SwiftUI
+import AsgardeoAuth
+
+struct ContentView: View {
+    @EnvironmentObject var auth: AsgardeoAuth
+    @State private var showError = false
+    @State private var errorMessage = ""
+    
+    var body: some View {
+        NavigationView {
+            VStack(spacing: 20) {
+                if auth.isAuthenticated {
+                    // Authenticated View
+                    VStack(spacing: 16) {
+                        Image(systemName: "checkmark.circle.fill")
+                            .font(.system(size: 64))
+                            .foregroundColor(.green)
+                        
+                        Text("You are signed in!")
+                            .font(.title)
+                        
+                        Button(action: signOut) {
+                            Text("Sign Out")
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.red)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
+                        .padding(.horizontal)
+                    }
+                } else {
+                    // Unauthenticated View
+                    VStack(spacing: 16) {
+                        Image(systemName: "lock.shield")
+                            .font(.system(size: 64))
+                            .foregroundColor(.gray)
+                        
+                        Text("Please sign in to continue")
+                            .font(.title2)
+                        
+                        Button(action: signIn) {
+                            Text("Sign In")
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
+                        .padding(.horizontal)
+                    }
+                }
+            }
+            .navigationTitle("My App")
+            .alert("Error", isPresented: $showError) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text(errorMessage)
+            }
+        }
+    }
+    
+    private func signIn() {
+        Task {
+            do {
+                try await auth.signIn()
+            } catch {
+                errorMessage = error.localizedDescription
+                showError = true
+            }
+        }
+    }
+    
+    private func signOut() {
+        Task {
+            do {
+                try await auth.signOut()
+            } catch {
+                errorMessage = error.localizedDescription
+                showError = true
+            }
+        }
+    }
+}</code></pre>
+            </div>
+
+            <div class="success-box">
+              <strong>Tip:</strong> The Asgardeo SDK uses
+              <code>ASWebAuthenticationSession</code>
+              which provides a secure, system-level authentication experience.
+            </div>
+          </section>
+
+          <!-- Step 7: Display User Details -->
+          <section id="guide-user-details" class="guide-step">
+            <div class="step-header">
+              <span class="step-number">7</span>
+              <div>
+                <h2>Display Logged-In User Details</h2>
+                <span class="step-time">3 mins</span>
+              </div>
+            </div>
+
+            <p>
+              The Asgardeo iOS SDK provides easy access to user profile
+              information through the authenticated user object.
+            </p>
+
+            <h3>Method 1: Display User Info in Current View</h3>
+            <div class="code-block">
+              <pre><code>import SwiftUI
+import AsgardeoAuth
+
+struct ContentView: View {
+    @EnvironmentObject var auth: AsgardeoAuth
+    
+    var body: some View {
+        NavigationView {
+            VStack(spacing: 20) {
+                if auth.isAuthenticated, let user = auth.user {
+                    VStack(spacing: 16) {
+                        // User Avatar
+                        Circle()
+                            .fill(Color.blue)
+                            .frame(width: 80, height: 80)
+                            .overlay(
+                                Text(user.name?.prefix(1) ?? "U")
+                                    .font(.system(size: 36, weight: .bold))
+                                    .foregroundColor(.white)
+                            )
+                        
+                        // User Name
+                        Text("Welcome, \(user.name ?? "User")!")
+                            .font(.title)
+                        
+                        // User Email
+                        Text(user.email ?? "")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                        
+                        Button(action: {
+                            // Navigate to profile
+                        }) {
+                            Text("View Full Profile")
+                                .padding()
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
+                    }
+                    .padding()
+                }
+            }
+            .navigationTitle("Home")
+        }
+    }
+}</code></pre>
+            </div>
+
+            <h3>Method 2: Create Dedicated Profile View</h3>
+            <div class="code-block">
+              <pre><code>import SwiftUI
+import AsgardeoAuth
+
+struct ProfileView: View {
+    @EnvironmentObject var auth: AsgardeoAuth
+    
+    var body: some View {
+        List {
+            if let user = auth.user {
+                Section(header: Text("Account")) {
+                    ProfileRow(icon: "person.fill", title: "Name", value: user.name ?? "N/A")
+                    ProfileRow(icon: "envelope.fill", title: "Email", value: user.email ?? "N/A")
+                    ProfileRow(icon: "at", title: "Username", value: user.username ?? "N/A")
+                }
+                
+                Section(header: Text("Contact")) {
+                    ProfileRow(icon: "phone.fill", title: "Phone", value: user.phoneNumber ?? "N/A")
+                    ProfileRow(icon: "globe", title: "Country", value: user.country ?? "N/A")
+                }
+                
+                Section(header: Text("Additional Info")) {
+                    ProfileRow(icon: "calendar", title: "Email Verified", 
+                              value: user.emailVerified ? "Yes" : "No")
+                    ProfileRow(icon: "tag.fill", title: "User ID", value: user.sub ?? "N/A")
+                }
+                
+                Section {
+                    Button(action: signOut) {
+                        HStack {
+                            Image(systemName: "arrow.right.square.fill")
+                            Text("Sign Out")
+                        }
+                        .foregroundColor(.red)
+                    }
+                }
+            }
+        }
+        .listStyle(InsetGroupedListStyle())
+        .navigationTitle("Profile")
+    }
+    
+    private func signOut() {
+        Task {
+            try? await auth.signOut()
+        }
+    }
+}
+
+struct ProfileRow: View {
+    let icon: String
+    let title: String
+    let value: String
+    
+    var body: some View {
+        HStack {
+            Image(systemName: icon)
+                .foregroundColor(.blue)
+                .frame(width: 30)
+            
+            VStack(alignment: .leading) {
+                Text(title)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                Text(value)
+                    .font(.body)
+            }
+        }
+        .padding(.vertical, 4)
+    }
+}</code></pre>
+            </div>
+
+            <h3>Available User Profile Properties</h3>
+            <div class="code-block">
+              <pre><code>// User model properties available
+struct User: Codable {
+    let sub: String?           // Unique user ID
+    let name: String?          // Full name
+    let givenName: String?     // First name
+    let familyName: String?    // Last name
+    let email: String?         // Email address
+    let emailVerified: Bool    // Email verification status
+    let username: String?      // Username
+    let phoneNumber: String?   // Phone number
+    let country: String?       // Country
+    let locale: String?        // Preferred locale
+    let roles: [String]?       // User roles/groups
+}</code></pre>
+            </div>
+
+            <div class="info-box">
+              <strong>Best Practices:</strong>
+              <ul>
+                <li>
+                  Always check if user is authenticated before accessing user
+                  properties
+                </li>
+                <li>
+                  Use optional binding (<code>if let</code>) to safely unwrap
+                  user data
+                </li>
+                <li>Provide fallback values for optional fields</li>
+                <li>
+                  Cache user data locally if needed, but refresh on app launch
+                </li>
+              </ul>
+            </div>
+          </section>
+
+          <!-- Step 8: Secure Views -->
+          <section id="guide-secure-routes" class="guide-step">
+            <div class="step-header">
+              <span class="step-number">8</span>
+              <div>
+                <h2>Securing Views Within the App</h2>
+                <span class="step-time">4 mins</span>
+              </div>
+            </div>
+
+            <p>
+              Securing views in iOS apps is essential to protect sensitive
+              content and ensure only authenticated users can access specific
+              screens. This guide covers conditional rendering, view modifiers,
+              navigation patterns, and deep link protection.
+            </p>
+
+            <h3>Conditional View Rendering</h3>
+            <p>
+              Use SwiftUI's built-in conditional rendering based on
+              authentication state:
+            </p>
+            <div class="code-block">
+              <pre><code>import SwiftUI
+import AsgardeoAuth
+
+struct MainView: View {
+    @EnvironmentObject var auth: AsgardeoAuth
+    
+    var body: some View {
+        Group {
+            if auth.isAuthenticated {
+                // Authenticated content
+                TabView {
+                    HomeView()
+                        .tabItem {
+                            Label("Home", systemImage: "house")
+                        }
+                    
+                    ProfileView()
+                        .tabItem {
+                            Label("Profile", systemImage: "person")
+                        }
+                    
+                    SettingsView()
+                        .tabItem {
+                            Label("Settings", systemImage: "gear")
+                        }
+                }
+            } else {
+                // Unauthenticated content
+                LandingView()
+            }
+        }
+    }
+}</code></pre>
+            </div>
+
+            <h3>Protected View Modifier</h3>
+            <p>Create a reusable view modifier for protected views:</p>
+            <div class="code-block">
+              <pre><code>import SwiftUI
+import AsgardeoAuth
+
+struct AuthRequiredModifier: ViewModifier {
+    @EnvironmentObject var auth: AsgardeoAuth
+    let fallbackView: AnyView
+    let message: String
+    
+    init(
+        message: String = "Please sign in to access this page",
+        fallback: some View = DefaultLoginPrompt()
+    ) {
+        self.message = message
+        self.fallbackView = AnyView(fallback)
+    }
+    
+    func body(content: Content) -> some View {
+        if auth.isAuthenticated {
+            content
+        } else {
+            fallbackView
+        }
+    }
+}
+
+extension View {
+    func requiresAuth(
+        message: String = "Please sign in to access this page"
+    ) -> some View {
+        modifier(AuthRequiredModifier(message: message))
+    }
+}
+
+struct DefaultLoginPrompt: View {
+    @EnvironmentObject var auth: AsgardeoAuth
+    @Environment(\.dismiss) var dismiss
+    
+    var body: some View {
+        VStack(spacing: 24) {
+            Image(systemName: "lock.shield.fill")
+                .font(.system(size: 64))
+                .foregroundColor(.orange)
+            
+            Text("Authentication Required")
+                .font(.title)
+                .fontWeight(.bold)
+            
+            Text("Please sign in to access this page")
+                .font(.body)
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+            
+            Button(action: signIn) {
+                HStack {
+                    Image(systemName: "lock.open.fill")
+                    Text("Sign In")
+                }
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(12)
+            }
+            .padding(.horizontal, 40)
+            
+            Button("Go Back") {
+                dismiss()
+            }
+            .foregroundColor(.blue)
+        }
+        .padding()
+    }
+    
+    private func signIn() {
+        Task {
+            try? await auth.signIn()
+        }
+    }
+}
+
+// Usage in protected views
+struct ProtectedProfileView: View {
+    var body: some View {
+        VStack {
+            Text("Your Profile Details")
+            // Profile content
+        }
+        .requiresAuth(message: "Sign in to view your profile")
+    }
+}</code></pre>
+            </div>
+
+            <h3>Navigation Guard with NavigationStack (iOS 16+)</h3>
+            <p>Implement navigation guards for modern iOS apps:</p>
+            <div class="code-block">
+              <pre><code>import SwiftUI
+import AsgardeoAuth
+
+enum AppRoute: Hashable {
+    case home
+    case profile
+    case settings
+    case dashboard
+    case adminPanel
+}
+
+struct AppNavigationView: View {
+    @EnvironmentObject var auth: AsgardeoAuth
+    @State private var path = NavigationPath()
+    @State private var selectedTab = 0
+    
+    var body: some View {
+        NavigationStack(path: $path) {
+            TabView(selection: $selectedTab) {
+                HomeView()
+                    .tabItem {
+                        Label("Home", systemImage: "house")
+                    }
+                    .tag(0)
+                
+                NavigationLink(value: AppRoute.profile) {
+                    Label("Profile", systemImage: "person")
+                }
+                .tabItem {
+                    Label("Profile", systemImage: "person")
+                }
+                .tag(1)
+            }
+            .navigationDestination(for: AppRoute.self) { route in
+                routeView(for: route)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private func routeView(for route: AppRoute) -> some View {
+        switch route {
+        case .home:
+            HomeView()
+        case .profile:
+            if auth.isAuthenticated {
+                ProfileView()
+            } else {
+                LoginRequiredView(intendedRoute: route)
+            }
+        case .settings:
+            if auth.isAuthenticated {
+                SettingsView()
+            } else {
+                LoginRequiredView(intendedRoute: route)
+            }
+        case .dashboard:
+            if auth.isAuthenticated {
+                DashboardView()
+            } else {
+                LoginRequiredView(intendedRoute: route)
+            }
+        case .adminPanel:
+            if hasAdminRole {
+                AdminPanelView()
+            } else {
+                AccessDeniedView()
+            }
+        }
+    }
+    
+    private var hasAdminRole: Bool {
+        guard auth.isAuthenticated,
+              let roles = auth.user?.roles else {
+            return false
+        }
+        return roles.contains("admin") || roles.contains("super_admin")
+    }
+}
+
+struct LoginRequiredView: View {
+    @EnvironmentObject var auth: AsgardeoAuth
+    @Environment(\.dismiss) var dismiss
+    let intendedRoute: AppRoute
+    
+    var body: some View {
+        VStack(spacing: 24) {
+            Image(systemName: "lock.shield")
+                .font(.system(size: 72))
+                .foregroundColor(.orange)
+            
+            Text("Authentication Required")
+                .font(.title)
+                .fontWeight(.bold)
+            
+            Text("You need to sign in to access this page")
+                .font(.body)
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal)
+            
+            VStack(spacing: 12) {
+                Button(action: signIn) {
+                    HStack {
+                        Image(systemName: "lock.open.fill")
+                        Text("Sign In")
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(12)
+                }
+                
+                Button("Cancel") {
+                    dismiss()
+                }
+                .foregroundColor(.blue)
+            }
+            .padding(.horizontal, 40)
+        }
+        .padding()
+    }
+    
+    private func signIn() {
+        Task {
+            do {
+                try await auth.signIn()
+                // After successful login, navigate to intended route
+            } catch {
+                print("Sign in failed: \(error)")
+            }
+        }
+    }
+}</code></pre>
+            </div>
+
+            <h3>Role-Based Access Control</h3>
+            <p>Implement fine-grained role-based view protection:</p>
+            <div class="code-block">
+              <pre><code>import SwiftUI
+import AsgardeoAuth
+
+struct RoleProtectedView<Content: View, DeniedView: View>: View {
+    @EnvironmentObject var auth: AsgardeoAuth
+    let requiredRoles: [String]
+    let content: Content
+    let deniedView: DeniedView
+    
+    init(
+        requiredRoles: [String],
+        @ViewBuilder content: () -> Content,
+        @ViewBuilder deniedView: () -> DeniedView = { DefaultAccessDeniedView() }
+    ) {
+        self.requiredRoles = requiredRoles
+        self.content = content()
+        self.deniedView = deniedView()
+    }
+    
+    var body: some View {
+        Group {
+            if hasRequiredRole {
+                content
+            } else {
+                deniedView
+            }
+        }
+    }
+    
+    private var hasRequiredRole: Bool {
+        guard auth.isAuthenticated,
+              let userRoles = auth.user?.roles else {
+            return false
+        }
+        return requiredRoles.contains(where: { userRoles.contains($0) })
+    }
+}
+
+struct DefaultAccessDeniedView: View {
+    @Environment(\.dismiss) var dismiss
+    
+    var body: some View {
+        VStack(spacing: 24) {
+            Image(systemName: "xmark.shield.fill")
+                .font(.system(size: 72))
+                .foregroundColor(.red)
+            
+            Text("Access Denied")
+                .font(.title)
+                .fontWeight(.bold)
+            
+            Text("You don't have permission to access this page")
+                .font(.body)
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal)
+            
+            Button("Go Back") {
+                dismiss()
+            }
+            .padding()
+            .background(Color.blue)
+            .foregroundColor(.white)
+            .cornerRadius(12)
+        }
+        .padding()
+    }
+}
+
+// Usage for admin-only views
+struct AdminDashboardView: View {
+    var body: some View {
+        RoleProtectedView(requiredRoles: ["admin", "super_admin"]) {
+            VStack {
+                Text("Admin Dashboard")
+                    .font(.title)
+                
+                List {
+                    Section("User Management") {
+                        NavigationLink("Users") {
+                            UserManagementView()
+                        }
+                        NavigationLink("Roles") {
+                            RoleManagementView()
+                        }
+                    }
+                    
+                    Section("System") {
+                        NavigationLink("Settings") {
+                            SystemSettingsView()
+                        }
+                        NavigationLink("Logs") {
+                            SystemLogsView()
+                        }
+                    }
+                }
+            }
+        } deniedView: {
+            CustomAccessDeniedView(message: "Admin access required")
+        }
+    }
+}</code></pre>
+            </div>
+
+            <h3>Deep Link Handling with Authentication</h3>
+            <p>Protect deep links by checking authentication:</p>
+            <div class="code-block">
+              <pre><code>import SwiftUI
+import AsgardeoAuth
+
+@main
+struct MyApp: App {
+    @StateObject private var auth = AsgardeoAuth.shared
+    @State private var pendingDeepLink: URL?
+    
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+                .environmentObject(auth)
+                .onOpenURL { url in
+                    handleDeepLink(url)
+                }
+        }
+    }
+    
+    private func handleDeepLink(_ url: URL) {
+        // Handle OAuth callback
+        if url.absoluteString.contains("callback") {
+            AsgardeoAuth.shared.handleCallback(url: url)
+            
+            // Navigate to pending deep link if exists
+            if let pending = pendingDeepLink {
+                navigateToDeepLink(pending)
+                pendingDeepLink = nil
+            }
+            return
+        }
+        
+        // Handle app deep links
+        let protectedPaths = ["/profile", "/settings", "/dashboard", "/admin"]
+        let isProtected = protectedPaths.contains(where: { url.path.contains($0) })
+        
+        if isProtected && !auth.isAuthenticated {
+            // Store deep link and trigger sign in
+            pendingDeepLink = url
+            Task {
+                try? await auth.signIn()
+            }
+        } else {
+            navigateToDeepLink(url)
+        }
+    }
+    
+    private func navigateToDeepLink(_ url: URL) {
+        // Navigate to the appropriate view based on URL
+        // Implementation depends on your navigation structure
+    }
+}</code></pre>
+            </div>
+
+            <h3>State-Based Navigation</h3>
+            <p>Auto-navigate based on authentication state changes:</p>
+            <div class="code-block">
+              <pre><code>import SwiftUI
+import Combine
+import AsgardeoAuth
+
+class NavigationManager: ObservableObject {
+    @Published var currentView: AppView = .landing
+    private var cancellables = Set&lt;AnyCancellable&gt;()
+    
+    enum AppView {
+        case landing
+        case main
+        case onboarding
+    }
+    
+    init() {
+        AsgardeoAuth.shared.$isAuthenticated
+            .sink { [weak self] isAuthenticated in
+                self?.handleAuthStateChange(isAuthenticated)
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func handleAuthStateChange(_ isAuthenticated: Bool) {
+        if isAuthenticated {
+            // Check if user needs onboarding
+            if needsOnboarding() {
+                currentView = .onboarding
+            } else {
+                currentView = .main
+            }
+        } else {
+            currentView = .landing
+        }
+    }
+    
+    private func needsOnboarding() -> Bool {
+        // Check if user has completed onboarding
+        return UserDefaults.standard.bool(forKey: "hasCompletedOnboarding") == false
+    }
+}
+
+struct RootView: View {
+    @StateObject private var navigationManager = NavigationManager()
+    @EnvironmentObject var auth: AsgardeoAuth
+    
+    var body: some View {
+        Group {
+            switch navigationManager.currentView {
+            case .landing:
+                LandingView()
+            case .onboarding:
+                OnboardingView()
+            case .main:
+                MainTabView()
+            }
+        }
+        .animation(.easeInOut, value: navigationManager.currentView)
+    }
+}</code></pre>
+            </div>
+
+            <div class="info-box">
+              <strong>Security Best Practices:</strong>
+              <ul>
+                <li>
+                  ✅ Always validate authentication state before showing
+                  protected content
+                </li>
+                <li>
+                  ✅ Use environment objects to share auth state across views
+                </li>
+                <li>✅ Clear navigation stack and cached data on logout</li>
+                <li>✅ Validate user roles on both client and server</li>
+                <li>✅ Store intended destination when redirecting to login</li>
+                <li>❌ Don't rely solely on UI hiding for security</li>
+                <li>❌ Don't cache sensitive view states in memory</li>
+                <li>❌ Don't forget to protect deep link entry points</li>
+              </ul>
+            </div>
+
+            <div class="success-box">
+              <strong>💡 Pro Tip:</strong> For production apps, combine
+              view-level security with server-side validation. Never trust
+              client-side navigation alone - always validate authentication and
+              authorization on your backend API.
+            </div>
+          </section>
+
+          <!-- Step 9: API Calls -->
+          <section id="guide-api-calls" class="guide-step">
+            <div class="step-header">
+              <span class="step-number">9</span>
+              <div>
+                <h2>Accessing Protected APIs</h2>
+                <span class="step-time">3 mins</span>
+              </div>
+            </div>
+
+            <p>
+              Make authenticated API calls using access tokens from the Asgardeo
+              SDK. This section covers URLSession integration, error handling,
+              and SwiftUI integration patterns.
+            </p>
+
+            <h3>Basic API Service with Access Tokens</h3>
+            <div class="code-block">
+              <pre><code>import Foundation
+import AsgardeoAuth
+
+class APIService {
+    static let shared = APIService()
+    private let baseURL = "https://api.example.com"
+    
+    enum HTTPMethod: String {
+        case get = "GET"
+        case post = "POST"
+        case put = "PUT"
+        case delete = "DELETE"
+    }
+    
+    // GET request with authentication
+    func fetchProtectedData<T: Decodable>(
+        endpoint: String,
+        responseType: T.Type
+    ) async throws -> T {
+        guard let token = AsgardeoAuth.shared.accessToken else {
+            throw APIError.unauthorized
+        }
+        
+        guard let url = URL(string: "\(baseURL)\(endpoint)") else {
+            throw APIError.invalidURL
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = HTTPMethod.get.rawValue
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.timeoutInterval = 30
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw APIError.invalidResponse
+        }
+        
+        switch httpResponse.statusCode {
+        case 200...299:
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            return try decoder.decode(T.self, from: data)
+            
+        case 401:
+            // Token expired - sign out user
+            try? await AsgardeoAuth.shared.signOut()
+            throw APIError.unauthorized
+            
+        case 403:
+            throw APIError.forbidden
+            
+        case 404:
+            throw APIError.notFound
+            
+        case 500...599:
+            throw APIError.serverError(httpResponse.statusCode)
+            
+        default:
+            throw APIError.httpError(httpResponse.statusCode)
+        }
+    }
+    
+    // POST request with body
+    func postData<T: Encodable, R: Decodable>(
+        endpoint: String,
+        body: T,
+        responseType: R.Type
+    ) async throws -> R {
+        guard let token = AsgardeoAuth.shared.accessToken else {
+            throw APIError.unauthorized
+        }
+        
+        guard let url = URL(string: "\(baseURL)\(endpoint)") else {
+            throw APIError.invalidURL
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = HTTPMethod.post.rawValue
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let encoder = JSONEncoder()
+        encoder.keyEncodingStrategy = .convertToSnakeCase
+        request.httpBody = try encoder.encode(body)
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse,
+              200...299 ~= httpResponse.statusCode else {
+            throw APIError.httpError((response as? HTTPURLResponse)?.statusCode ?? 0)
+        }
+        
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        return try decoder.decode(R.self, from: data)
+    }
+}
+
+enum APIError: LocalizedError {
+    case unauthorized
+    case forbidden
+    case notFound
+    case invalidURL
+    case invalidResponse
+    case httpError(Int)
+    case serverError(Int)
+    case decodingError
+    
+    var errorDescription: String? {
+        switch self {
+        case .unauthorized:
+            return "Session expired. Please sign in again."
+        case .forbidden:
+            return "You don't have permission to access this resource."
+        case .notFound:
+            return "The requested resource was not found."
+        case .invalidURL:
+            return "Invalid URL."
+        case .invalidResponse:
+            return "Invalid server response."
+        case .httpError(let code):
+            return "HTTP Error: \(code)"
+        case .serverError(let code):
+            return "Server Error: \(code)"
+        case .decodingError:
+            return "Failed to parse server response."
+        }
+    }
+}</code></pre>
+            </div>
+
+            <h3>SwiftUI Integration with @MainActor</h3>
+            <div class="code-block">
+              <pre><code>import SwiftUI
+import AsgardeoAuth
+
+// Model
+struct UserPost: Identifiable, Codable {
+    let id: String
+    let title: String
+    let content: String
+    let createdAt: Date
+}
+
+// ViewModel
+@MainActor
+class PostsViewModel: ObservableObject {
+    @Published var posts: [UserPost] = []
+    @Published var isLoading = false
+    @Published var errorMessage: String?
+    
+    func fetchPosts() async {
+        isLoading = true
+        errorMessage = nil
+        
+        do {
+            posts = try await APIService.shared.fetchProtectedData(
+                endpoint: "/api/posts",
+                responseType: [UserPost].self
+            )
+            isLoading = false
+        } catch APIError.unauthorized {
+            errorMessage = "Session expired. Please sign in again."
+            isLoading = false
+            try? await AsgardeoAuth.shared.signOut()
+        } catch {
+            errorMessage = error.localizedDescription
+            isLoading = false
+        }
+    }
+    
+    func createPost(title: String, content: String) async {
+        isLoading = true
+        errorMessage = nil
+        
+        let newPost = CreatePostRequest(title: title, content: content)
+        
+        do {
+            let createdPost = try await APIService.shared.postData(
+                endpoint: "/api/posts",
+                body: newPost,
+                responseType: UserPost.self
+            )
+            posts.insert(createdPost, at: 0)
+            isLoading = false
+        } catch {
+            errorMessage = error.localizedDescription
+            isLoading = false
+        }
+    }
+}
+
+struct CreatePostRequest: Codable {
+    let title: String
+    let content: String
+}
+
+// View
+struct PostsView: View {
+    @StateObject private var viewModel = PostsViewModel()
+    @State private var showingCreatePost = false
+    
+    var body: some View {
+        NavigationView {
+            Group {
+                if viewModel.isLoading && viewModel.posts.isEmpty {
+                    ProgressView("Loading posts...")
+                } else if let error = viewModel.errorMessage {
+                    ErrorView(message: error) {
+                        Task {
+                            await viewModel.fetchPosts()
+                        }
+                    }
+                } else {
+                    List(viewModel.posts) { post in
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text(post.title)
+                                .font(.headline)
+                            Text(post.content)
+                                .font(.body)
+                                .foregroundColor(.secondary)
+                        }
+                        .padding(.vertical, 4)
+                    }
+                    .refreshable {
+                        await viewModel.fetchPosts()
+                    }
+                }
+            }
+            .navigationTitle("Posts")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: { showingCreatePost = true }) {
+                        Image(systemName: "plus")
+                    }
+                }
+            }
+            .sheet(isPresented: $showingCreatePost) {
+                CreatePostView(viewModel: viewModel)
+            }
+            .task {
+                await viewModel.fetchPosts()
+            }
+        }
+    }
+}
+
+struct ErrorView: View {
+    let message: String
+    let retry: () -> Void
+    
+    var body: some View {
+        VStack(spacing: 16) {
+            Image(systemName: "exclamationmark.triangle.fill")
+                .font(.system(size: 48))
+                .foregroundColor(.orange)
+            
+            Text(message)
+                .multilineTextAlignment(.center)
+                .foregroundColor(.secondary)
+            
+            Button("Retry", action: retry)
+                .padding()
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(10)
+        }
+        .padding()
+    }
+}</code></pre>
+            </div>
+
+            <h3>Handling Token Refresh Automatically</h3>
+            <div class="code-block">
+              <pre><code>import Foundation
+import AsgardeoAuth
+
+extension APIService {
+    // Wrapper that handles token refresh automatically
+    func makeAuthenticatedRequest<T: Decodable>(
+        endpoint: String,
+        method: HTTPMethod = .get,
+        body: Data? = nil,
+        responseType: T.Type
+    ) async throws -> T {
+        // First attempt with current token
+        do {
+            return try await performRequest(
+                endpoint: endpoint,
+                method: method,
+                body: body,
+                responseType: responseType
+            )
+        } catch APIError.unauthorized {
+            // Token might be expired, try to refresh
+            do {
+                try await AsgardeoAuth.shared.refreshToken()
+                
+                // Retry with new token
+                return try await performRequest(
+                    endpoint: endpoint,
+                    method: method,
+                    body: body,
+                    responseType: responseType
+                )
+            } catch {
+                // Refresh failed, sign out user
+                try? await AsgardeoAuth.shared.signOut()
+                throw APIError.unauthorized
+            }
+        }
+    }
+    
+    private func performRequest<T: Decodable>(
+        endpoint: String,
+        method: HTTPMethod,
+        body: Data?,
+        responseType: T.Type
+    ) async throws -> T {
+        guard let token = AsgardeoAuth.shared.accessToken else {
+            throw APIError.unauthorized
+        }
+        
+        guard let url = URL(string: "\(baseURL)\(endpoint)") else {
+            throw APIError.invalidURL
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = method.rawValue
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = body
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw APIError.invalidResponse
+        }
+        
+        guard 200...299 ~= httpResponse.statusCode else {
+            if httpResponse.statusCode == 401 {
+                throw APIError.unauthorized
+            }
+            throw APIError.httpError(httpResponse.statusCode)
+        }
+        
+        return try JSONDecoder().decode(T.self, from: data)
+    }
+}</code></pre>
+            </div>
+
+            <div class="info-box">
+              <strong>Best Practices:</strong>
+              <ul>
+                <li>Always handle 401 responses by signing out the user</li>
+                <li>
+                  Use <code>@MainActor</code> for view models that update UI
+                </li>
+                <li>Implement retry logic for network failures</li>
+                <li>Use proper error handling with typed errors</li>
+                <li>Add timeout configurations for API calls</li>
+                <li>
+                  Use <code>.refreshable</code> modifier for pull-to-refresh
+                </li>
+                <li>Cache responses when appropriate</li>
+              </ul>
+            </div>
+          </section>
+
+          <!-- Step 10: Manage Tokens -->
+          <section id="guide-manage-tokens" class="guide-step">
+            <div class="step-header">
+              <span class="step-number">10</span>
+              <div>
+                <h2>Manage Tokens in iOS Apps</h2>
+                <span class="step-time">4 mins</span>
+              </div>
+            </div>
+
+            <p>
+              Proper token management is critical for maintaining security in
+              iOS applications. The Asgardeo iOS SDK automatically manages
+              tokens and stores them securely using Apple's Keychain Services
+              with hardware-backed encryption.
+            </p>
+
+            <h3>Token Validation</h3>
+            <p>
+              The SDK automatically validates tokens by checking signature,
+              expiration, issuer, and audience claims. When you sign in, the SDK
+              acquires:
+            </p>
+
+            <ul>
+              <li>
+                <strong>Access Token:</strong> Short-lived (typically 1 hour),
+                used for API authorization
+              </li>
+              <li>
+                <strong>ID Token:</strong> JWT containing user information and
+                claims
+              </li>
+              <li>
+                <strong>Refresh Token:</strong> Long-lived token for obtaining
+                new access tokens
+              </li>
+            </ul>
+
+            <p>The SDK validates tokens by checking:</p>
+            <ul>
+              <li>
+                <strong>Signature Validation:</strong> Verifies JWT signature
+                using public key from Asgardeo's JWKS endpoint
+              </li>
+              <li>
+                <strong>Expiration Check:</strong> Validates the
+                <code>exp</code> claim
+              </li>
+              <li>
+                <strong>Issuer Validation:</strong> Confirms the
+                <code>iss</code> claim matches your organization
+              </li>
+              <li>
+                <strong>Audience Validation:</strong> Ensures
+                <code>aud</code> matches your client ID
+              </li>
+            </ul>
+
+            <h3>iOS Keychain Secure Storage</h3>
+            <p>
+              The Asgardeo SDK uses Apple's Keychain Services to securely store
+              tokens. On devices with <strong>Secure Enclave</strong> (iPhone 5s
+              and later), tokens are protected by hardware-backed encryption
+              that cannot be extracted even if the device is compromised.
+            </p>
+
+            <h4>How the SDK Uses Keychain</h4>
+            <div class="code-block">
+              <pre><code>// The SDK automatically stores tokens in Keychain with security attributes
+let keychainQuery: [String: Any] = [
+    kSecClass as String: kSecClassGenericPassword,
+    kSecAttrService as String: "com.asgardeo.auth.tokens",
+    kSecAttrAccount as String: "access_token",
+    
+    // Security settings
+    kSecAttrAccessible as String: kSecAttrAccessibleAfterFirstUnlock,
+    kSecAttrSynchronizable as String: false,  // Don't sync to iCloud
+    kSecUseDataProtectionKeychain as String: true,
+    
+    // Data
+    kSecValueData as String: tokenData
+]
+
+// For devices with Face ID/Touch ID
+let accessControl = SecAccessControlCreateWithFlags(
+    nil,
+    kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
+    .userPresence,  // Require biometric or passcode
+    nil
+)
+
+// Enhanced security query with biometric protection
+let protectedQuery: [String: Any] = [
+    kSecClass as String: kSecClassGenericPassword,
+    kSecAttrService as String: "com.asgardeo.auth.tokens",
+    kSecAttrAccount as String: "access_token",
+    kSecAttrAccessControl as String: accessControl as Any,
+    kSecUseAuthenticationContext as String: context,
+    kSecValueData as String: tokenData
+]</code></pre>
+            </div>
+
+            <h3>Token Lifecycle Management</h3>
+            <p>The SDK automatically handles token refresh and expiration:</p>
+            <div class="code-block">
+              <pre><code>import AsgardeoAuth
+import Combine
+
+@MainActor
+class AuthStateManager: ObservableObject {
+    @Published var isAuthenticated = false
+    @Published var user: User?
+    private var cancellables = Set&lt;AnyCancellable&gt;()
+    
+    init() {
+        setupAuthStateObserver()
+    }
+    
+    private func setupAuthStateObserver() {
+        // Observe authentication state
+        AsgardeoAuth.shared.$isAuthenticated
+            .sink { [weak self] isAuth in
+                self?.isAuthenticated = isAuth
+                
+                if isAuth {
+                    self?.user = AsgardeoAuth.shared.user
+                } else {
+                    self?.user = nil
+                    self?.handleSignOut()
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func handleSignOut() {
+        // Clear any cached user data
+        UserDefaults.standard.removeObject(forKey: "cachedUserData")
+        
+        // Clear any in-memory caches
+        // Reset app state
+    }
+}
+
+// Access current tokens
+extension AsgardeoAuth {
+    func getTokens() -> (accessToken: String?, idToken: String?, refreshToken: String?) {
+        return (accessToken, idToken, refreshToken)
+    }
+    
+    func isAccessTokenValid() -> Bool {
+        guard let token = accessToken else { return false }
+        
+        // Check token expiration
+        // The SDK handles this automatically
+        return !isTokenExpired(token)
+    }
+    
+    private func isTokenExpired(_ token: String) -> Bool {
+        // Token expiration check logic
+        // Implemented by SDK
+        return false
+    }
+}</code></pre>
+            </div>
+
+            <h3>Manual Token Access (Advanced)</h3>
+            <p>Access tokens directly when needed:</p>
+            <div class="code-block">
+              <pre><code>import AsgardeoAuth
+
+// Get current access token
+if let accessToken = AsgardeoAuth.shared.accessToken {
+    print("Access Token available")
+    // Use for API calls
+}
+
+// Get ID token (contains user info)
+if let idToken = AsgardeoAuth.shared.idToken {
+    print("ID Token available")
+}
+
+// Check if token is valid and not expired
+let isValid = AsgardeoAuth.shared.isAuthenticated
+
+// Manually refresh token (SDK does this automatically)
+Task {
+    do {
+        try await AsgardeoAuth.shared.refreshToken()
+        print("Token refreshed successfully")
+    } catch {
+        print("Token refresh failed: \(error)")
+        // User needs to sign in again
+    }
+}</code></pre>
+            </div>
+
+            <h3>Secure Logout and Token Cleanup</h3>
+            <p>The SDK handles complete cleanup on logout:</p>
+            <div class="code-block">
+              <pre><code>import AsgardeoAuth
+
+func performSecureLogout() async {
+    do {
+        // This will:
+        // 1. Clear tokens from iOS Keychain
+        // 2. Revoke tokens with Asgardeo server
+        // 3. Clear authentication state
+        // 4. Clear user session data
+        try await AsgardeoAuth.shared.signOut()
+        
+        // Additional cleanup
+        await MainActor.run {
+            // Clear UserDefaults
+            UserDefaults.standard.removeObject(forKey: "cachedData")
+            
+            // Clear any cached images or files
+            clearCache()
+            
+            // Reset app state
+            resetAppState()
+            
+            // Navigate to login screen
+            navigateToLogin()
+        }
+        
+        print("Logout completed successfully")
+    } catch {
+        print("Logout error: \(error)")
+        // Force local cleanup even if server revocation fails
+        forceLocalCleanup()
+    }
+}
+
+func forceLocalCleanup() {
+    // Clear all local data
+    UserDefaults.standard.removeObject(forKey: "cachedData")
+    clearCache()
+    resetAppState()
+}</code></pre>
+            </div>
+
+            <h3>Biometric Authentication for Sensitive Operations</h3>
+            <p>Add Face ID/Touch ID protection for token access:</p>
+            <div class="code-block">
+              <pre><code>import LocalAuthentication
+import AsgardeoAuth
+
+class BiometricAuthManager {
+    static let shared = BiometricAuthManager()
+    private let context = LAContext()
+    
+    enum BiometricType {
+        case faceID
+        case touchID
+        case none
+    }
+    
+    var biometricType: BiometricType {
+        var error: NSError?
+        guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) else {
+            return .none
+        }
+        
+        switch context.biometryType {
+        case .faceID:
+            return .faceID
+        case .touchID:
+            return .touchID
+        default:
+            return .none
+        }
+    }
+    
+    func authenticateUser(reason: String) async throws -> Bool {
+        let context = LAContext()
+        context.localizedCancelTitle = "Cancel"
+        
+        var error: NSError?
+        guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) else {
+            throw BiometricError.notAvailable
+        }
+        
+        do {
+            return try await context.evaluatePolicy(
+                .deviceOwnerAuthenticationWithBiometrics,
+                localizedReason: reason
+            )
+        } catch let error as LAError {
+            switch error.code {
+            case .userCancel, .userFallback, .systemCancel:
+                throw BiometricError.cancelled
+            case .biometryNotAvailable, .biometryNotEnrolled:
+                throw BiometricError.notAvailable
+            case .biometryLockout:
+                throw BiometricError.locked
+            default:
+                throw BiometricError.failed
+            }
+        }
+    }
+}
+
+enum BiometricError: LocalizedError {
+    case notAvailable
+    case cancelled
+    case locked
+    case failed
+    
+    var errorDescription: String? {
+        switch self {
+        case .notAvailable:
+            return "Biometric authentication is not available"
+        case .cancelled:
+            return "Authentication was cancelled"
+        case .locked:
+            return "Biometric authentication is locked. Use passcode."
+        case .failed:
+            return "Authentication failed"
+        }
+    }
+}
+
+// Usage: Protect sensitive API calls
+func accessSensitiveData() async {
+    do {
+        let authenticated = try await BiometricAuthManager.shared.authenticateUser(
+            reason: "Authenticate to access sensitive data"
+        )
+        
+        if authenticated {
+            // User authenticated, proceed with sensitive operation
+            guard let token = AsgardeoAuth.shared.accessToken else {
+                throw APIError.unauthorized
+            }
+            
+            // Make API call with token
+            let data = try await APIService.shared.fetchProtectedData(
+                endpoint: "/api/sensitive",
+                responseType: SensitiveData.self
+            )
+            
+            // Process sensitive data
+        }
+    } catch {
+        print("Biometric authentication failed: \(error)")
+        // Show error to user
+    }
+}</code></pre>
+            </div>
+
+            <h3>Token Security Best Practices</h3>
+            <div class="info-box">
+              <strong>Critical Security Guidelines:</strong>
+              <ul>
+                <li>
+                  <strong>✅ DO:</strong> Let the SDK manage token storage in
+                  Keychain automatically
+                </li>
+                <li>
+                  <strong>✅ DO:</strong> Use Face ID/Touch ID for sensitive
+                  operations
+                </li>
+                <li>
+                  <strong>✅ DO:</strong> Set
+                  <code>kSecAttrSynchronizable</code> to false (no iCloud sync)
+                </li>
+                <li>
+                  <strong>✅ DO:</strong> Handle 401 responses by signing out
+                  the user
+                </li>
+                <li>
+                  <strong>✅ DO:</strong> Clear all tokens and cached data on
+                  logout
+                </li>
+                <li>
+                  <strong>✅ DO:</strong> Use
+                  <code>kSecAttrAccessibleAfterFirstUnlock</code> for security
+                </li>
+                <li>
+                  <strong>❌ DON'T:</strong> Store tokens in UserDefaults or
+                  property lists
+                </li>
+                <li>
+                  <strong>❌ DON'T:</strong> Log tokens in debug output or
+                  analytics
+                </li>
+                <li>
+                  <strong>❌ DON'T:</strong> Cache tokens in memory longer than
+                  necessary
+                </li>
+                <li>
+                  <strong>❌ DON'T:</strong> Sync tokens to iCloud Keychain
+                </li>
+                <li>
+                  <strong>❌ DON'T:</strong> Share tokens between apps (even
+                  same developer)
+                </li>
+              </ul>
+            </div>
+
+            <h3>Additional Security Measures for Production</h3>
+            <div class="code-block">
+              <pre><code>// Certificate Pinning
+class SecureNetworkManager {
+    func setupCertificatePinning() {
+        let session = URLSession(
+            configuration: .default,
+            delegate: self,
+            delegateQueue: nil
+        )
+    }
+}
+
+extension SecureNetworkManager: URLSessionDelegate {
+    func urlSession(
+        _ session: URLSession,
+        didReceive challenge: URLAuthenticationChallenge,
+        completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void
+    ) {
+        // Implement certificate pinning
+        guard let serverTrust = challenge.protectionSpace.serverTrust else {
+            completionHandler(.cancelAuthenticationChallenge, nil)
+            return
+        }
+        
+        // Validate certificate
+        // Implementation depends on your pinning strategy
+        completionHandler(.useCredential, URLCredential(trust: serverTrust))
+    }
+}
+
+// Jailbreak Detection
+class SecurityChecker {
+    static func isJailbroken() -> Bool {
+        #if targetEnvironment(simulator)
+        return false
+        #else
+        let paths = [
+            "/Applications/Cydia.app",
+            "/Library/MobileSubstrate/MobileSubstrate.dylib",
+            "/bin/bash",
+            "/usr/sbin/sshd",
+            "/etc/apt",
+            "/private/var/lib/apt/"
+        ]
+        
+        for path in paths {
+            if FileManager.default.fileExists(atPath: path) {
+                return true
+            }
+        }
+        
+        // Check if can write to system directory
+        let testPath = "/private/jailbreak.txt"
+        do {
+            try "test".write(toFile: testPath, atomically: true, encoding: .utf8)
+            try FileManager.default.removeItem(atPath: testPath)
+            return true
+        } catch {
+            return false
+        }
+        #endif
+    }
+}</code></pre>
+            </div>
+
+            <div class="success-box">
+              <strong>💡 Pro Tip:</strong> In production apps, implement a
+              comprehensive security strategy including:
+              <ul>
+                <li>
+                  Certificate pinning to prevent man-in-the-middle attacks
+                </li>
+                <li>Jailbreak detection to prevent token extraction</li>
+                <li>Runtime integrity checks</li>
+                <li>Code obfuscation for sensitive logic</li>
+                <li>Regular security audits and penetration testing</li>
+              </ul>
+            </div>
+          </section>
+
+          <!-- Step 11: Next Steps -->
+          <section id="guide-next-steps" class="guide-step">
+            <div class="step-header">
+              <span class="step-number">11</span>
+              <div>
+                <h2>Next Steps</h2>
+                <span class="step-time">1 min</span>
+              </div>
+            </div>
+
+            <div class="success-box">
+              <strong>🎉 Congratulations!</strong> You've successfully
+              integrated Asgardeo authentication into your iOS app with Swift.
+              Your app now has secure, production-ready authentication powered
+              by Asgardeo.
+            </div>
+
+            <h3>Continue Learning</h3>
+            <div class="steps-grid">
+              <a href="index.html#components" class="step-card">
+                <h3>📦 SDK Reference</h3>
+                <p>Explore the complete Asgardeo iOS SDK API documentation</p>
+              </a>
+              <a href="index.html#api" class="step-card">
+                <h3>📖 API Documentation</h3>
+                <p>Detailed reference for all SDK methods and properties</p>
+              </a>
+              <a href="index.html#examples" class="step-card">
+                <h3>💡 Code Examples</h3>
+                <p>More SwiftUI and UIKit code samples and patterns</p>
+              </a>
+              <a
+                href="https://github.com/asgardeo/asgardeo-ios-sdk"
+                class="step-card"
+              >
+                <h3>🔗 GitHub Repository</h3>
+                <p>View source code, report issues, and contribute</p>
+              </a>
+            </div>
+
+            <h3>Advanced Topics</h3>
+            <ul>
+              <li>
+                <strong>Organization Switching:</strong> Implement multi-tenancy
+                for B2B applications where users belong to multiple
+                organizations
+              </li>
+              <li>
+                <strong>Custom Authentication UI:</strong> Build fully custom
+                authentication flows with UIKit or SwiftUI for branded
+                experiences
+              </li>
+              <li>
+                <strong>Offline Support:</strong> Handle authentication and
+                token validation when the device is offline
+              </li>
+              <li>
+                <strong>Testing Authentication:</strong> Write comprehensive
+                unit and UI tests for authentication flows
+              </li>
+              <li>
+                <strong>App Clips:</strong> Implement authentication in
+                lightweight App Clips
+              </li>
+              <li>
+                <strong>Widgets:</strong> Safely display user data in iOS
+                widgets
+              </li>
+              <li>
+                <strong>watchOS Integration:</strong> Extend authentication to
+                Apple Watch apps
+              </li>
+              <li>
+                <strong>Background Refresh:</strong> Maintain valid tokens with
+                background refresh strategies
+              </li>
+            </ul>
+
+            <h3>Production Deployment Checklist</h3>
+            <ul class="checkmark-list">
+              <li>
+                <strong>App Transport Security (ATS):</strong> Ensure all
+                network calls use HTTPS
+              </li>
+              <li>
+                <strong>Certificate Pinning:</strong> Implement SSL certificate
+                pinning for production APIs
+              </li>
+              <li>
+                <strong>Jailbreak Detection:</strong> Add runtime checks to
+                detect jailbroken devices
+              </li>
+              <li>
+                <strong>Biometric Authentication:</strong> Enable Face ID/Touch
+                ID for sensitive operations
+              </li>
+              <li>
+                <strong>Error Handling:</strong> Implement comprehensive error
+                handling and user feedback
+              </li>
+              <li>
+                <strong>Logging:</strong> Add proper logging (without exposing
+                tokens) for debugging
+              </li>
+              <li>
+                <strong>Testing:</strong> Test on multiple iOS versions (iOS
+                14+) and device types
+              </li>
+              <li>
+                <strong>Background Handling:</strong> Handle app backgrounding
+                and foregrounding properly
+              </li>
+              <li>
+                <strong>Session Timeout:</strong> Implement appropriate session
+                timeout policies
+              </li>
+              <li>
+                <strong>Accessibility:</strong> Ensure authentication flows are
+                accessible (VoiceOver support)
+              </li>
+              <li>
+                <strong>Localization:</strong> Add localized strings for all
+                authentication messages
+              </li>
+              <li>
+                <strong>Privacy:</strong> Update App Privacy details in App
+                Store Connect
+              </li>
+            </ul>
+
+            <h3>UIKit Implementation</h3>
+            <p>
+              If your app uses UIKit instead of SwiftUI, here's a quick example
+              of how to integrate Asgardeo:
+            </p>
+            <div class="code-block">
+              <pre><code>import UIKit
+import AsgardeoAuth
+
+class LoginViewController: UIViewController {
+    private let auth = AsgardeoAuth.shared
+    
+    @IBOutlet weak var signInButton: UIButton!
+    @IBOutlet weak var statusLabel: UILabel!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
+        observeAuthState()
+    }
+    
+    private func setupUI() {
+        signInButton.layer.cornerRadius = 12
+        updateUIForAuthState()
+    }
+    
+    private func observeAuthState() {
+        // Observe authentication state changes
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(authStateChanged),
+            name: .authStateDidChange,
+            object: nil
+        )
+    }
+    
+    @objc private func authStateChanged() {
+        DispatchQueue.main.async {
+            self.updateUIForAuthState()
+        }
+    }
+    
+    private func updateUIForAuthState() {
+        if auth.isAuthenticated {
+            statusLabel.text = "Signed in as \(auth.user?.name ?? "User")"
+            signInButton.setTitle("Sign Out", for: .normal)
+        } else {
+            statusLabel.text = "Not signed in"
+            signInButton.setTitle("Sign In", for: .normal)
+        }
+    }
+    
+    @IBAction func signInButtonTapped(_ sender: UIButton) {
+        if auth.isAuthenticated {
+            signOut()
+        } else {
+            signIn()
+        }
+    }
+    
+    private func signIn() {
+        Task {
+            do {
+                try await auth.signIn()
+                await MainActor.run {
+                    // Navigate to main app
+                    let mainVC = MainTabBarController()
+                    mainVC.modalPresentationStyle = .fullScreen
+                    present(mainVC, animated: true)
+                }
+            } catch {
+                await MainActor.run {
+                    showError(error.localizedDescription)
+                }
+            }
+        }
+    }
+    
+    private func signOut() {
+        Task {
+            do {
+                try await auth.signOut()
+            } catch {
+                await MainActor.run {
+                    showError(error.localizedDescription)
+                }
+            }
+        }
+    }
+    
+    private func showError(_ message: String) {
+        let alert = UIAlertController(
+            title: "Error",
+            message: message,
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
+    }
+}
+
+// Notification extension
+extension Notification.Name {
+    static let authStateDidChange = Notification.Name("authStateDidChange")
+}</code></pre>
+            </div>
+
+            <h3>Performance Optimization</h3>
+            <ul>
+              <li>
+                <strong>Token Caching:</strong> The SDK caches tokens in memory
+                for performance
+              </li>
+              <li>
+                <strong>Lazy Loading:</strong> Load user profile only when
+                needed
+              </li>
+              <li>
+                <strong>Background Queue:</strong> Perform token operations on
+                background queues
+              </li>
+              <li>
+                <strong>Network Optimization:</strong> Batch API requests when
+                possible
+              </li>
+            </ul>
+
+            <h3>Troubleshooting Common Issues</h3>
+            <div class="info-box">
+              <strong>Common Problems and Solutions:</strong>
+              <ul>
+                <li>
+                  <strong>Redirect not working:</strong> Check URL scheme
+                  matches in Info.plist and Asgardeo console
+                </li>
+                <li>
+                  <strong>Token not persisting:</strong> Verify Keychain access
+                  groups are configured correctly
+                </li>
+                <li>
+                  <strong>Face ID not prompting:</strong> Add
+                  NSFaceIDUsageDescription to Info.plist
+                </li>
+                <li>
+                  <strong>Network errors:</strong> Ensure App Transport Security
+                  allows HTTPS connections
+                </li>
+                <li>
+                  <strong>Simulator issues:</strong> Some features require
+                  physical device (Secure Enclave)
+                </li>
+              </ul>
+            </div>
+
+            <h3>Community and Support</h3>
+            <ul>
+              <li>
+                <strong>GitHub Issues:</strong>
+                <a href="https://github.com/asgardeo/asgardeo-ios-sdk/issues">
+                  Report bugs or request features
+                </a>
+              </li>
+              <li>
+                <strong>Documentation:</strong>
+                <a href="https://wso2.com/asgardeo/docs/">
+                  Official Asgardeo documentation
+                </a>
+              </li>
+              <li>
+                <strong>Community Forum:</strong> Ask questions and share
+                experiences
+              </li>
+              <li>
+                <strong>Stack Overflow:</strong> Tag questions with
+                <code>asgardeo</code> and <code>ios</code>
+              </li>
+            </ul>
+
+            <div class="success-box">
+              <strong>🚀 Ready for Production!</strong>
+              <p>
+                Your iOS app now has enterprise-grade authentication. Review the
+                security checklist above, test thoroughly on different devices
+                and iOS versions, and you're ready to ship!
+              </p>
+              <p>
+                <strong>Need help?</strong> Join our community or reach out to
+                Asgardeo support.
+              </p>
+            </div>
+          </section>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer" style="margin-left: 0">
+          <p>
+            Built with ❤️ by the Asgardeo team |
+            <a href="https://github.com/asgardeo/asgardeo-ios-sdk">GitHub</a> |
+            <a href="https://wso2.com/asgardeo/docs/">Documentation</a>
+          </p>
+        </footer>
+      </main>
+    </div>
+
+    <script>
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        });
+      });
+
+      // Scroll spy to highlight active timeline item
+      const observerOptions = {
+        root: null,
+        rootMargin: "-20% 0px -70% 0px",
+        threshold: 0,
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = entry.target.getAttribute("id");
+            document.querySelectorAll(".timeline-item").forEach((item) => {
+              item.classList.remove("active");
+              if (item.getAttribute("href") === `#${id}`) {
+                item.classList.add("active");
+              }
+            });
+          }
+        });
+      }, observerOptions);
+
+      // Observe all guide sections
+      document.querySelectorAll('section[id^="guide-"]').forEach((section) => {
+        observer.observe(section);
+      });
+    </script>
+  </body>
+</html>
